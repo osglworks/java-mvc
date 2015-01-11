@@ -52,7 +52,7 @@ public class Result extends FastRuntimeException {
 
     protected void applyMessage(H.Request request, H.Response response) {
         String msg = getMessage();
-        if (S.notEmpty(msg)) {
+        if (S.notBlank(msg)) {
             response.writeContent(msg);
         }
     }

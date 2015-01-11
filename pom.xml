@@ -16,6 +16,7 @@
   -->
 <!-- history 
 0.1-SNAPSHOT - base verion when history log started
+0.2-SNAPSHOT - upgrade to osgl-tool 0.4-SNAPSHOT
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
@@ -24,7 +25,7 @@
     <groupId>org.osgl</groupId>
     <artifactId>osgl-mvc</artifactId>
     <packaging>jar</packaging>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.2-SNAPSHOT</version>
 
     <name>OSGL MVC</name>
     <description>Utilities for MVC</description>
@@ -96,7 +97,7 @@
         <dependency>
             <groupId>org.osgl</groupId>
             <artifactId>osgl-tool</artifactId>
-            <version>0.3.1-SNAPSHOT</version>
+            <version>0.4-SNAPSHOT</version>
         </dependency>
 
         <dependency>

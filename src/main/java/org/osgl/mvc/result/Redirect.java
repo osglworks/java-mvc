@@ -10,7 +10,7 @@ public class Redirect extends Result {
     String url;
     public Redirect(String url) {
         super(Http.Status.FOUND);
-        E.illegalArgumentIf(S.empty(url));
+        E.illegalArgumentIf(S.blank(url));
         this.url = url;
     }
 

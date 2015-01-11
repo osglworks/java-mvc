@@ -22,7 +22,7 @@ public class MvcConfig extends HttpConfig {
      * @param prefix the prefix to prepend to session/flash cookie name
      */
     public static void setCookiePrefix(String prefix) {
-        E.illegalArgumentIf(S.empty(prefix));
+        E.illegalArgumentIf(S.blank(prefix));
         sessionCookieName = prefix + "_SESSION";
         flashCookieName = prefix = "_FLASH";
     }
@@ -38,7 +38,7 @@ public class MvcConfig extends HttpConfig {
     }
 
     public static void setSecret(String secret) {
-        E.illegalArgumentIf(S.empty(secret));
+        E.illegalArgumentIf(S.blank(secret));
         MvcConfig.secret = secret;
     }
 

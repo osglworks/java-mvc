@@ -90,9 +90,6 @@ public class RenderBinary extends Result {
          */
         public RenderBinary(File file, String name) {
             this(file, name, false);
-            if (file == null) {
-                throw new RuntimeException("file is null");
-            }
         }
 
         /**
@@ -106,21 +103,21 @@ public class RenderBinary extends Result {
 
         /**
          * Send a file as the response.
-         * Content-disposion is set to attachment, name is taken from file's name
+         * Content-disposition is set to attachment, name is taken from file's name
          * @param file readable file to send back
          */
         public RenderBinary(File file, String name, boolean inline) {
-            this.binary = SObject.valueOf(name, file);
-            this.name = name;
-            this.disposition = Disposition.of(inline);
             if (file == null) {
                 throw new RuntimeException("file is null");
             }
+            this.binary = SObject.valueOf(name, file);
+            this.name = name;
+            this.disposition = Disposition.of(inline);
         }
 
         @Override
         public void apply(H.Request req, H.Response resp) {
-            boolean hasName = S.notEmpty(name);
+            boolean hasName = S.notBlank(name);
             try {
                 if (null != contentType) {
                     resp.contentType(contentType);

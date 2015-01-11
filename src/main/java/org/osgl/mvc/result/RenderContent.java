@@ -50,7 +50,7 @@ public abstract class RenderContent extends Result {
         String s = format.toContentType();
         if (outputEncoding) {
             String encoding = resp.characterEncoding();
-            if (S.notEmpty(encoding)) {
+            if (S.notBlank(encoding)) {
                 s = S.builder(s).append("; charset=").append(encoding).toString();
             }
         }
