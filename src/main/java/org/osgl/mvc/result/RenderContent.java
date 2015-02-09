@@ -4,9 +4,6 @@ import org.osgl.http.H;
 import org.osgl.util.E;
 import org.osgl.util.S;
 
-/**
- * Created by luog on 23/03/14.
- */
 public abstract class RenderContent extends Result {
 
     private String content;
