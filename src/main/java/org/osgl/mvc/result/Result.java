@@ -5,9 +5,6 @@ import org.osgl.http.H;
 import org.osgl.http.Http;
 import org.osgl.util.S;
 
-/**
- * Created by luog on 16/01/14.
- */
 public class Result extends FastRuntimeException {
 
     private final Http.Status status;

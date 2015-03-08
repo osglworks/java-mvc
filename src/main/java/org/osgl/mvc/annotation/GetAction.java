@@ -28,4 +28,5 @@ public @interface GetAction {
      */
     String value();
 
+    String[] foo() default {};
 }

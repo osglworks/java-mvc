@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * The {@code Before} annotation is used to mark a
- * method (the before handler) that should be executed
+ * method (the before interceptor) that should be executed
  * before executing controller action method.
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -15,30 +15,32 @@ import java.lang.annotation.Target;
 public @interface Before {
 
     /**
-     * Optionally specify {@code priority} of the before handler.
-     * The lesser the priority value, the higher the priority
-     * the before handler has
+     * Optionally specify {@code priority} of the before interceptor.
+     * it's up to the framework to decide how to interpret the
+     * priority in terms of int value
      */
     int priority() default 0;
 
     /**
      * Optionally specify the actions that should not
-     * be intercepted by this before handler
+     * be intercepted by this before interceptor
      *
      * @see #only()
      */
-    String[] unless() default {};
+    String[] except() default {};
 
     /**
      * Optionally specify the only actions that should
-     * be intercepted by this before handler
+     * be intercepted by this before interceptor
      *
      * <p>
-     * Note if both {@code only()} and {@link #unless()}
+     * Note if both {@code only()} and {@link #except()}
      * is specified, and an action method name appears
-     * in both {@code only()} and {@code unless()}, then
-     * it will NOT be intercepted by this before handler
+     * in both {@code only()} and {@code except()}, then
+     * it will NOT be intercepted by this before interceptor
      * </p>
+     *
+     * @see #except()
      */
     String[] only() default {};
 }

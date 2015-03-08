@@ -61,14 +61,14 @@ public class RenderBinary extends Result {
          * @param inline true to set the response Content-Disposition to inline
          */
         public RenderBinary(InputStream is, String name, String contentType, boolean inline) {
-            this.binary = SObject.valueOf(name, is);
+            this.binary = SObject.of(name, is);
             this.name = name;
             this.contentType = contentType;
             this.disposition = Disposition.of(inline);
         }
 
         public RenderBinary(InputStream is, String name, long length, String contentType, boolean inline) {
-            this.binary = SObject.valueOf(name, is);
+            this.binary = SObject.of(name, is);
             this.name = name;
             this.contentType = contentType;
             this.disposition = Disposition.of(inline);
@@ -76,7 +76,7 @@ public class RenderBinary extends Result {
         }
 
         public RenderBinary(InputStream is, String name, long length, boolean inline) {
-            this.binary = SObject.valueOf(name, is);
+            this.binary = SObject.of(name, is);
             this.name = name;
             this.length = length;
             this.disposition = Disposition.of(inline);
