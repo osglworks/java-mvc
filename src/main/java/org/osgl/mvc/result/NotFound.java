@@ -4,12 +4,12 @@ import org.osgl.http.Http;
 import org.osgl.util.S;
 
 /**
- * Created by luog on 20/03/2014.
+ * Indicate a 404 Not found response
  */
 public class NotFound extends ErrorResult {
 
     public NotFound() {
-        super(Http.Status.NOT_FOUND);
+        super(Http.Status.NOT_FOUND, "404 Not Found");
     }
 
     public NotFound(String message) {

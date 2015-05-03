@@ -5,10 +5,18 @@ import org.osgl.exception.NotAppliedException;
 import org.osgl.http.H;
 import org.osgl.mvc.result.ErrorResult;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 /**
  *
  */
 public class ErrorPageRenderer extends _.F3<H.Request, H.Response, ErrorResult, Void> {
+
+    public ErrorPageRenderer() {
+
+    }
+
     @Override
     public Void apply(H.Request request, H.Response response, ErrorResult error
     ) throws NotAppliedException, _.Break {
@@ -17,7 +25,9 @@ public class ErrorPageRenderer extends _.F3<H.Request, H.Response, ErrorResult, 
             fmt = H.Format.txt;
         }
         String s = renderTemplate(error, fmt);
-        response.writeContent(s);
+        if (null != s) {
+            response.writeContent(s);
+        }
         return null;
     }
 

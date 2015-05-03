@@ -7,7 +7,7 @@ public final class Ok extends Result {
     public static Ok INSTANCE = new Ok();
 
     public Ok() {
-        super(Http.Status.OK);
+        super(Http.Status.OK, "200 Ok");
     }
 
     @Override

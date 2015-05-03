@@ -5,7 +5,12 @@ import org.osgl.http.Http;
 import org.osgl.mvc.MvcConfig;
 
 /**
- * Created by luog on 24/03/14.
+ * Base class for Error results:
+ * <ul>
+ *     <li>{@link NotFound}</li>
+ *     <li>{@link ServerError}</li>
+ *     <li>{@link Forbidden}</li>
+ * </ul>
  */
 public class ErrorResult extends Result {
 

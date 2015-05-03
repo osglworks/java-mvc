@@ -21,7 +21,7 @@ public class MvcConfig extends HttpConfig {
      *
      * @param prefix the prefix to prepend to session/flash cookie name
      */
-    public static void setCookiePrefix(String prefix) {
+    public static void cookiePrefix(String prefix) {
         E.illegalArgumentIf(S.blank(prefix));
         sessionCookieName = prefix + "_SESSION";
         flashCookieName = prefix = "_FLASH";
@@ -32,12 +32,12 @@ public class MvcConfig extends HttpConfig {
      *
      * @param ttl the session expire in seconds
      */
-    public static void setSessionExpire(int ttl) {
+    public static void sessionExpire(int ttl) {
         E.illegalArgumentIf(ttl < 0);
         sessionExpire = ttl;
     }
 
-    public static void setSecret(String secret) {
+    public static void secret(String secret) {
         E.illegalArgumentIf(S.blank(secret));
         MvcConfig.secret = secret;
     }
@@ -45,7 +45,7 @@ public class MvcConfig extends HttpConfig {
 
     private static ErrorPageRenderer errorPageRenderer = new ErrorPageRenderer();
 
-    public static void setErrorPageRenderer(ErrorPageRenderer renderer) {
+    public static void errorPageRenderer(ErrorPageRenderer renderer) {
         E.NPE(renderer);
         errorPageRenderer = renderer;
     }

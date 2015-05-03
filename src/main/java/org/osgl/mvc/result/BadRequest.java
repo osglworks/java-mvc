@@ -4,9 +4,9 @@ import org.osgl.http.Http;
 import org.osgl.util.S;
 
 /**
- * Created by luog on 20/03/2014.
+ * Indicate a client error
  */
-public class BadRequest extends Result {
+public class BadRequest extends ErrorResult {
     public BadRequest() {
         super(Http.Status.BAD_REQUEST);
     }
