@@ -16,7 +16,7 @@ import static org.osgl.http.H.Header.Names.CONTENT_DISPOSITION;
 import static org.osgl.http.H.Header.Names.CONTENT_LENGTH;
 
 public class RenderBinary extends Result {
-        private static enum Disposition {
+        private enum Disposition {
             inline, attachment;
 
             public static Disposition of(boolean inline) {
@@ -110,7 +110,7 @@ public class RenderBinary extends Result {
             if (file == null) {
                 throw new RuntimeException("file is null");
             }
-            this.binary = SObject.valueOf(name, file);
+            this.binary = SObject.of(name, file);
             this.name = name;
             this.disposition = Disposition.of(inline);
         }

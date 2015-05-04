@@ -8,7 +8,7 @@ import org.osgl.util.S;
  */
 public class Forbidden extends ErrorResult {
     public Forbidden() {
-        super(Http.Status.FORBIDDEN);
+        super(Http.Status.FORBIDDEN, "404 Forbidden");
     }
     public Forbidden(String message) {
         super(Http.Status.FORBIDDEN, message);
