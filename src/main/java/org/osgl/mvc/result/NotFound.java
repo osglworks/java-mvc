@@ -8,6 +8,8 @@ import org.osgl.util.S;
  */
 public class NotFound extends ErrorResult {
 
+    public static final NotFound INSTANCE = new NotFound();
+
     public NotFound() {
         super(Http.Status.NOT_FOUND, "404 Not Found");
     }

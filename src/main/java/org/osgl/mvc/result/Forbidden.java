@@ -7,6 +7,8 @@ import org.osgl.util.S;
  * Created by luog on 20/03/2014.
  */
 public class Forbidden extends ErrorResult {
+    public static final Forbidden INSTANCE = new Forbidden();
+
     public Forbidden() {
         super(Http.Status.FORBIDDEN, "404 Forbidden");
     }

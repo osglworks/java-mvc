@@ -19,7 +19,7 @@ public class Redirect extends Result {
     }
 
     public Redirect(boolean permanent, String url) {
-        super(Http.Status.MOVED_PERMANENTLY);
+        super(permanent ? Http.Status.MOVED_PERMANENTLY : H.Status.FOUND);
         this.url = url;
     }
 
@@ -30,7 +30,11 @@ public class Redirect extends Result {
     @Override
     public void apply(H.Request req, H.Response resp) {
         String url = Path.fullUrl(this.url, req);
-        applyStatus(resp);
+        if (req.isAjax()) {
+            resp.status(H.Status.FOUND_AJAX);
+        } else {
+            applyStatus(resp);
+        }
         resp.header(H.Header.Names.LOCATION, url);
     }
 }

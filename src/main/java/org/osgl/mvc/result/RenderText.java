@@ -1,12 +1,13 @@
 package org.osgl.mvc.result;
 
 import org.osgl.http.H;
+import org.osgl.util.S;
 
 /**
- * Created by luog on 23/03/14.
+ * Render a text message
  */
 public class RenderText extends RenderContent {
-    public RenderText(String text) {
-        super(text, H.Format.txt);
+    public RenderText(String text, Object args) {
+        super(S.fmt(text, args), H.Format.txt);
     }
 }
