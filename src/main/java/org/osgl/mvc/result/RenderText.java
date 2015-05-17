@@ -10,4 +10,8 @@ public class RenderText extends RenderContent {
     public RenderText(String text, Object args) {
         super(S.fmt(text, args), H.Format.txt);
     }
+
+    public RenderText(H.Format fmt, String text, Object args) {
+        super(S.fmt(text, args), fmt);
+    }
 }
