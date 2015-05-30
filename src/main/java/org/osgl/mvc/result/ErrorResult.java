@@ -14,23 +14,23 @@ import org.osgl.mvc.MvcConfig;
  */
 public class ErrorResult extends Result {
 
-    protected ErrorResult(Http.Status status) {
+    public ErrorResult(Http.Status status) {
         super(status);
     }
 
-    protected ErrorResult(Http.Status status, String message) {
+    public ErrorResult(Http.Status status, String message) {
         super(status, message);
     }
 
-    protected ErrorResult(Http.Status status, String message, Object... args) {
+    public ErrorResult(Http.Status status, String message, Object... args) {
         super(status, message, args);
     }
 
-    protected ErrorResult(Http.Status status, Throwable cause) {
+    public ErrorResult(Http.Status status, Throwable cause) {
         super(status, cause);
     }
 
-    protected ErrorResult(Http.Status status, Throwable cause, String message, Object... args) {
+    public ErrorResult(Http.Status status, Throwable cause, String message, Object... args) {
         super(status, cause, message, args);
     }
 

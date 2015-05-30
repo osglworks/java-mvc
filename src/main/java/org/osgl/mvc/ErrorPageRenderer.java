@@ -5,9 +5,6 @@ import org.osgl.exception.NotAppliedException;
 import org.osgl.http.H;
 import org.osgl.mvc.result.ErrorResult;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 /**
  *
  */
@@ -20,7 +17,7 @@ public class ErrorPageRenderer extends _.F3<H.Request, H.Response, ErrorResult, 
     @Override
     public Void apply(H.Request request, H.Response response, ErrorResult error
     ) throws NotAppliedException, _.Break {
-        H.Format fmt = request.format();
+        H.Format fmt = request.accept();
         if (request.isAjax() && fmt == H.Format.html) {
             fmt = H.Format.txt;
         }
