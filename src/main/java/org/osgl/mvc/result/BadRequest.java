@@ -7,6 +7,7 @@ import org.osgl.util.S;
  * Indicate a client error
  */
 public class BadRequest extends ErrorResult {
+    public static final BadRequest INSTANCE = new BadRequest();
     public BadRequest() {
         super(Http.Status.BAD_REQUEST);
     }
