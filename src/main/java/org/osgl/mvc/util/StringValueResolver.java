@@ -230,6 +230,10 @@ public abstract class StringValueResolver<T> extends _.F1<String, T> {
         predefined.put(type, resolver);
     }
 
+    public Map<Class, StringValueResolver> predefined() {
+        return C.map(predefined);
+    }
+
     @SuppressWarnings("unchecked")
     public static <T> StringValueResolver<T> predefined(Class<T> type) {
         return predefined.get(type);
