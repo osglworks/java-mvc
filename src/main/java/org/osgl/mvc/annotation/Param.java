@@ -17,8 +17,18 @@ import java.lang.annotation.Target;
 public @interface Param {
     /**
      * Specify the http parameter name
+     * <p>Default: empty string. Leave to framework to decide the bind parameter name</p>
      */
-    String value();
+    String value() default "";
+
+    String defVal() default "";
+    boolean defBooleanVal() default false;
+    char defCharVal() default '\0';
+    byte defByteVal() default 0;
+    int defIntVal() default 0;
+    float defFloatVal() default 0.0f;
+    long defLongVal() default 0L;
+    double defDoubleVal() default 0.0d;
 
     /**
      * Optionally specify the resolver class

@@ -226,6 +226,10 @@ public abstract class StringValueResolver<T> extends _.F1<String, T> {
         FastStr.class, _FastStr
     );
 
+    public static <T> void addPredefinedResolver(Class<T> type, StringValueResolver<T> resolver) {
+        predefined.put(type, resolver);
+    }
+
     @SuppressWarnings("unchecked")
     public static <T> StringValueResolver<T> predefined(Class<T> type) {
         return predefined.get(type);
