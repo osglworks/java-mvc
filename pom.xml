@@ -36,7 +36,7 @@
 - ErrorResult constructor now is public
 - add INSTANCE to BadRequest
 
-0.3-SNAPSHOT
+0.3.0-SNAPSHOT
 - Binder now expose parameter from a ParameterValueProvider interface instead of H.Request
 - Update Action annotations signature to allow an action method be mapped to multiple paths at the same time
 -->
@@ -48,7 +48,7 @@
   <groupId>org.osgl</groupId>
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>0.3-SNAPSHOT</version>
+  <version>0.3.0-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
   <description>Utilities for MVC</description>
