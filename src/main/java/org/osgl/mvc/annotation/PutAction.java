@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 public @interface PutAction {
 
     /**
-     * Returns the request path that this
+     * Returns the request paths that this
      * action mapped to.
      *
      * It is possible to use variable in the path, like
@@ -26,6 +26,6 @@ public @interface PutAction {
      * the MVC server implementation to decide the
      * format
      */
-    String value();
+    String[] value();
 
 }

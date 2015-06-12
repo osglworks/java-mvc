@@ -9,12 +9,12 @@ import java.util.Map;
 /**
  * A {@code Binder} resolves to a certain type of argument out from a String-String map
  */
-public abstract class Binder<T> extends _.F2<String, H.Request, T> {
+public abstract class Binder<T> extends _.F2<String, ParamValueProvider, T> {
 
-    public abstract T resolve(String argName, H.Request request);
+    public abstract T resolve(String model, ParamValueProvider params);
 
     @Override
-    public T apply(String argName, H.Request request) throws NotAppliedException, _.Break {
-        return resolve(argName, request);
+    public final T apply(String argName, ParamValueProvider params) throws NotAppliedException, _.Break {
+        return resolve(argName, params);
     }
 }

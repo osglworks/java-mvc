@@ -25,6 +25,7 @@ public @interface Param {
     boolean defBooleanVal() default false;
     char defCharVal() default '\0';
     byte defByteVal() default 0;
+    short defShortVal() default 0;
     int defIntVal() default 0;
     float defFloatVal() default 0.0f;
     long defLongVal() default 0L;
@@ -33,9 +34,9 @@ public @interface Param {
     /**
      * Optionally specify the resolver class
      */
-    Class<? extends StringValueResolver> resolverClass() default DEFAULT.class;
+    Class<? extends StringValueResolver> resolverClass() default DEFAULT_RESOLVER.class;
 
-    public static final class DEFAULT extends StringValueResolver {
+    public static final class DEFAULT_RESOLVER extends StringValueResolver {
         @Override
         public Object resolve(String value) {
             return null;
