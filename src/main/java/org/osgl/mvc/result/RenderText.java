@@ -7,7 +7,7 @@ import org.osgl.util.S;
  * Render a text message
  */
 public class RenderText extends RenderContent {
-    public RenderText(String text, Object args) {
+    public RenderText(String text, Object... args) {
         super(S.fmt(text, args), H.Format.txt);
     }
 
