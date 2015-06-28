@@ -35,6 +35,6 @@ public class Redirect extends Result {
         } else {
             applyStatus(resp);
         }
-        resp.header(H.Header.Names.LOCATION, url);
+        resp.header("Location", url);
     }
 }

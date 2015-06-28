@@ -25,7 +25,6 @@ public abstract class StringValueResolver<T> extends _.F1<String, T> {
 
     public static <T> StringValueResolver<T> wrap(final _.Function<String, T> func) {
         if (func instanceof StringValueResolver) {
-            Type c = int.class;
             return (StringValueResolver)func;
         } else {
             return new StringValueResolver<T>() {
