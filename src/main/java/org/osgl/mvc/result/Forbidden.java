@@ -4,7 +4,7 @@ import org.osgl.http.Http;
 import org.osgl.util.S;
 
 /**
- * Created by luog on 20/03/2014.
+ * HTTP 403 Forbidden
  */
 public class Forbidden extends ErrorResult {
     public static final Forbidden INSTANCE = new Forbidden();
