@@ -44,7 +44,7 @@ public class Unauthorized extends Result {
     private Type type;
 
     public Unauthorized() {
-        type = Type.FORM;
+        this(null);
     }
 
     public Unauthorized(String realm) {
