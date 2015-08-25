@@ -38,6 +38,7 @@ public abstract class RenderContent extends Result {
     protected RenderContent(String content, H.Format format, boolean outputEncoding) {
         super(H.Status.OK);
         E.NPE(format);
+
         this.content = content;
         this.format = format;
         this.outputEncoding = outputEncoding;
@@ -54,7 +55,14 @@ public abstract class RenderContent extends Result {
         resp.initContentType(s);
     }
 
-    @Override
+    public H.Format format() {
+        return format;
+    }
+
+    public String content() {
+        return content;
+    }
+
     public void apply(H.Request req, H.Response resp) {
         applyStatus(resp);
         setContentType(resp);
