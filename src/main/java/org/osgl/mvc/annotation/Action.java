@@ -20,12 +20,17 @@ public @interface Action {
      * Returns the request paths that this
      * action mapped to.
      *
-     * It is possible to use variable in the path, like
+     * <p>It is possible to use variable in the path, like
      * @{code /service/{id}}, however it is up to
      * the MVC server implementation to decide the
-     * format
+     * format</p>
+     *
+     * <p>When value is not specified, the default value is
+     * an empty string, in which case the annotation could be
+     * used to mark a method is subject to bytecode enhancement
+     * by the underline framework</p>
      */
-    String[] value();
+    String[] value() default {};
 
     /**
      * Indicate the http methods this action is bind to.

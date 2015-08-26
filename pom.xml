@@ -46,6 +46,9 @@
 0.3.2-SNAPSHOT
 - Fix Unauthorized result issue
 - Add public access method to RenderContent for testing purpose
+- Allow @Action annotation to be used without value specified, in which case
+  it is used as a marker of method subject to bytecode enhancement by the
+  underline framework
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
