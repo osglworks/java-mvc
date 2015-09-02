@@ -1,4 +1,5 @@
 *.class
+deploy
 .classpath
 .project
 .settings
