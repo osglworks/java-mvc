@@ -19,7 +19,7 @@ public class ErrorPageRenderer extends _.F3<H.Request, H.Response, ErrorResult, 
     ) throws NotAppliedException, _.Break {
         H.Format fmt = request.accept();
         if (request.isAjax() && fmt == H.Format.html) {
-            fmt = H.Format.txt;
+            fmt = H.Format.TXT;
         }
         String s = renderTemplate(error, fmt);
         if (null != s) {

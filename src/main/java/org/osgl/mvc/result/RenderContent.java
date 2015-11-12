@@ -45,7 +45,7 @@ public abstract class RenderContent extends Result {
     }
 
     protected void setContentType(H.Response resp) {
-        String s = format.toContentType();
+        String s = format.contentType();
         if (outputEncoding) {
             String encoding = resp.characterEncoding();
             if (S.notBlank(encoding)) {
