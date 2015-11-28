@@ -51,6 +51,10 @@
   underline framework
 
 0.3.3-SNAPSHOT
+- update osgl-tool to 0.7.1-SNAPSHOT
+
+0.4.0-SNAPSHOT
+- update osgl-tool to 0.8
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -60,7 +64,7 @@
   <groupId>org.osgl</groupId>
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>0.3.3-SNAPSHOT</version>
+  <version>0.4.0-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
   <description>Utilities for MVC</description>
@@ -136,37 +140,13 @@
     <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>fastjson</artifactId>
-      <version>1.2.4</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.osgl</groupId>
-      <artifactId>osgl-tool</artifactId>
-      <version>0.7.1-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.osgl</groupId>
-      <artifactId>osgl-logging</artifactId>
-      <version>0.5-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.osgl</groupId>
-      <artifactId>osgl-storage</artifactId>
-      <version>0.5.3-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.osgl</groupId>
-      <artifactId>osgl-cache</artifactId>
-      <version>0.3.2-SNAPSHOT</version>
+      <version>1.2.7</version>
     </dependency>
 
     <dependency>
       <groupId>org.osgl</groupId>
       <artifactId>osgl-http</artifactId>
-      <version>0.2.5-SNAPSHOT</version>
+      <version>0.3.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>

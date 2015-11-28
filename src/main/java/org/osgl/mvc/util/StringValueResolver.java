@@ -1,29 +1,28 @@
 package org.osgl.mvc.util;
 
-import org.osgl._;
+import org.osgl.$;
 import org.osgl.exception.NotAppliedException;
 import org.osgl.util.C;
 import org.osgl.util.FastStr;
 import org.osgl.util.S;
 import org.osgl.util.Str;
 
-import java.lang.reflect.Type;
 import java.util.Map;
 
 /**
  * A String value resolver resolves a {@link java.lang.String string value} into
  * a certain type of object instance.
  */
-public abstract class StringValueResolver<T> extends _.F1<String, T> {
+public abstract class StringValueResolver<T> extends $.F1<String, T> {
 
     public abstract T resolve(String value);
 
     @Override
-    public T apply(String s) throws NotAppliedException, _.Break {
+    public T apply(String s) throws NotAppliedException, $.Break {
         return resolve(s);
     }
 
-    public static <T> StringValueResolver<T> wrap(final _.Function<String, T> func) {
+    public static <T> StringValueResolver<T> wrap(final $.Function<String, T> func) {
         if (func instanceof StringValueResolver) {
             return (StringValueResolver)func;
         } else {
@@ -189,7 +188,7 @@ public abstract class StringValueResolver<T> extends _.F1<String, T> {
             return Double.valueOf(value);
         }
     };
-    private static final StringValueResolver<String> _String = wrap(_.F.asString(String.class));
+    private static final StringValueResolver<String> _String = wrap($.F.asString(String.class));
     private static final StringValueResolver<Str> _Str = new StringValueResolver<Str>() {
         @Override
         public Str resolve(String value) {

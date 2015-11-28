@@ -1,6 +1,6 @@
 package org.osgl.mvc;
 
-import org.osgl._;
+import org.osgl.$;
 import org.osgl.http.H;
 import org.osgl.http.HttpConfig;
 import org.osgl.util.C;
@@ -93,18 +93,18 @@ public class HttpContextManager {
 
     private static enum F {
         ;
-        public static _.Visitor<Listener> onSessionResolved(final H.Session session) {
-            return new _.Visitor<Listener>() {
+        public static $.Visitor<Listener> onSessionResolved(final H.Session session) {
+            return new $.Visitor<Listener>() {
                 @Override
-                public void visit(Listener listener) throws _.Break {
+                public void visit(Listener listener) throws $.Break {
                     listener.onSessionResolved(session);
                 }
             };
         }
 
-        public static _.Visitor<Listener> ON_SESSION_CLEAN_UP = new _.Visitor<Listener>() {
+        public static $.Visitor<Listener> ON_SESSION_CLEAN_UP = new $.Visitor<Listener>() {
             @Override
-            public void visit(Listener listener) throws _.Break {
+            public void visit(Listener listener) throws $.Break {
                 listener.onCleanUp();
             }
         };

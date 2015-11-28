@@ -1,6 +1,6 @@
 package org.osgl.mvc;
 
-import org.osgl._;
+import org.osgl.$;
 import org.osgl.exception.NotAppliedException;
 import org.osgl.http.H;
 import org.osgl.mvc.result.ErrorResult;
@@ -8,7 +8,7 @@ import org.osgl.mvc.result.ErrorResult;
 /**
  *
  */
-public class ErrorPageRenderer extends _.F3<H.Request, H.Response, ErrorResult, Void> {
+public class ErrorPageRenderer extends $.F3<H.Request, H.Response, ErrorResult, Void> {
 
     public ErrorPageRenderer() {
 
@@ -16,7 +16,7 @@ public class ErrorPageRenderer extends _.F3<H.Request, H.Response, ErrorResult, 
 
     @Override
     public Void apply(H.Request request, H.Response response, ErrorResult error
-    ) throws NotAppliedException, _.Break {
+    ) throws NotAppliedException, $.Break {
         H.Format fmt = request.accept();
         if (request.isAjax() && fmt == H.Format.html) {
             fmt = H.Format.TXT;
