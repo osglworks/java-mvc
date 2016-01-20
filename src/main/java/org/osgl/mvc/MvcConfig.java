@@ -1,5 +1,6 @@
 package org.osgl.mvc;
 
+import org.osgl.$;
 import org.osgl.http.HttpConfig;
 import org.osgl.util.E;
 import org.osgl.util.S;
@@ -15,6 +16,7 @@ public class MvcConfig extends HttpConfig {
     static String flashCookieName = DEF_COOKIE_PREFIX + "_FLASH";
     static int sessionExpire = -1;
     static String secret;
+    static $.Function<Object, String> jsonSerializer;
 
     /**
      * Set the cookie prefix for session and flash cookie
@@ -42,6 +44,13 @@ public class MvcConfig extends HttpConfig {
         MvcConfig.secret = secret;
     }
 
+    public static void jsonSerializer($.Function<Object, String> serializer) {
+        MvcConfig.jsonSerializer = $.notNull(serializer);
+    }
+
+    public static $.Function<Object, String> jsonSerializer() {
+        return jsonSerializer;
+    }
 
     private static ErrorPageRenderer errorPageRenderer = new ErrorPageRenderer();
 

@@ -1,7 +1,7 @@
 package org.osgl.mvc.result;
 
-import com.alibaba.fastjson.JSON;
 import org.osgl.http.H;
+import org.osgl.mvc.MvcConfig;
 import org.osgl.util.S;
 
 public class RenderJSON extends RenderContent {
@@ -12,6 +12,6 @@ public class RenderJSON extends RenderContent {
         super(S.fmt(jsonFormat, args), H.Format.json);
     }
     public RenderJSON(Object v) {
-        this(JSON.toJSONString(v));
+        this(MvcConfig.jsonSerializer().apply(v));
     }
 }
