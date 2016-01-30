@@ -26,6 +26,6 @@ public @interface GetAction {
      * the MVC server implementation to decide the
      * format
      */
-    String[] value();
+    String[] value() default {};
 
 }
