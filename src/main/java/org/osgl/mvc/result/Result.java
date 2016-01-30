@@ -44,7 +44,7 @@ public class Result extends FastRuntimeException {
     }
 
     protected final void applyStatus(H.Response response) {
-        if (null != status) response.status(status);
+        response.status(statusCode());
     }
 
     protected void applyMessage(H.Request request, H.Response response) {
