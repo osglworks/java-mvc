@@ -12,7 +12,11 @@ import java.util.Map;
 /**
  * A String value resolver resolves a {@link java.lang.String string value} into
  * a certain type of object instance.
+ * <p>
+ *     This class is deprecated. use org.osgl.util.StringValueResolver instead
+ * </p>
  */
+@Deprecated
 public abstract class StringValueResolver<T> extends $.F1<String, T> {
 
     public abstract T resolve(String value);
