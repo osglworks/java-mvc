@@ -11,6 +11,8 @@ import org.osgl.util.S;
  */
 public class Unauthorized extends Result {
 
+    public static final Unauthorized INSTANCE = new Unauthorized();
+
     enum Type {
         BASIC () {
             @Override

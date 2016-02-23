@@ -9,7 +9,7 @@ public class Forbidden extends ErrorResult {
     public static final Forbidden INSTANCE = new Forbidden();
 
     public Forbidden() {
-        super(FORBIDDEN, "404 Forbidden");
+        super(FORBIDDEN, "403 Forbidden");
     }
 
     public Forbidden(String message, Object... args) {
