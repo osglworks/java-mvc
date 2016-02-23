@@ -9,7 +9,7 @@ import org.osgl.util.S;
 /**
  * HTTP 401 Unauthorized
  */
-public class Unauthorized extends Result {
+public class Unauthorized extends ErrorResult {
 
     public static final Unauthorized INSTANCE = new Unauthorized();
 
@@ -68,5 +68,6 @@ public class Unauthorized extends Result {
     public void apply(H.Request req, H.Response resp) {
         applyStatus(resp);
         resp.header(H.Header.Names.WWW_AUTHENTICATE, type.header(this));
+        applyMessage(req, resp);
     }
 }

@@ -6,6 +6,8 @@ import org.osgl.http.Http;
 
 public final class Created extends Result {
 
+    public static final Result INSTANCE = new Created("");
+
     private final String location;
 
     public Created(String resourceGetUrl) {

@@ -4,10 +4,10 @@ import org.osgl.http.H;
 import org.osgl.http.Http;
 import org.osgl.util.S;
 
-/**
- * Created by luog on 20/03/2014.
- */
 public class NotModified extends Result {
+
+    public static final NotModified INSTANCE = new NotModified();
+
     String etag;
     public NotModified() {
         super(Http.Status.NOT_MODIFIED);
