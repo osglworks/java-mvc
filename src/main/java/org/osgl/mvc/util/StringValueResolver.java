@@ -17,7 +17,7 @@ import java.util.Map;
  * </p>
  */
 @Deprecated
-public abstract class StringValueResolver<T> extends $.F1<String, T> {
+public abstract class StringValueResolver<T> extends org.osgl.util.StringValueResolver<T> {
 
     public abstract T resolve(String value);
 

@@ -1,6 +1,6 @@
 package org.osgl.mvc.annotation;
 
-import org.osgl.mvc.util.StringValueResolver;
+import org.osgl.util.StringValueResolver;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
