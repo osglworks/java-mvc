@@ -309,7 +309,6 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
         for (String s : sa) {
             sb.append(s);
         }
-        String concatenated = sb.toString();
-        int len = concatenated.length();
+        return sb.toString();
     }
 }
