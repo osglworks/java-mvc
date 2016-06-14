@@ -58,7 +58,7 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
             int len = concatenated.length();
             char[] ca = new char[len];
             for (int i = 0; i < len; ++i) {
-                ca[i] = concatenated.charAt(0);
+                ca[i] = concatenated.charAt(i);
             }
             return ca;
         }
@@ -74,7 +74,7 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
             int len = concatenated.length();
             Character[] ca = new Character[len];
             for (int i = 0; i < len; ++i) {
-                ca[i] = concatenated.charAt(0);
+                ca[i] = concatenated.charAt(i);
             }
             return ca;
         }
