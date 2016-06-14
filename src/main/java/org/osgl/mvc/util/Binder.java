@@ -3,6 +3,7 @@ package org.osgl.mvc.util;
 import org.osgl.$;
 import org.osgl.exception.NotAppliedException;
 import org.osgl.util.C;
+import org.osgl.util.S;
 
 import java.util.Map;
 
@@ -52,10 +53,15 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
         public char[] resolve(String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
             if (null == sa) return new char[0];
-            int len = sa.length;
+            StringBuilder sb = S.builder();
+            for (String s : sa) {
+                sb.append(s);
+            }
+            String concatenated = sb.toString();
+            int len = concatenated.length();
             char[] ca = new char[len];
             for (int i = 0; i < len; ++i) {
-                ca[i] = sa[i].charAt(0);
+                ca[i] = concatenated.charAt(i);
             }
             return ca;
         }
