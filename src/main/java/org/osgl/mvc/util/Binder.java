@@ -51,17 +51,14 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
     public static final Binder<char[]> PRIMITIVE_CHAR_ARRAY = new Binder<char[]>() {
         @Override
         public char[] resolve(String model, ParamValueProvider params) {
-            String[] sa = params.paramVals(model);
-            if (null == sa) return new char[0];
-            StringBuilder sb = S.builder();
-            for (String s : sa) {
-                sb.append(s);
+            String concatenated = concatenate(model, params);
+            if (null == concatenated) {
+                return new char[0];
             }
-            String concatenated = sb.toString();
             int len = concatenated.length();
             char[] ca = new char[len];
             for (int i = 0; i < len; ++i) {
-                ca[i] = concatenated.charAt(i);
+                ca[i] = concatenated.charAt(0);
             }
             return ca;
         }
@@ -70,13 +67,14 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
     public static final Binder<Character[]> CHAR_ARRAY = new Binder<Character[]>() {
         @Override
         public Character[] resolve(String model, ParamValueProvider params) {
-            String[] sa = params.paramVals(model);
-            if (null == sa) return new Character[0];
-            int len = sa.length;
+            String concatenated = concatenate(model, params);
+            if (null == concatenated) {
+                return new Character[0];
+            }
+            int len = concatenated.length();
             Character[] ca = new Character[len];
             for (int i = 0; i < len; ++i) {
-                String s = sa[i];
-                ca[i] = null == s ? null : s.charAt(0);
+                ca[i] = concatenated.charAt(0);
             }
             return ca;
         }
@@ -300,5 +298,18 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
 
     public static <T> Binder<T> predefined(Class<T> type) {
         return predefined.get(type);
+    }
+
+    private static String concatenate(String model, ParamValueProvider params) {
+        String[] sa = params.paramVals(model);
+        if (null == sa) {
+            return null;
+        }
+        StringBuilder sb = S.builder();
+        for (String s : sa) {
+            sb.append(s);
+        }
+        String concatenated = sb.toString();
+        int len = concatenated.length();
     }
 }
