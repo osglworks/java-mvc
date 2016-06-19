@@ -24,7 +24,7 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
         @Override
         public boolean[] resolve(String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
-            if (null == sa) return new boolean[0];
+            if (null == sa) return null;
             int len = sa.length;
             boolean[] ba = new boolean[len];
             for (int i = 0; i < len; ++i) {
@@ -38,7 +38,7 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
         @Override
         public Boolean[] resolve(String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
-            if (null == sa) return new Boolean[0];
+            if (null == sa) return null;
             int len = sa.length;
             Boolean[] ba = new Boolean[len];
             for (int i = 0; i < len; ++i) {
@@ -53,7 +53,7 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
         public char[] resolve(String model, ParamValueProvider params) {
             String concatenated = concatenate(model, params);
             if (null == concatenated) {
-                return new char[0];
+                return null;
             }
             int len = concatenated.length();
             char[] ca = new char[len];
@@ -69,7 +69,7 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
         public Character[] resolve(String model, ParamValueProvider params) {
             String concatenated = concatenate(model, params);
             if (null == concatenated) {
-                return new Character[0];
+                return null;
             }
             int len = concatenated.length();
             Character[] ca = new Character[len];
@@ -84,7 +84,9 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
         @Override
         public byte[] resolve(String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
-            if (null == sa) return new byte[0];
+            if (null == sa) {
+                return null;
+            }
             int len = sa.length;
             byte[] a = new byte[len];
             for (int i = 0; i < len; ++i) {
@@ -99,7 +101,9 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
         @Override
         public Byte[] resolve(String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
-            if (null == sa) return new Byte[0];
+            if (null == sa) {
+                return null;
+            }
             int len = sa.length;
             Byte[] a = new Byte[len];
             for (int i = 0; i < len; ++i) {
@@ -114,7 +118,9 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
         @Override
         public short[] resolve(String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
-            if (null == sa) return new short[0];
+            if (null == sa) {
+                return null;
+            }
             int len = sa.length;
             short[] a = new short[len];
             for (int i = 0; i < len; ++i) {
@@ -129,7 +135,9 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
         @Override
         public Short[] resolve(String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
-            if (null == sa) return new Short[0];
+            if (null == sa) {
+                return null;
+            }
             int len = sa.length;
             Short[] a = new Short[len];
             for (int i = 0; i < len; ++i) {
@@ -144,7 +152,9 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
         @Override
         public int[] resolve(String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
-            if (null == sa) return new int[0];
+            if (null == sa) {
+                return null;
+            }
             int len = sa.length;
             int[] a = new int[len];
             for (int i = 0; i < len; ++i) {
@@ -159,7 +169,9 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
         @Override
         public Integer[] resolve(String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
-            if (null == sa) return new Integer[0];
+            if (null == sa) {
+                return null;
+            }
             int len = sa.length;
             Integer[] a = new Integer[len];
             for (int i = 0; i < len; ++i) {
@@ -174,7 +186,9 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
         @Override
         public long[] resolve(String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
-            if (null == sa) return new long[0];
+            if (null == sa) {
+                return null;
+            }
             int len = sa.length;
             long[] a = new long[len];
             for (int i = 0; i < len; ++i) {
@@ -189,7 +203,9 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
         @Override
         public Long[] resolve(String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
-            if (null == sa) return new Long[0];
+            if (null == sa) {
+                return null;
+            }
             int len = sa.length;
             Long[] a = new Long[len];
             for (int i = 0; i < len; ++i) {
@@ -204,7 +220,9 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
         @Override
         public float[] resolve(String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
-            if (null == sa) return new float[0];
+            if (null == sa) {
+                return null;
+            }
             int len = sa.length;
             float[] a = new float[len];
             for (int i = 0; i < len; ++i) {
@@ -219,7 +237,9 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
         @Override
         public Float[] resolve(String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
-            if (null == sa) return new Float[0];
+            if (null == sa) {
+                return null;
+            }
             int len = sa.length;
             Float[] a = new Float[len];
             for (int i = 0; i < len; ++i) {
@@ -234,7 +254,9 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
         @Override
         public double[] resolve(String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
-            if (null == sa) return new double[0];
+            if (null == sa) {
+                return null;
+            }
             int len = sa.length;
             double[] a = new double[len];
             for (int i = 0; i < len; ++i) {
@@ -249,7 +271,9 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
         @Override
         public Double[] resolve(String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
-            if (null == sa) return new Double[0];
+            if (null == sa) {
+                return null;
+            }
             int len = sa.length;
             Double[] a = new Double[len];
             for (int i = 0; i < len; ++i) {
@@ -264,7 +288,7 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
         @Override
         public String[] resolve(String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
-            return (null == sa) ? new String[0] : sa;
+            return (null == sa) ? null : sa;
         }
     };
 
