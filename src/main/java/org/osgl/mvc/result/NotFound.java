@@ -1,8 +1,5 @@
 package org.osgl.mvc.result;
 
-import org.osgl.http.Http;
-import org.osgl.util.S;
-
 import static org.osgl.http.H.Status.NOT_FOUND;
 
 /**

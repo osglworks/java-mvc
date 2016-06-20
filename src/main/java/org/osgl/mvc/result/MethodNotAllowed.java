@@ -1,9 +1,5 @@
 package org.osgl.mvc.result;
 
-import org.osgl.http.H;
-import org.osgl.http.Http;
-import org.osgl.util.S;
-
 import static org.osgl.http.H.Status.METHOD_NOT_ALLOWED;
 
 /**

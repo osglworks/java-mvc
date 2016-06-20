@@ -1,9 +1,5 @@
 package org.osgl.mvc.result;
 
-import org.osgl.http.Http;
-import org.osgl.util.S;
-
-import static org.osgl.http.H.Status.BAD_GATEWAY;
 import static org.osgl.http.H.Status.BAD_REQUEST;
 
 /**
