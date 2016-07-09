@@ -84,9 +84,9 @@
   </parent>
 
   <scm>
-    <connection>scm:git:git://github.com/greenlaw110/java-mvc.git</connection>
-    <developerConnection>scm:git:git@github.com:greenlaw110/java-mvc.git</developerConnection>
-    <url>git://github.com/greenlaw110/java-mvc.git</url>
+    <connection>scm:git:git://github.com/osglworks/java-mvc.git</connection>
+    <developerConnection>scm:git:git@github.com:osglworks/java-mvc.git</developerConnection>
+    <url>git://github.com/osglworks/java-mvc.git</url>
   </scm>
 
   <properties>
