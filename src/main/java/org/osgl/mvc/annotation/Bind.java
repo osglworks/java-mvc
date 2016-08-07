@@ -36,14 +36,14 @@ public @interface Bind {
      * <p>Java code</p>
      * <code>
      * <pre>
-     * public Result createUser(@Binder(value = UserBinder.class, model = "p") User user) {
+     * public Result createUser(@Binder(value = UserBinder.class, model = "u") User user) {
      *     ...
      * }
      * </pre>
      * </code>
      * <p>If <code>model</code> is ignored, then implementation should use the
      * parameter name (<code>user</code>) in our case to resolve the model instance; and
-     * the developer shall not use {@code u.name} and {@code u.password} to refer
+     * the frontend developer shall not use {@code u.name} and {@code u.password} to refer
      * the model, instead {@code user.name} and {@code user.password} shall be used</p>
      */
     String model() default "";
