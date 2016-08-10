@@ -10,38 +10,55 @@ import java.util.Map;
 /**
  * A {@code Binder} resolves to a certain type of argument out from a String-String map
  */
-public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
+public abstract class Binder<T> extends $.F3<T, String, ParamValueProvider, T> {
 
-    public abstract T resolve(String model, ParamValueProvider params);
+    /**
+     * Resolve bean from param value provider
+     * @param bean cached bean instance from last conversation in the same session. Or `null`
+     *             if not applied
+     * @param model the name to specify the model
+     * @param params the param value provider
+     * @return the bean resolved
+     */
+    public abstract T resolve(T bean, String model, ParamValueProvider params);
 
     @Override
-    public final T apply(String argName, ParamValueProvider params) throws NotAppliedException, $.Break {
-        return resolve(argName, params);
+    public final T apply(T bean, String argName, ParamValueProvider params) throws NotAppliedException, $.Break {
+        return resolve(bean, argName, params);
     }
 
     // For primary types
     public static final Binder<boolean[]> PRIMITIVE_BOOLEAN_ARRAY = new Binder<boolean[]>() {
         @Override
-        public boolean[] resolve(String model, ParamValueProvider params) {
+        public boolean[] resolve(boolean[] bean, String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
             if (null == sa) return null;
             int len = sa.length;
-            boolean[] ba = new boolean[len];
-            for (int i = 0; i < len; ++i) {
+            int oldLen = null == bean ? 0 : bean.length;
+            boolean[] ba = new boolean[len + oldLen];
+            if (oldLen > 0) {
+                System.arraycopy(bean, 0, ba, 0, oldLen);
+            }
+            for (int i = oldLen; i < len + oldLen; ++i) {
                 ba[i] = Boolean.parseBoolean(sa[i]);
             }
+
             return ba;
         }
     };
 
     public static final Binder<Boolean[]> BOOLEAN_ARRAY = new Binder<Boolean[]>() {
         @Override
-        public Boolean[] resolve(String model, ParamValueProvider params) {
+        public Boolean[] resolve(Boolean[] bean, String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
             if (null == sa) return null;
             int len = sa.length;
-            Boolean[] ba = new Boolean[len];
-            for (int i = 0; i < len; ++i) {
+            int oldLen = null == bean ? 0 : bean.length;
+            Boolean[] ba = new Boolean[len + oldLen];
+            if (oldLen > 0) {
+                System.arraycopy(bean, 0, ba, 0, oldLen);
+            }
+            for (int i = oldLen; i < len + oldLen; ++i) {
                 ba[i] = Boolean.valueOf(sa[i]);
             }
             return ba;
@@ -50,14 +67,18 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
 
     public static final Binder<char[]> PRIMITIVE_CHAR_ARRAY = new Binder<char[]>() {
         @Override
-        public char[] resolve(String model, ParamValueProvider params) {
+        public char[] resolve(char[] bean, String model, ParamValueProvider params) {
             String concatenated = concatenate(model, params);
             if (null == concatenated) {
                 return null;
             }
             int len = concatenated.length();
+            int oldLen = null == bean ? 0 : bean.length;
             char[] ca = new char[len];
-            for (int i = 0; i < len; ++i) {
+            if (oldLen > 0) {
+                System.arraycopy(bean, 0, ca, 0, oldLen);
+            }
+            for (int i = oldLen; i < len + oldLen; ++i) {
                 ca[i] = concatenated.charAt(i);
             }
             return ca;
@@ -66,14 +87,18 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
 
     public static final Binder<Character[]> CHAR_ARRAY = new Binder<Character[]>() {
         @Override
-        public Character[] resolve(String model, ParamValueProvider params) {
+        public Character[] resolve(Character[] bean, String model, ParamValueProvider params) {
             String concatenated = concatenate(model, params);
             if (null == concatenated) {
                 return null;
             }
             int len = concatenated.length();
+            int oldLen = null == bean ? 0 : bean.length;
             Character[] ca = new Character[len];
-            for (int i = 0; i < len; ++i) {
+            if (oldLen > 0) {
+                System.arraycopy(bean, 0, ca, 0, oldLen);
+            }
+            for (int i = oldLen; i < len + oldLen; ++i) {
                 ca[i] = concatenated.charAt(i);
             }
             return ca;
@@ -82,14 +107,18 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
 
     public static final Binder<byte[]> PRIMITIVE_BYTE_ARRAY = new Binder<byte[]>() {
         @Override
-        public byte[] resolve(String model, ParamValueProvider params) {
+        public byte[] resolve(byte[] bean, String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
             if (null == sa) {
                 return null;
             }
             int len = sa.length;
-            byte[] a = new byte[len];
-            for (int i = 0; i < len; ++i) {
+            int oldLen = null == bean ? 0 : bean.length;
+            byte[] a = new byte[len + oldLen];
+            if (oldLen > 0) {
+                System.arraycopy(bean, 0, a, 0, oldLen);
+            }
+            for (int i = oldLen; i < len + oldLen; ++i) {
                 String s = sa[i];
                 a[i] = Byte.parseByte(s);
             }
@@ -99,14 +128,18 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
 
     public static final Binder<Byte[]> BYTE_ARRAY = new Binder<Byte[]>() {
         @Override
-        public Byte[] resolve(String model, ParamValueProvider params) {
+        public Byte[] resolve(Byte[] bean, String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
             if (null == sa) {
                 return null;
             }
             int len = sa.length;
-            Byte[] a = new Byte[len];
-            for (int i = 0; i < len; ++i) {
+            int oldLen = null == bean ? 0 : bean.length;
+            Byte[] a = new Byte[len + oldLen];
+            if (oldLen > 0) {
+                System.arraycopy(bean, 0, a, 0, oldLen);
+            }
+            for (int i = oldLen; i < len + oldLen; ++i) {
                 String s = sa[i];
                 a[i] = null == s ? null : Byte.valueOf(s);
             }
@@ -116,14 +149,18 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
 
     public static final Binder<short[]> PRIMITIVE_SHORT_ARRAY = new Binder<short[]>() {
         @Override
-        public short[] resolve(String model, ParamValueProvider params) {
+        public short[] resolve(short[] bean, String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
             if (null == sa) {
                 return null;
             }
             int len = sa.length;
-            short[] a = new short[len];
-            for (int i = 0; i < len; ++i) {
+            int oldLen = null == bean ? 0 : bean.length;
+            short[] a = new short[len + oldLen];
+            if (oldLen > 0) {
+                System.arraycopy(bean, 0, a, 0, oldLen);
+            }
+            for (int i = oldLen; i < len + oldLen; ++i) {
                 String s = sa[i];
                 a[i] = Short.parseShort(s);
             }
@@ -133,14 +170,18 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
 
     public static final Binder<Short[]> SHORT_ARRAY = new Binder<Short[]>() {
         @Override
-        public Short[] resolve(String model, ParamValueProvider params) {
+        public Short[] resolve(Short[] bean, String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
             if (null == sa) {
                 return null;
             }
             int len = sa.length;
-            Short[] a = new Short[len];
-            for (int i = 0; i < len; ++i) {
+            int oldLen = null == bean ? 0 : bean.length;
+            Short[] a = new Short[len + oldLen];
+            if (oldLen > 0) {
+                System.arraycopy(bean, 0, a, 0, oldLen);
+            }
+            for (int i = oldLen; i < len + oldLen; ++i) {
                 String s = sa[i];
                 a[i] = null == s ? null : Short.valueOf(s);
             }
@@ -150,14 +191,18 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
 
     public static final Binder<int[]> PRIMITIVE_INT_ARRAY = new Binder<int[]>() {
         @Override
-        public int[] resolve(String model, ParamValueProvider params) {
+        public int[] resolve(int[] bean, String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
             if (null == sa) {
                 return null;
             }
             int len = sa.length;
-            int[] a = new int[len];
-            for (int i = 0; i < len; ++i) {
+            int oldLen = null == bean ? 0 : bean.length;
+            int[] a = new int[len + oldLen];
+            if (oldLen > 0) {
+                System.arraycopy(bean, 0, a, 0, oldLen);
+            }
+            for (int i = oldLen; i < len + oldLen; ++i) {
                 String s = sa[i];
                 a[i] = Integer.parseInt(s);
             }
@@ -167,14 +212,18 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
 
     public static final Binder<Integer[]> INT_ARRAY = new Binder<Integer[]>() {
         @Override
-        public Integer[] resolve(String model, ParamValueProvider params) {
+        public Integer[] resolve(Integer[] bean, String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
             if (null == sa) {
                 return null;
             }
             int len = sa.length;
-            Integer[] a = new Integer[len];
-            for (int i = 0; i < len; ++i) {
+            int oldLen = null == bean ? 0 : bean.length;
+            Integer[] a = new Integer[len + oldLen];
+            if (oldLen > 0) {
+                System.arraycopy(bean, 0, a, 0, oldLen);
+            }
+            for (int i = oldLen; i < len + oldLen; ++i) {
                 String s = sa[i];
                 a[i] = null == s ? null : Integer.valueOf(s);
             }
@@ -184,14 +233,18 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
 
     public static final Binder<long[]> PRIMITIVE_LONG_ARRAY = new Binder<long[]>() {
         @Override
-        public long[] resolve(String model, ParamValueProvider params) {
+        public long[] resolve(long[] bean, String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
             if (null == sa) {
                 return null;
             }
             int len = sa.length;
-            long[] a = new long[len];
-            for (int i = 0; i < len; ++i) {
+            int oldLen = null == bean ? 0 : bean.length;
+            long[] a = new long[len + oldLen];
+            if (oldLen > 0) {
+                System.arraycopy(bean, 0, a, 0, oldLen);
+            }
+            for (int i = oldLen; i < len + oldLen; ++i) {
                 String s = sa[i];
                 a[i] = Long.parseLong(s);
             }
@@ -201,14 +254,18 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
 
     public static final Binder<Long[]> LONG_ARRAY = new Binder<Long[]>() {
         @Override
-        public Long[] resolve(String model, ParamValueProvider params) {
+        public Long[] resolve(Long[] bean, String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
             if (null == sa) {
                 return null;
             }
             int len = sa.length;
-            Long[] a = new Long[len];
-            for (int i = 0; i < len; ++i) {
+            int oldLen = null == bean ? 0 : bean.length;
+            Long[] a = new Long[len + oldLen];
+            if (oldLen > 0) {
+                System.arraycopy(bean, 0, a, 0, oldLen);
+            }
+            for (int i = oldLen; i < len + oldLen; ++i) {
                 String s = sa[i];
                 a[i] = null == s ? null : Long.valueOf(s);
             }
@@ -218,14 +275,18 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
 
     public static final Binder<float[]> PRIMITIVE_FLOAT_ARRAY = new Binder<float[]>() {
         @Override
-        public float[] resolve(String model, ParamValueProvider params) {
+        public float[] resolve(float[] bean, String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
             if (null == sa) {
                 return null;
             }
             int len = sa.length;
-            float[] a = new float[len];
-            for (int i = 0; i < len; ++i) {
+            int oldLen = null == bean ? 0 : bean.length;
+            float[] a = new float[len + oldLen];
+            if (oldLen > 0) {
+                System.arraycopy(bean, 0, a, 0, oldLen);
+            }
+            for (int i = oldLen; i < len + oldLen; ++i) {
                 String s = sa[i];
                 a[i] = Float.parseFloat(s);
             }
@@ -235,14 +296,18 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
 
     public static final Binder<Float[]> FLOAT_ARRAY = new Binder<Float[]>() {
         @Override
-        public Float[] resolve(String model, ParamValueProvider params) {
+        public Float[] resolve(Float[] bean, String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
             if (null == sa) {
                 return null;
             }
             int len = sa.length;
-            Float[] a = new Float[len];
-            for (int i = 0; i < len; ++i) {
+            int oldLen = null == bean ? 0 : bean.length;
+            Float[] a = new Float[len + oldLen];
+            if (oldLen > 0) {
+                System.arraycopy(bean, 0, a, 0, oldLen);
+            }
+            for (int i = oldLen; i < len + oldLen; ++i) {
                 String s = sa[i];
                 a[i] = null == s ? null : Float.valueOf(s);
             }
@@ -252,14 +317,18 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
 
     public static final Binder<double[]> PRIMITIVE_DOUBLE_ARRAY = new Binder<double[]>() {
         @Override
-        public double[] resolve(String model, ParamValueProvider params) {
+        public double[] resolve(double[] bean, String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
             if (null == sa) {
                 return null;
             }
             int len = sa.length;
-            double[] a = new double[len];
-            for (int i = 0; i < len; ++i) {
+            int oldLen = null == bean ? 0 : bean.length;
+            double[] a = new double[len + oldLen];
+            if (oldLen > 0) {
+                System.arraycopy(bean, 0, a, 0, oldLen);
+            }
+            for (int i = oldLen; i < len + oldLen; ++i) {
                 String s = sa[i];
                 a[i] = Double.parseDouble(s);
             }
@@ -269,14 +338,18 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
 
     public static final Binder<Double[]> DOUBLE_ARRAY = new Binder<Double[]>() {
         @Override
-        public Double[] resolve(String model, ParamValueProvider params) {
+        public Double[] resolve(Double[] bean, String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
             if (null == sa) {
                 return null;
             }
             int len = sa.length;
-            Double[] a = new Double[len];
-            for (int i = 0; i < len; ++i) {
+            int oldLen = null == bean ? 0 : bean.length;
+            Double[] a = new Double[len + oldLen];
+            if (oldLen > 0) {
+                System.arraycopy(bean, 0, a, 0, oldLen);
+            }
+            for (int i = oldLen; i < len + oldLen; ++i) {
                 String s = sa[i];
                 a[i] = null == s ? null : Double.valueOf(s);
             }
@@ -286,9 +359,17 @@ public abstract class Binder<T> extends $.F2<String, ParamValueProvider, T> {
 
     public static final Binder<String[]> STRING_ARRAY = new Binder<String[]>() {
         @Override
-        public String[] resolve(String model, ParamValueProvider params) {
+        public String[] resolve(String[] bean, String model, ParamValueProvider params) {
             String[] sa = params.paramVals(model);
-            return (null == sa) ? null : sa;
+            int oldLen = null == bean ? 0 : bean.length;
+            if (oldLen > 0) {
+                int len = sa.length;
+                String[] a = new String[len + oldLen];
+                System.arraycopy(bean, 0, a, 0, oldLen);
+                System.arraycopy(sa, 0, a, oldLen, len);
+                return a;
+            }
+            return sa;
         }
     };
 

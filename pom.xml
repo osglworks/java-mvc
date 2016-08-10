@@ -15,33 +15,21 @@
   ~ under the License.
   -->
 <!-- history 
-0.1-SNAPSHOT 
-- base verion when history log started
+0.5.0-SNAPSHOT
+- Bind interface change: accept bean as session cached data
 
-0.2-SNAPSHOT 
-- upgrade to osgl-tool 0.4-SNAPSHOT
-- Annotations now moved to annotatons package
+0.4.2-SNAPSHOT
+- Add Created and Accepted result
+- Add ResponseStatus annotation
 
-0.2.1-SNAPSHOT
-- Add default message to Error Results
+0.4.1-SNAPSHOT
+- Add MethodNotAllowed and NotImplemented Result type
 
-0.2.2-SNAPSHOT
-- Add pass accept parameter to RenderText
+0.4.0-SNAPSHOT
+- update osgl-tool to 0.8
 
-0.2.3-SNAPSHOT
-- Update osgl-tool and osgl-http version
-
-0.2.4-SNAPSHOT
-- Update ogl-http version
-- ErrorResult constructor now is public
-- add INSTANCE to BadRequest
-
-0.3.0-SNAPSHOT
-- Binder now expose parameter from a ParameterValueProvider interface instead of H.Request
-- Update Action annotations signature to allow an action method be mapped to multiple paths at the same time
-
-0.3.1-SNAPSHOT
-- fix RenderText constructor treat arg as arg array issue
+0.3.3-SNAPSHOT
+- update osgl-tool to 0.7.1-SNAPSHOT
 
 0.3.2-SNAPSHOT
 - Fix Unauthorized result issue
@@ -50,18 +38,33 @@
   it is used as a marker of method subject to bytecode enhancement by the
   underline framework
 
-0.3.3-SNAPSHOT
-- update osgl-tool to 0.7.1-SNAPSHOT
+0.3.1-SNAPSHOT
+- fix RenderText constructor treat arg as arg array issue
 
-0.4.0-SNAPSHOT
-- update osgl-tool to 0.8
+0.3.0-SNAPSHOT
+- Binder now expose parameter from a ParameterValueProvider interface instead of H.Request
+- Update Action annotations signature to allow an action method be mapped to multiple paths at the same time
 
-0.4.1-SNAPSHOT
-- Add MethodNotAllowed and NotImplemented Result type
+0.2.4-SNAPSHOT
+- Update ogl-http version
+- ErrorResult constructor now is public
+- add INSTANCE to BadRequest
 
-0.4.2-SNAPSHOT
-- Add Created and Accepted result
-- Add ResponseStatus annotation
+0.2.3-SNAPSHOT
+- Update osgl-tool and osgl-http version
+
+0.2.2-SNAPSHOT
+- Add pass accept parameter to RenderText
+
+0.2.1-SNAPSHOT
+- Add default message to Error Results
+
+0.2-SNAPSHOT
+- upgrade to osgl-tool 0.4-SNAPSHOT
+- Annotations now moved to annotatons package
+
+0.1-SNAPSHOT
+- base verion when history log started
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -71,7 +74,7 @@
   <groupId>org.osgl</groupId>
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>0.4.2-SNAPSHOT</version>
+  <version>0.5.0-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
   <description>Utilities for MVC</description>
