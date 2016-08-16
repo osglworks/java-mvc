@@ -17,6 +17,7 @@
 <!-- history 
 0.5.0-SNAPSHOT
 - Bind interface change: accept bean as session cached data
+- Add SessionFree annotation
 
 0.4.2-SNAPSHOT
 - Add Created and Accepted result
