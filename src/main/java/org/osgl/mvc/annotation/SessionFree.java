@@ -6,11 +6,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Indicate a Controller or a handler method does NOT require
+ * Indicate a controller handler method does NOT require
  * session. This can be used to improve the performance of handling
  * request for resource that does not require session participation
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.TYPE})
+@Target(ElementType.METHOD)
 public @interface SessionFree {
 }
