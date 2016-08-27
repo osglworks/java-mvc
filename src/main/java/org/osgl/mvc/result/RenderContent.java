@@ -66,6 +66,8 @@ public abstract class RenderContent extends Result {
     public void apply(H.Request req, H.Response resp) {
         applyStatus(resp);
         setContentType(resp);
+        applyBeforeCommitHandler(req, resp);
         resp.writeContent(content);
+        applyAfterCommitHandler(req, resp);
     }
 }

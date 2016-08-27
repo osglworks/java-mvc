@@ -4,6 +4,7 @@ import org.osgl.http.H;
 import org.osgl.http.Http;
 import org.osgl.http.util.Path;
 import org.osgl.util.E;
+import org.osgl.util.IO;
 import org.osgl.util.S;
 
 public class Redirect extends Result {
@@ -36,5 +37,8 @@ public class Redirect extends Result {
             applyStatus(resp);
         }
         resp.header("Location", url);
+        applyBeforeCommitHandler(req, resp);
+        IO.close(resp.outputStream());
+        applyAfterCommitHandler(req, resp);
     }
 }

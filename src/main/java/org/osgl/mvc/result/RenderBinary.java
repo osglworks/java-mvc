@@ -145,7 +145,9 @@ public class RenderBinary extends Result {
                         resp.header(CONTENT_LENGTH, S.string(length));
                     }
                 }
+                applyBeforeCommitHandler(req, resp);
                 IO.copy(binary.asInputStream(), resp.outputStream(), false);
+                applyAfterCommitHandler(req, resp);
             } catch (Exception e) {
                 throw E.unexpected(e);
             }

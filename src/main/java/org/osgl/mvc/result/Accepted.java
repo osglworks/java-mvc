@@ -25,7 +25,7 @@ public final class Accepted extends Result {
 
     @Override
     public void apply(H.Request req, H.Response resp) {
-        super.apply(req, resp);
         resp.header(H.Header.Names.LOCATION, location);
+        super.apply(req, resp);
     }
 }
