@@ -14,7 +14,10 @@
   ~ License for the specific language governing permissions and limitations
   ~ under the License.
   -->
-<!-- history 
+<!-- history
+0.5.1-SNAPSHOT
+- Update osgl-http from 0.3.0-SNAPSHOT to 0.3.1-SNAPSHOT
+
 0.5.0-SNAPSHOT
 - Bind interface change: accept bean as session cached data
 - Add SessionFree annotation
@@ -75,7 +78,7 @@
   <groupId>org.osgl</groupId>
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>0.5.0-SNAPSHOT</version>
+  <version>0.5.1-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
   <description>Utilities for MVC</description>
@@ -151,7 +154,7 @@
     <dependency>
       <groupId>org.osgl</groupId>
       <artifactId>osgl-http</artifactId>
-      <version>0.3.0-SNAPSHOT</version>
+      <version>0.3.1-SNAPSHOT</version>
     </dependency>
 
     <dependency>
