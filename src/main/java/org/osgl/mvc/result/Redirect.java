@@ -8,7 +8,9 @@ import org.osgl.util.IO;
 import org.osgl.util.S;
 
 public class Redirect extends Result {
-    String url;
+
+    protected String url;
+
     public Redirect(String url) {
         super(Http.Status.FOUND);
         E.illegalArgumentIf(S.blank(url));
@@ -30,7 +32,7 @@ public class Redirect extends Result {
 
     @Override
     public void apply(H.Request req, H.Response resp) {
-        String url = Path.fullUrl(this.url, req);
+        String url = fullUrl(req);
         if (req.isAjax()) {
             resp.status(H.Status.FOUND_AJAX);
         } else {
@@ -40,5 +42,9 @@ public class Redirect extends Result {
         applyBeforeCommitHandler(req, resp);
         IO.close(resp.outputStream());
         applyAfterCommitHandler(req, resp);
+    }
+
+    protected String fullUrl(H.Request request) {
+        return Path.fullUrl(this.url, request);
     }
 }
