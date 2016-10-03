@@ -19,6 +19,14 @@ public class RenderBinary extends Result {
         private enum Disposition {
             inline, attachment;
 
+            public boolean isInline() {
+                return inline == this;
+            }
+
+            public boolean isAttachment() {
+                return attachment == this;
+            }
+
             public static Disposition of(boolean inline) {
                 return inline ? Disposition.inline : Disposition.attachment;
             }
@@ -125,20 +133,8 @@ public class RenderBinary extends Result {
                     String ext = S.afterLast(name, ".");
                     resp.initContentType(H.Format.of(ext).toContentType());
                 }
-                String disp = disposition.name();
                 if (!resp.containsHeader(CONTENT_DISPOSITION)) {
-                    if (!hasName) {
-                        resp.header(CONTENT_DISPOSITION, disp);
-                    } else {
-                        if(canAsciiEncode(name)) {
-                            String contentDisposition = "%s; filename=\"%s\"";
-                            resp.header(CONTENT_DISPOSITION, S.fmt(contentDisposition, disp, name));
-                        } else {
-                            final String encoding = resp.characterEncoding();
-                            String contentDisposition = "%1$s; filename*="+encoding+"''%2$s; filename=\"%2$s\"";
-                            resp.header(CONTENT_DISPOSITION, S.fmt(contentDisposition, disp, URLEncoder.encode(name, encoding)));
-                        }
-                    }
+                    resp.contentDisposition(name, disposition.isInline());
                 }
                 if (!resp.containsHeader(CONTENT_LENGTH)) {
                     if (0 < length) {
