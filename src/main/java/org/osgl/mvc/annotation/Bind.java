@@ -16,9 +16,12 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 public @interface Bind {
     /**
-     * Specify the {@link Binder} implementation
+     * Specify the {@link Binder} implementations
+     *
+     * **Note** each binder implementation must have different
+     * {@link Binder#targetType()}
      */
-    Class<? extends Binder> value();
+    Class<? extends Binder>[] value();
 
     /**
      * Optionally specify the model attribute name the binder should

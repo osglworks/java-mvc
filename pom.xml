@@ -15,6 +15,9 @@
   ~ under the License.
   -->
 <!-- history
+0.6.0-SNAPSHOT
+- Bind annotation now accept an array of Binder implementations
+
 0.5.1-SNAPSHOT
 - Update osgl-http from 0.3.0-SNAPSHOT to 0.3.1-SNAPSHOT
 
@@ -78,7 +81,7 @@
   <groupId>org.osgl</groupId>
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>0.5.1-SNAPSHOT</version>
+  <version>0.6.0-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
   <description>Utilities for MVC</description>

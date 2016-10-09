@@ -3,14 +3,35 @@ package org.osgl.mvc.util;
 import org.osgl.$;
 import org.osgl.exception.NotAppliedException;
 import org.osgl.util.C;
+import org.osgl.util.Generics;
 import org.osgl.util.S;
 
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Map;
 
 /**
  * A {@code Binder} resolves to a certain type of argument out from a String-String map
  */
 public abstract class Binder<T> extends $.F3<T, String, ParamValueProvider, T> {
+
+    protected Type targetType;
+
+    public Binder() {
+        exploreTargetType();
+    }
+
+    public Binder(Class<T> targetType) {
+        this.targetType = $.notNull(targetType);
+    }
+
+    public Class<T> targetType() {
+        return Generics.classOf(targetType);
+    }
+
+    public Type genericTargetType() {
+        return targetType;
+    }
 
     /**
      * Resolve bean from param value provider
@@ -21,6 +42,11 @@ public abstract class Binder<T> extends $.F3<T, String, ParamValueProvider, T> {
      * @return the bean resolved
      */
     public abstract T resolve(T bean, String model, ParamValueProvider params);
+
+    private void exploreTargetType() {
+        List<Type> typeParams = Generics.typeParamImplementations(getClass(), Binder.class);
+        targetType = typeParams.get(0);
+    }
 
     @Override
     public final T apply(T bean, String argName, ParamValueProvider params) throws NotAppliedException, $.Break {
