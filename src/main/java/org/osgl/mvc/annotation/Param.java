@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  * parameter
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.PARAMETER)
+@Target({ElementType.PARAMETER, ElementType.FIELD})
 public @interface Param {
     /**
      * Specify the http parameter name
@@ -33,7 +33,10 @@ public @interface Param {
 
     /**
      * Optionally specify the resolver class
+     *
+     * This is deprecated. Please use {@link Resolve} annotation instead
      */
+    @Deprecated
     Class<? extends StringValueResolver> resolverClass() default DEFAULT_RESOLVER.class;
 
     public static final class DEFAULT_RESOLVER extends StringValueResolver {

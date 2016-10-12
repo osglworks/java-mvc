@@ -5,8 +5,10 @@ import org.osgl.exception.NotAppliedException;
 import org.osgl.util.C;
 import org.osgl.util.Generics;
 import org.osgl.util.S;
+import org.osgl.util.StringValueResolver;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +18,8 @@ import java.util.Map;
 public abstract class Binder<T> extends $.F3<T, String, ParamValueProvider, T> {
 
     protected Type targetType;
+
+    protected Map<String, Object> attributes = new HashMap<String, Object>();
 
     public Binder() {
         exploreTargetType();
@@ -42,6 +46,57 @@ public abstract class Binder<T> extends $.F3<T, String, ParamValueProvider, T> {
      * @return the bean resolved
      */
     public abstract T resolve(T bean, String model, ParamValueProvider params);
+
+    /**
+     * Set attribute of this binder.
+     *
+     * Note use this method only on new resolver instance instead of shared instance
+     *
+     * @param key the attribute key
+     * @param value the attribute value
+     * @return this binder instance
+     */
+    public Binder<T> attribute(String key, Object value) {
+        if (null == value) {
+            attributes.remove(value);
+        } else {
+            attributes.put(key, value);
+        }
+        return this;
+    }
+
+    /**
+     * Set attributes to this binder
+     *
+     * Note use this method only on new resolver instance instead of shared instance
+     *
+     * @param attributes the attributes map
+     * @return this binder instance
+     */
+    public Binder<T> attributes(Map<String, Object> attributes) {
+        this.attributes.putAll(attributes);
+        return this;
+    }
+
+    /**
+     * Clear all attributes on this binder
+     * @return this binder instance
+     */
+    public Binder<T> clearAttributes() {
+        attributes.clear();
+        return this;
+    }
+
+    /**
+     * Get attribute of this binder by key specified
+     * @param key the attribute key
+     * @param <V> the generic type variable of attribute value
+     * @return the attribute value
+     */
+    protected <V> V attribute(String key) {
+        return (V) attributes.get(key);
+    }
+
 
     private void exploreTargetType() {
         List<Type> typeParams = Generics.typeParamImplementations(getClass(), Binder.class);

@@ -10,10 +10,11 @@ import java.lang.annotation.Target;
 /**
  * The {@code Bind} annotation is used to specify a
  * binding from a group of HTTP parameters to an action
- * handler method parameter
+ * handler method parameter, controller field or
+ * an annotation
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.PARAMETER)
+@Target({ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE})
 public @interface Bind {
     /**
      * Specify the {@link Binder} implementations
