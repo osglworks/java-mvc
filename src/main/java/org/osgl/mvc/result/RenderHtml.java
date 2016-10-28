@@ -4,7 +4,12 @@ import org.osgl.http.H;
 import org.osgl.util.S;
 
 public class RenderHtml extends RenderContent {
+
+    public RenderHtml(String html) {
+        super(html, H.Format.HTML);
+    }
+
     public RenderHtml(String html, Object ... args) {
-        super(S.fmt(html, args), H.Format.html);
+        super(S.fmt(html, args), H.Format.HTML);
     }
 }
