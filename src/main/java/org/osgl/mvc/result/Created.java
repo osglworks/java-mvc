@@ -4,7 +4,7 @@ import org.osgl.$;
 import org.osgl.http.H;
 import org.osgl.http.Http;
 
-public final class Created extends Result {
+public final class Created extends UnTransformableResult {
 
     public static final Result INSTANCE = new Created("");
 

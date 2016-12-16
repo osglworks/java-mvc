@@ -15,6 +15,9 @@
   ~ under the License.
   -->
 <!-- history
+0.7.0-SNAPSHOT
+- Support transform a result
+
 0.6.0-SNAPSHOT
 - Bind annotation now accept an array of Binder implementations
 
@@ -81,7 +84,7 @@
   <groupId>org.osgl</groupId>
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>0.6.0-SNAPSHOT</version>
+  <version>0.7.0-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
   <description>Utilities for MVC</description>

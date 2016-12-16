@@ -7,6 +7,6 @@ import org.osgl.http.H;
  */
 public class RenderXML extends RenderContent {
     public RenderXML(String xmlStr) {
-        super(xmlStr, H.Format.xml);
+        super(xmlStr, H.Format.XML);
     }
 }

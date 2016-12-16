@@ -2,9 +2,11 @@ package org.osgl.mvc.result;
 
 import org.osgl.http.H;
 import org.osgl.http.Http;
+import org.osgl.mvc.util.ResultTransformer;
+import org.osgl.util.E;
 import org.osgl.util.S;
 
-public class NotModified extends Result {
+public class NotModified extends UnTransformableResult {
 
     public static final NotModified INSTANCE = new NotModified();
 

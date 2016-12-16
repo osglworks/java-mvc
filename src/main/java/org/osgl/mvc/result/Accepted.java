@@ -4,7 +4,7 @@ import org.osgl.$;
 import org.osgl.http.H;
 import org.osgl.http.Http;
 
-public final class Accepted extends Result {
+public final class Accepted extends UnTransformableResult {
 
     private final String location;
 

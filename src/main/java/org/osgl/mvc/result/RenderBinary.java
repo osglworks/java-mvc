@@ -131,7 +131,7 @@ public class RenderBinary extends Result {
                     resp.contentType(contentType);
                 } else if (hasName) {
                     String ext = S.afterLast(name, ".");
-                    resp.initContentType(H.Format.of(ext).toContentType());
+                    resp.initContentType(H.Format.of(ext).contentType());
                 }
                 if (!resp.containsHeader(CONTENT_DISPOSITION)) {
                     resp.contentDisposition(name, disposition.isInline());
@@ -142,7 +142,11 @@ public class RenderBinary extends Result {
                     }
                 }
                 applyBeforeCommitHandler(req, resp);
-                IO.copy(binary.asInputStream(), resp.outputStream(), false);
+                if (null != transformer) {
+                    transformer.transform(binary, resp);
+                } else {
+                    IO.copy(binary.asInputStream(), resp.outputStream(), false);
+                }
                 applyAfterCommitHandler(req, resp);
             } catch (Exception e) {
                 throw E.unexpected(e);

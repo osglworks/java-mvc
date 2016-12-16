@@ -12,7 +12,7 @@ import org.osgl.mvc.MvcConfig;
  *     <li>{@link Forbidden}</li>
  * </ul>
  */
-public class ErrorResult extends Result {
+public class ErrorResult extends UnTransformableResult {
 
     public ErrorResult(Http.Status status) {
         super(status);
@@ -33,6 +33,8 @@ public class ErrorResult extends Result {
     public ErrorResult(Http.Status status, Throwable cause, String message, Object... args) {
         super(status, cause, message, args);
     }
+
+
 
     @Override
     protected void applyMessage(H.Request request, H.Response response) {

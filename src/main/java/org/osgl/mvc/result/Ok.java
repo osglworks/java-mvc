@@ -2,7 +2,7 @@ package org.osgl.mvc.result;
 
 import org.osgl.http.Http;
 
-public final class Ok extends Result {
+public final class Ok extends UnTransformableResult {
 
     public static Ok INSTANCE = new Ok();
 

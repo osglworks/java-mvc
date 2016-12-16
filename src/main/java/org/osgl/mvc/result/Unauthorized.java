@@ -18,7 +18,7 @@ public class Unauthorized extends ErrorResult {
             @Override
             String header(Unauthorized data) {
                 StringBuilder sb = S.builder("Basic realm=\"")
-                        .append(Codec.encodeBASE64(data.realm)).append("\"");
+                        .append(Codec.encodeBase64(data.realm)).append("\"");
                 return sb.toString();
             }
         },

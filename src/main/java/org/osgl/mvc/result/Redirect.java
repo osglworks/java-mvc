@@ -7,7 +7,7 @@ import org.osgl.util.E;
 import org.osgl.util.IO;
 import org.osgl.util.S;
 
-public class Redirect extends Result {
+public class Redirect extends UnTransformableResult {
 
     protected String url;
 

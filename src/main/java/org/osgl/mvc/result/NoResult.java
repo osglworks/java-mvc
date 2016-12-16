@@ -6,7 +6,7 @@ import org.osgl.util.IO;
 /**
  * Do nothing render result
  */
-public class NoResult extends Result {
+public class NoResult extends UnTransformableResult {
     public NoResult() {
     }
 
