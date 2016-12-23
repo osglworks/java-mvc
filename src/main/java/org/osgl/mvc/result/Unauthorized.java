@@ -50,7 +50,7 @@ public class Unauthorized extends ErrorResult {
     }
 
     public Unauthorized(String realm) {
-        super(Http.Status.UNAUTHORIZED);
+        super(Http.Status.UNAUTHORIZED, "Unauthorized");
         this.realm = realm;
         this.type = S.blank(realm) ? Type.FORM : Type.BASIC;
     }
