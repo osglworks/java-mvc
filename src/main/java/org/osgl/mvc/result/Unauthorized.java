@@ -61,7 +61,7 @@ public class Unauthorized extends ErrorResult {
         abstract String header(Unauthorized data);
     }
 
-    private static ThreadLocal<$.T2<String, Type>> dataBag = new ThreadLocal<$.T2<String, Type>>();
+    static ThreadLocal<$.T2<String, Type>> dataBag = new ThreadLocal<$.T2<String, Type>>();
 
     private String realm;
     private Type type;

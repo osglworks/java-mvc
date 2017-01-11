@@ -160,7 +160,7 @@
     <dependency>
       <groupId>org.osgl</groupId>
       <artifactId>osgl-http</artifactId>
-      <version>0.3.1-SNAPSHOT</version>
+      <version>0.3.3-SNAPSHOT</version>
     </dependency>
 
     <dependency>

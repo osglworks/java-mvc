@@ -71,7 +71,7 @@ public abstract class RenderContent extends Result {
         applyStatus(resp);
         setContentType(resp);
         applyBeforeCommitHandler(req, resp);
-        resp.writeContent(content);
+        resp.writeContent(content());
         applyAfterCommitHandler(req, resp);
     }
 }

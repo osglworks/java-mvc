@@ -35,7 +35,7 @@ public class ServerError extends ErrorResult {
         super(INTERNAL_SERVER_ERROR, t, message, args);
     }
 
-    private static ThreadLocal<Throwable> causeBag = new ThreadLocal<Throwable>();
+    static ThreadLocal<Throwable> causeBag = new ThreadLocal<Throwable>();
 
 
     /**

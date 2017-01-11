@@ -71,8 +71,18 @@ public class Result extends FastRuntimeException {
     }
 
     public void apply(H.Request req, H.Response resp) {
-        applyStatus(resp);
-        applyMessage(req, resp);
+        try {
+            applyStatus(resp);
+            applyMessage(req, resp);
+        } finally {
+            clearThreadLocals();
+        }
+    }
+
+    public static void clearThreadLocals() {
+        messageBag.remove();
+        ServerError.causeBag.remove();
+        Unauthorized.dataBag.remove();
     }
 
 }
