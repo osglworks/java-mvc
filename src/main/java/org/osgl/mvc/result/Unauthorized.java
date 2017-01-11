@@ -87,9 +87,13 @@ public class Unauthorized extends ErrorResult {
 
     @Override
     public void apply(H.Request req, H.Response resp) {
-        applyStatus(resp);
-        resp.header(H.Header.Names.WWW_AUTHENTICATE, type().header(this));
-        applyMessage(req, resp);
+        try {
+            applyStatus(resp);
+            resp.header(H.Header.Names.WWW_AUTHENTICATE, type().header(this));
+            applyMessage(req, resp);
+        } finally {
+            clearThreadLocals();
+        }
     }
 
     protected Type type() {

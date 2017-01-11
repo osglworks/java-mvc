@@ -49,7 +49,7 @@ public abstract class RenderContent extends Result {
     }
 
     protected void setContentType(H.Response resp) {
-        String s = format.contentType();
+        String s = format().contentType();
         if (outputEncoding) {
             String encoding = resp.characterEncoding();
             if (S.notBlank(encoding)) {
@@ -68,10 +68,14 @@ public abstract class RenderContent extends Result {
     }
 
     public void apply(H.Request req, H.Response resp) {
-        applyStatus(resp);
-        setContentType(resp);
-        applyBeforeCommitHandler(req, resp);
-        resp.writeContent(content());
-        applyAfterCommitHandler(req, resp);
+        try {
+            applyStatus(resp);
+            setContentType(resp);
+            applyBeforeCommitHandler(req, resp);
+            resp.writeContent(content());
+            applyAfterCommitHandler(req, resp);
+        } finally {
+            clearThreadLocals();
+        }
     }
 }

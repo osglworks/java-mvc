@@ -54,16 +54,20 @@ public class Redirect extends Result {
 
     @Override
     public void apply(H.Request req, H.Response resp) {
-        String url = fullUrl(req);
-        if (req.isAjax()) {
-            resp.status(H.Status.FOUND_AJAX);
-        } else {
-            applyStatus(resp);
+        try {
+            String url = fullUrl(req);
+            if (req.isAjax()) {
+                resp.status(H.Status.FOUND_AJAX);
+            } else {
+                applyStatus(resp);
+            }
+            resp.header("Location", url);
+            applyBeforeCommitHandler(req, resp);
+            IO.close(resp.outputStream());
+            applyAfterCommitHandler(req, resp);
+        } finally {
+            clearThreadLocals();
         }
-        resp.header("Location", url);
-        applyBeforeCommitHandler(req, resp);
-        IO.close(resp.outputStream());
-        applyAfterCommitHandler(req, resp);
     }
 
     protected String fullUrl(H.Request request) {

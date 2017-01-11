@@ -83,6 +83,7 @@ public class Result extends FastRuntimeException {
         messageBag.remove();
         ServerError.causeBag.remove();
         Unauthorized.dataBag.remove();
+        RenderText.formatBag.remove();
     }
 
 }

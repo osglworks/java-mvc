@@ -37,10 +37,14 @@ public class NotModified extends Result {
 
     @Override
     public void apply(H.Request req, H.Response resp) {
-        resp.status(status());
-        String etag = etag();
-        if (null != etag) {
-            resp.header(H.Header.Names.ETAG, etag);
+        try {
+            resp.status(status());
+            String etag = etag();
+            if (null != etag) {
+                resp.header(H.Header.Names.ETAG, etag);
+            }
+        } finally {
+            clearThreadLocals();
         }
     }
 

@@ -15,9 +15,13 @@ public class NoResult extends Result {
 
     @Override
     public void apply(H.Request req, H.Response resp) {
-        applyBeforeCommitHandler(req, resp);
-        IO.close(resp.outputStream());
-        applyAfterCommitHandler(req, resp);
+        try {
+            applyBeforeCommitHandler(req, resp);
+            IO.close(resp.outputStream());
+            applyAfterCommitHandler(req, resp);
+        } finally {
+            clearThreadLocals();
+        }
     }
 
     public static NoResult get() {
