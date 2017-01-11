@@ -61,6 +61,6 @@ public class NotAcceptable extends ErrorResult {
     }
 
     private static String defMessage() {
-        return _localizedErrorMsg() ? MvcConfig.MSG_ID_NOT_FOUND : "406 Not Acceptable";
+        return _localizedErrorMsg() ? MvcConfig.MSG_ID_NOT_ACCEPTABLE : "406 Not Acceptable";
     }
 }
