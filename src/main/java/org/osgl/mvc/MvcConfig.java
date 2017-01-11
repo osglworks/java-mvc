@@ -15,6 +15,7 @@ public class MvcConfig extends HttpConfig {
     public static final String MSG_ID_BAD_REQUEST = "osgl.result.bad_request";
     public static final String MSG_ID_CONFLICT = "osgl.result.conflict";
     public static final String MSG_ID_METHOD_NOT_ALLOWED = "osgl.result.method_not_allowed";
+    public static final String MSG_ID_NOT_ACCEPTABLE = "osgl.result.not_acceptable";
     public static final String MSG_ID_NOT_FOUND = "osgl.result.not_found";
     public static final String MSG_ID_NOT_IMPLEMENTED = "osgl.result.not_implemented";
     public static final String MSG_ID_SERVER_ERROR = "osgl.result.server_error";
