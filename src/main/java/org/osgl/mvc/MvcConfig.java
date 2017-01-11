@@ -9,10 +9,15 @@ import org.osgl.mvc.result.Result;
 import org.osgl.util.E;
 import org.osgl.util.S;
 
-/**
- * Created by luog on 25/03/14.
- */
 public class MvcConfig extends HttpConfig {
+
+    public static final String MSG_ID_FORBIDDEN = "osgl.result.forbidden";
+    public static final String MSG_ID_BAD_REQUEST = "osgl.result.bad_request";
+    public static final String MSG_ID_CONFLICT = "osgl.result.conflict";
+    public static final String MSG_ID_METHOD_NOT_ALLOWED = "osgl.result.method_not_allowed";
+    public static final String MSG_ID_NOT_FOUND = "osgl.result.not_found";
+    public static final String MSG_ID_NOT_IMPLEMENTED = "osgl.result.not_implemented";
+    public static final String MSG_ID_SERVER_ERROR = "osgl.result.server_error";
 
     public static final String DEF_COOKIE_PREFIX = "OSGL";
 
@@ -91,5 +96,15 @@ public class MvcConfig extends HttpConfig {
 
     public static ErrorPageRenderer errorPageRenderer() {
         return errorPageRenderer;
+    }
+
+    private static boolean localizedErrorMsg = false;
+
+    public static void enableLocalizedErrorMsg() {
+        localizedErrorMsg = true;
+    }
+
+    public static boolean localizedErrorMsg() {
+        return localizedErrorMsg;
     }
 }

@@ -38,4 +38,8 @@ public class ErrorResult extends Result {
     protected void applyMessage(H.Request request, H.Response response) {
         MvcConfig.errorPageRenderer().apply(request, response, this);
     }
+
+    protected static boolean _localizedErrorMsg() {
+        return MvcConfig.localizedErrorMsg();
+    }
 }

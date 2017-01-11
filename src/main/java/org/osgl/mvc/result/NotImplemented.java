@@ -1,5 +1,8 @@
 package org.osgl.mvc.result;
 
+import org.osgl.mvc.MvcConfig;
+import org.osgl.util.S;
+
 import static org.osgl.http.H.Status.NOT_IMPLEMENTED;
 
 /**
@@ -7,10 +10,20 @@ import static org.osgl.http.H.Status.NOT_IMPLEMENTED;
  */
 public class NotImplemented extends ErrorResult {
 
+    /**
+     * The static instance of NotImplemented result.
+     */
     public static final NotImplemented INSTANCE = new NotImplemented();
 
+    private static final NotImplemented _INSTANCE = new NotImplemented() {
+        @Override
+        public String getMessage() {
+            return messageBag.get();
+        }
+    };
+
     public NotImplemented() {
-        super(NOT_IMPLEMENTED, "501 Not Implemented");
+        super(NOT_IMPLEMENTED, defMessage());
     }
 
     public NotImplemented(String message, Object... args) {
@@ -22,6 +35,39 @@ public class NotImplemented extends ErrorResult {
     }
 
     public NotImplemented(Throwable cause) {
-        super(NOT_IMPLEMENTED, cause, "501 Not Implemented");
+        super(NOT_IMPLEMENTED, cause, defMessage());
+    }
+
+    /**
+     * Returns a static NotImplemented instance and set the {@link #messageBag} thread local
+     * with default message.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #messageBag} thread local
+     *
+     * @return a static NotImplemented instance as described above
+     */
+    public static NotImplemented get() {
+        return _localizedErrorMsg() ? get(defMessage()) : INSTANCE;
+    }
+
+    /**
+     * Returns a static NotImplemented instance and set the {@link #messageBag} thread local
+     * with message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #messageBag} thread local
+     *
+     * @param message the message
+     * @param args the message arguments
+     * @return a static NotImplemented instance as described above
+     */
+    public static NotImplemented get(String message, Object... args) {
+        messageBag.set(S.fmt(message, args));
+        return _INSTANCE;
+    }
+
+    private static String defMessage() {
+        return _localizedErrorMsg() ? MvcConfig.MSG_ID_NOT_IMPLEMENTED : "501 Not Implemented";
     }
 }

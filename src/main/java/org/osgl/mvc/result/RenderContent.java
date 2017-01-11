@@ -10,6 +10,10 @@ public abstract class RenderContent extends Result {
     private H.Format format;
     private boolean outputEncoding;
 
+    protected RenderContent(H.Format format) {
+        this("", format, true);
+    }
+
     /**
      * Create a RenderContent object with content, format and
      * the outputEncoding set to {@code true}

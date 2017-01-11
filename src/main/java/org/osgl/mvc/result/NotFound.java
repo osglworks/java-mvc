@@ -1,5 +1,8 @@
 package org.osgl.mvc.result;
 
+import org.osgl.mvc.MvcConfig;
+import org.osgl.util.S;
+
 import static org.osgl.http.H.Status.NOT_FOUND;
 
 /**
@@ -7,10 +10,20 @@ import static org.osgl.http.H.Status.NOT_FOUND;
  */
 public class NotFound extends ErrorResult {
 
+    /**
+     * The static instance of NotFound result.
+     */
     public static final NotFound INSTANCE = new NotFound();
 
+    private static final NotFound _INSTANCE = new NotFound() {
+        @Override
+        public String getMessage() {
+            return messageBag.get();
+        }
+    };
+
     public NotFound() {
-        super(NOT_FOUND, "404 Not Found");
+        super(NOT_FOUND, defMessage());
     }
 
     public NotFound(String message, Object... args) {
@@ -22,6 +35,39 @@ public class NotFound extends ErrorResult {
     }
 
     public NotFound(Throwable cause) {
-        super(NOT_FOUND, cause, "404 Not Found");
+        super(NOT_FOUND, cause, defMessage());
+    }
+
+    /**
+     * Returns a static NotFound instance and set the {@link #messageBag} thread local
+     * with default message.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #messageBag} thread local
+     *
+     * @return a static NotFound instance as described above
+     */
+    public static NotFound get() {
+        return _localizedErrorMsg() ? get(defMessage()) : INSTANCE;
+    }
+
+    /**
+     * Returns a static NotFound instance and set the {@link #messageBag} thread local
+     * with message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #messageBag} thread local
+     *
+     * @param message the message
+     * @param args the message arguments
+     * @return a static NotFound instance as described above
+     */
+    public static NotFound get(String message, Object... args) {
+        messageBag.set(S.fmt(message, args));
+        return _INSTANCE;
+    }
+
+    private static String defMessage() {
+        return _localizedErrorMsg() ? MvcConfig.MSG_ID_NOT_FOUND : "404 Not Found";
     }
 }

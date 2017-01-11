@@ -9,7 +9,29 @@ import org.osgl.util.S;
 
 public class Redirect extends Result {
 
+    private static Redirect _INSTANCE = new Redirect() {
+        @Override
+        protected String url() {
+            return messageBag.get();
+        }
+    };
+
+    private static Redirect _MOVED = new Redirect(true) {
+        @Override
+        protected String url() {
+            return messageBag.get();
+        }
+    };
+
     protected String url;
+
+    private Redirect() {
+        super(Http.Status.FOUND);
+    }
+
+    private Redirect(boolean permanent) {
+        super(permanent ? Http.Status.MOVED_PERMANENTLY : H.Status.FOUND);
+    }
 
     public Redirect(String url) {
         super(Http.Status.FOUND);
@@ -45,6 +67,30 @@ public class Redirect extends Result {
     }
 
     protected String fullUrl(H.Request request) {
-        return Path.fullUrl(this.url, request);
+        return Path.fullUrl(this.url(), request);
+    }
+
+    protected String url() {
+        return url;
+    }
+
+    public static Redirect get(String url) {
+        messageBag.set(url);
+        return _INSTANCE;
+    }
+
+    public static Redirect get(String url, Object... args) {
+        messageBag.set(S.fmt(url, args));
+        return _INSTANCE;
+    }
+
+    public static Redirect moved(String url) {
+        messageBag.set(url);
+        return _MOVED;
+    }
+
+    public static Redirect moved(String url, Object... args) {
+        messageBag.set(S.fmt(url, args));
+        return _MOVED;
     }
 }

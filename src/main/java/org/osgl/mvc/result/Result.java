@@ -9,6 +9,8 @@ import org.osgl.util.S;
 
 public class Result extends FastRuntimeException {
 
+    protected static final ThreadLocal<String> messageBag = new ThreadLocal<String>();
+
     private final Http.Status status;
 
     protected Result() {status = null;}

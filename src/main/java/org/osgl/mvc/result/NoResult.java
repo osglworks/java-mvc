@@ -7,7 +7,10 @@ import org.osgl.util.IO;
  * Do nothing render result
  */
 public class NoResult extends Result {
-    public NoResult() {
+
+    public static NoResult INSTANCE = new NoResult();
+
+    private NoResult() {
     }
 
     @Override
@@ -15,5 +18,9 @@ public class NoResult extends Result {
         applyBeforeCommitHandler(req, resp);
         IO.close(resp.outputStream());
         applyAfterCommitHandler(req, resp);
+    }
+
+    public static NoResult get() {
+        return INSTANCE;
     }
 }

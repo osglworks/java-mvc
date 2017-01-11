@@ -17,6 +17,9 @@
 <!-- history
 0.6.0-SNAPSHOT
 - Bind annotation now accept an array of Binder implementations
+- Add ActionUtil annotation
+- Support for localized Error Result message
+- Improve result throw/catch flow performance by introducing general static result mechanism
 
 0.5.1-SNAPSHOT
 - Update osgl-http from 0.3.0-SNAPSHOT to 0.3.1-SNAPSHOT
