@@ -6,11 +6,15 @@ import org.osgl.exception.NotAppliedException;
 import org.osgl.http.H;
 import org.osgl.http.HttpConfig;
 import org.osgl.mvc.result.Result;
+import org.osgl.util.C;
 import org.osgl.util.E;
 import org.osgl.util.S;
 
+import java.util.Map;
+
 public class MvcConfig extends HttpConfig {
 
+    public static final String MSG_ID_CLIENT_ERROR = "osgl.result.client_error";
     public static final String MSG_ID_FORBIDDEN = "osgl.result.forbidden";
     public static final String MSG_ID_BAD_REQUEST = "osgl.result.bad_request";
     public static final String MSG_ID_CONFLICT = "osgl.result.conflict";
@@ -19,6 +23,16 @@ public class MvcConfig extends HttpConfig {
     public static final String MSG_ID_NOT_FOUND = "osgl.result.not_found";
     public static final String MSG_ID_NOT_IMPLEMENTED = "osgl.result.not_implemented";
     public static final String MSG_ID_SERVER_ERROR = "osgl.result.server_error";
+
+    private static final Map<H.Status, String> messageMap = C.map(
+            H.Status.FORBIDDEN, MSG_ID_FORBIDDEN,
+            H.Status.BAD_REQUEST, MSG_ID_BAD_REQUEST,
+            H.Status.CONFLICT, MSG_ID_CONFLICT,
+            H.Status.METHOD_NOT_ALLOWED, MSG_ID_METHOD_NOT_ALLOWED,
+            H.Status.NOT_ACCEPTABLE, MSG_ID_NOT_ACCEPTABLE,
+            H.Status.NOT_FOUND, MSG_ID_NOT_FOUND,
+            H.Status.NOT_IMPLEMENTED, MSG_ID_NOT_IMPLEMENTED
+    );
 
     public static final String DEF_COOKIE_PREFIX = "OSGL";
 
@@ -107,5 +121,29 @@ public class MvcConfig extends HttpConfig {
 
     public static boolean localizedErrorMsg() {
         return localizedErrorMsg;
+    }
+
+    /**
+     * Returns default error message id from http status
+     * @param status the http status
+     * @return the corresponding error message id
+     */
+    public static String errorMessage(H.Status status) {
+        if (status.isClientError()) {
+            String msgId = messageMap.get(status);
+            return null != msgId ? msgId : MSG_ID_CLIENT_ERROR;
+        } else if (status.isServerError()) {
+            return MSG_ID_SERVER_ERROR;
+        }
+        throw new IllegalArgumentException("status is neither client error nor server error: %s" + status);
+    }
+
+    /**
+     * Returns default error message id from http status code
+     * @param code the http status code
+     * @return the corresponding error message id
+     */
+    public static String errorMessage(int code) {
+        return errorMessage(H.Status.of(code));
     }
 }
