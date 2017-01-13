@@ -15,7 +15,7 @@ import org.osgl.mvc.MvcConfig;
 public class ErrorResult extends Result {
 
     public ErrorResult(Http.Status status) {
-        super(status);
+        super(status, MvcConfig.errorMessage(status));
     }
 
     public ErrorResult(Http.Status status, String message) {
@@ -27,7 +27,7 @@ public class ErrorResult extends Result {
     }
 
     public ErrorResult(Http.Status status, Throwable cause) {
-        super(status, cause);
+        super(status, cause, MvcConfig.errorMessage(status));
     }
 
     public ErrorResult(Http.Status status, Throwable cause, String message, Object... args) {
@@ -35,11 +35,21 @@ public class ErrorResult extends Result {
     }
 
     @Override
+    public String toString() {
+        return statusCode() + " " + getMessage();
+    }
+
+    @Override
     protected void applyMessage(H.Request request, H.Response response) {
         MvcConfig.errorPageRenderer().apply(request, response, this);
+    }
+
+    protected static String defaultMessage(H.Status status) {
+        return MvcConfig.errorMessage(status);
     }
 
     protected static boolean _localizedErrorMsg() {
         return MvcConfig.localizedErrorMsg();
     }
+
 }

@@ -1,6 +1,5 @@
 package org.osgl.mvc.result;
 
-import org.osgl.mvc.MvcConfig;
 import org.osgl.util.S;
 
 import static org.osgl.http.H.Status.NOT_FOUND;
@@ -23,7 +22,7 @@ public class NotFound extends ErrorResult {
     };
 
     public NotFound() {
-        super(NOT_FOUND, defMessage());
+        super(NOT_FOUND);
     }
 
     public NotFound(String message, Object... args) {
@@ -35,7 +34,7 @@ public class NotFound extends ErrorResult {
     }
 
     public NotFound(Throwable cause) {
-        super(NOT_FOUND, cause, defMessage());
+        super(NOT_FOUND, cause);
     }
 
     /**
@@ -48,7 +47,7 @@ public class NotFound extends ErrorResult {
      * @return a static NotFound instance as described above
      */
     public static NotFound get() {
-        return _localizedErrorMsg() ? get(defMessage()) : INSTANCE;
+        return _localizedErrorMsg() ? get(defaultMessage(NOT_FOUND)) : INSTANCE;
     }
 
     /**
@@ -67,7 +66,4 @@ public class NotFound extends ErrorResult {
         return _INSTANCE;
     }
 
-    private static String defMessage() {
-        return _localizedErrorMsg() ? MvcConfig.MSG_ID_NOT_FOUND : "404 Not Found";
-    }
 }

@@ -1,6 +1,5 @@
 package org.osgl.mvc.result;
 
-import org.osgl.mvc.MvcConfig;
 import org.osgl.util.S;
 
 import static org.osgl.http.H.Status.CONFLICT;
@@ -23,7 +22,7 @@ public class Conflict extends ErrorResult {
     };
 
     public Conflict() {
-        super(CONFLICT, defMessage());
+        super(CONFLICT);
     }
 
     public Conflict(String message, Object... args) {
@@ -35,7 +34,7 @@ public class Conflict extends ErrorResult {
     }
 
     public Conflict(Throwable cause) {
-        super(CONFLICT, cause, defMessage());
+        super(CONFLICT, cause);
     }
 
     /**
@@ -48,7 +47,7 @@ public class Conflict extends ErrorResult {
      * @return a static Conflict instance as described above
      */
     public static Conflict get() {
-        return _localizedErrorMsg() ? get(defMessage()) : INSTANCE;
+        return _localizedErrorMsg() ? get(defaultMessage(CONFLICT)) : INSTANCE;
     }
 
     /**
@@ -67,7 +66,4 @@ public class Conflict extends ErrorResult {
         return _INSTANCE;
     }
 
-    private static String defMessage() {
-        return _localizedErrorMsg() ? MvcConfig.MSG_ID_CONFLICT: "409 Conflict";
-    }
 }

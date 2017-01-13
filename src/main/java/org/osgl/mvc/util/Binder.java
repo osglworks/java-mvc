@@ -5,7 +5,6 @@ import org.osgl.exception.NotAppliedException;
 import org.osgl.util.C;
 import org.osgl.util.Generics;
 import org.osgl.util.S;
-import org.osgl.util.StringValueResolver;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;

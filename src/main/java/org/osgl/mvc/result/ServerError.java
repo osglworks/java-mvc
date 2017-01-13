@@ -1,6 +1,5 @@
 package org.osgl.mvc.result;
 
-import org.osgl.mvc.MvcConfig;
 import org.osgl.util.S;
 
 import static org.osgl.http.H.Status.INTERNAL_SERVER_ERROR;
@@ -23,13 +22,13 @@ public class ServerError extends ErrorResult {
     };
 
     public ServerError() {
-        this(defMessage());
+        super(INTERNAL_SERVER_ERROR);
     }
     public ServerError(String message, Object... args) {
         super(INTERNAL_SERVER_ERROR, message, args);
     }
     public ServerError(Throwable t) {
-        this(t, "Internal Error");
+        super(INTERNAL_SERVER_ERROR, t);
     }
     public ServerError(Throwable t, String message, Object... args) {
         super(INTERNAL_SERVER_ERROR, t, message, args);
@@ -73,10 +72,6 @@ public class ServerError extends ErrorResult {
     public static ServerError get(String message, Object... args) {
         messageBag.set(S.fmt(message, args));
         return _INSTANCE;
-    }
-
-    private static String defMessage() {
-        return _localizedErrorMsg() ? MvcConfig.MSG_ID_SERVER_ERROR : "Internal Error";
     }
 
 }

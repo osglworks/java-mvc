@@ -1,6 +1,5 @@
 package org.osgl.mvc.result;
 
-import org.osgl.mvc.MvcConfig;
 import org.osgl.util.S;
 
 import static org.osgl.http.H.Status.BAD_REQUEST;
@@ -24,7 +23,7 @@ public class BadRequest extends ErrorResult {
 
 
     public BadRequest() {
-        super(BAD_REQUEST, defMessage());
+        super(BAD_REQUEST);
     }
     public BadRequest(String message, Object ... args) {
         super(BAD_REQUEST, message, args);
@@ -34,7 +33,7 @@ public class BadRequest extends ErrorResult {
     }
 
     public BadRequest(Throwable cause) {
-        super(BAD_REQUEST, cause, defMessage());
+        super(BAD_REQUEST, cause);
     }
 
     /**
@@ -47,7 +46,7 @@ public class BadRequest extends ErrorResult {
      * @return a static BadRequest instance as described above
      */
     public static BadRequest get() {
-        return _localizedErrorMsg() ? get(defMessage()) : INSTANCE;
+        return _localizedErrorMsg() ? get(defaultMessage(BAD_REQUEST)) : INSTANCE;
     }
 
     /**
@@ -64,10 +63,6 @@ public class BadRequest extends ErrorResult {
     public static BadRequest get(String message, Object... args) {
         messageBag.set(S.fmt(message, args));
         return _INSTANCE;
-    }
-
-    private static String defMessage() {
-        return _localizedErrorMsg() ? MvcConfig.MSG_ID_BAD_REQUEST : "400 Bad Request";
     }
 
 }

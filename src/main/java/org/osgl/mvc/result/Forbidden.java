@@ -1,6 +1,5 @@
 package org.osgl.mvc.result;
 
-import org.osgl.mvc.MvcConfig;
 import org.osgl.util.S;
 
 import static org.osgl.http.H.Status.FORBIDDEN;
@@ -23,7 +22,7 @@ public class Forbidden extends ErrorResult {
     };
 
     public Forbidden() {
-        super(FORBIDDEN, defMessage());
+        super(FORBIDDEN);
     }
 
     public Forbidden(String message, Object... args) {
@@ -35,7 +34,7 @@ public class Forbidden extends ErrorResult {
     }
 
     public Forbidden(Throwable cause) {
-        super(FORBIDDEN, cause, defMessage());
+        super(FORBIDDEN, cause);
     }
 
     /**
@@ -48,7 +47,7 @@ public class Forbidden extends ErrorResult {
      * @return a static Forbidden instance as described above
      */
     public static Forbidden get() {
-        return _localizedErrorMsg() ? get(defMessage()) : INSTANCE;
+        return _localizedErrorMsg() ? get(defaultMessage(FORBIDDEN)) : INSTANCE;
     }
 
     /**
@@ -67,7 +66,4 @@ public class Forbidden extends ErrorResult {
         return _INSTANCE;
     }
 
-    private static String defMessage() {
-        return _localizedErrorMsg() ? MvcConfig.MSG_ID_FORBIDDEN : "403 Forbidden";
-    }
 }

@@ -1,10 +1,8 @@
 package org.osgl.mvc.result;
 
-import org.osgl.mvc.MvcConfig;
 import org.osgl.util.S;
 
 import static org.osgl.http.H.Status.NOT_ACCEPTABLE;
-import static org.osgl.http.H.Status.NOT_FOUND;
 
 /**
  * Indicate a 406 Not Acceptable
@@ -24,7 +22,7 @@ public class NotAcceptable extends ErrorResult {
     };
 
     public NotAcceptable() {
-        super(NOT_ACCEPTABLE, defMessage());
+        super(NOT_ACCEPTABLE);
     }
 
     public NotAcceptable(String message, Object... args) {
@@ -41,7 +39,7 @@ public class NotAcceptable extends ErrorResult {
      * @return a static NotFound instance as described above
      */
     public static NotAcceptable get() {
-        return _localizedErrorMsg() ? get(defMessage()) : INSTANCE;
+        return _localizedErrorMsg() ? get(defaultMessage(NOT_ACCEPTABLE)) : INSTANCE;
     }
 
     /**
@@ -60,7 +58,4 @@ public class NotAcceptable extends ErrorResult {
         return _INSTANCE;
     }
 
-    private static String defMessage() {
-        return _localizedErrorMsg() ? MvcConfig.MSG_ID_NOT_ACCEPTABLE : "406 Not Acceptable";
-    }
 }

@@ -1,6 +1,5 @@
 package org.osgl.mvc.result;
 
-import org.osgl.mvc.MvcConfig;
 import org.osgl.util.S;
 
 import static org.osgl.http.H.Status.NOT_IMPLEMENTED;
@@ -23,7 +22,7 @@ public class NotImplemented extends ErrorResult {
     };
 
     public NotImplemented() {
-        super(NOT_IMPLEMENTED, defMessage());
+        super(NOT_IMPLEMENTED);
     }
 
     public NotImplemented(String message, Object... args) {
@@ -35,7 +34,7 @@ public class NotImplemented extends ErrorResult {
     }
 
     public NotImplemented(Throwable cause) {
-        super(NOT_IMPLEMENTED, cause, defMessage());
+        super(NOT_IMPLEMENTED, cause);
     }
 
     /**
@@ -48,7 +47,7 @@ public class NotImplemented extends ErrorResult {
      * @return a static NotImplemented instance as described above
      */
     public static NotImplemented get() {
-        return _localizedErrorMsg() ? get(defMessage()) : INSTANCE;
+        return _localizedErrorMsg() ? get(defaultMessage(NOT_IMPLEMENTED)) : INSTANCE;
     }
 
     /**
@@ -65,9 +64,5 @@ public class NotImplemented extends ErrorResult {
     public static NotImplemented get(String message, Object... args) {
         messageBag.set(S.fmt(message, args));
         return _INSTANCE;
-    }
-
-    private static String defMessage() {
-        return _localizedErrorMsg() ? MvcConfig.MSG_ID_NOT_IMPLEMENTED : "501 Not Implemented";
     }
 }

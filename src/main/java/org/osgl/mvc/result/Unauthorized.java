@@ -1,10 +1,8 @@
 package org.osgl.mvc.result;
 
 import org.osgl.$;
-import org.osgl.Osgl;
 import org.osgl.http.H;
 import org.osgl.http.Http;
-import org.osgl.mvc.MvcConfig;
 import org.osgl.util.Codec;
 import org.osgl.util.E;
 import org.osgl.util.S;

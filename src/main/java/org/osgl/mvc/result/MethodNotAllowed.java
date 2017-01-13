@@ -1,6 +1,5 @@
 package org.osgl.mvc.result;
 
-import org.osgl.mvc.MvcConfig;
 import org.osgl.util.S;
 
 import static org.osgl.http.H.Status.METHOD_NOT_ALLOWED;
@@ -23,7 +22,7 @@ public class MethodNotAllowed extends ErrorResult {
     };
 
     public MethodNotAllowed() {
-        super(METHOD_NOT_ALLOWED, defMessage());
+        super(METHOD_NOT_ALLOWED);
     }
 
     public MethodNotAllowed(String message, Object... args) {
@@ -35,7 +34,7 @@ public class MethodNotAllowed extends ErrorResult {
     }
 
     public MethodNotAllowed(Throwable cause) {
-        super(METHOD_NOT_ALLOWED, cause, defMessage());
+        super(METHOD_NOT_ALLOWED, cause);
     }
 
     /**
@@ -48,7 +47,7 @@ public class MethodNotAllowed extends ErrorResult {
      * @return a static MethodNotAllowed instance as described above
      */
     public static MethodNotAllowed get() {
-        return _localizedErrorMsg() ? get(defMessage()) : INSTANCE;
+        return _localizedErrorMsg() ? get(defaultMessage(METHOD_NOT_ALLOWED)) : INSTANCE;
     }
 
     /**
@@ -67,7 +66,4 @@ public class MethodNotAllowed extends ErrorResult {
         return _INSTANCE;
     }
 
-    private static String defMessage() {
-        return _localizedErrorMsg() ? MvcConfig.MSG_ID_METHOD_NOT_ALLOWED : "405 Method Not Allowed";
-    }
 }
