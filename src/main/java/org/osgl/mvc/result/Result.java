@@ -1,7 +1,6 @@
 package org.osgl.mvc.result;
 
 import org.osgl.exception.FastRuntimeException;
-import org.osgl.http.H;
 import org.osgl.http.Http;
 import org.osgl.mvc.MvcConfig;
 import org.osgl.mvc.util.ResultTransformer;
@@ -55,19 +54,19 @@ public class Result extends FastRuntimeException {
         return status().code();
     }
 
-    protected final void applyStatus(H.Response response) {
+    protected final void applyStatus(Http.Response response) {
         response.status(statusCode());
     }
 
-    protected final void applyBeforeCommitHandler(H.Request req, H.Response resp) {
+    protected final void applyBeforeCommitHandler(Http.Request req, Http.Response resp) {
         MvcConfig.applyBeforeCommitResultHandler(this, req, resp);
     }
 
-    protected final void applyAfterCommitHandler(H.Request req, H.Response resp) {
+    protected final void applyAfterCommitHandler(Http.Request req, Http.Response resp) {
         MvcConfig.applyAfterCommitResultHandler(this, req, resp);
     }
 
-    protected void applyMessage(H.Request request, H.Response response) {
+    protected void applyMessage(Http.Request request, Http.Response response) {
         String msg = getMessage();
         applyBeforeCommitHandler(request, response);
         if (null != transformer) {
@@ -80,7 +79,7 @@ public class Result extends FastRuntimeException {
         applyAfterCommitHandler(request, response);
     }
 
-    public void apply(H.Request req, H.Response resp) {
+    public void apply(Http.Request req, Http.Response resp) {
         applyStatus(resp);
         applyMessage(req, resp);
     }

@@ -1,6 +1,5 @@
 package org.osgl.mvc.result;
 
-import org.osgl.http.H;
 import org.osgl.http.Http;
 import org.osgl.mvc.MvcConfig;
 
@@ -37,7 +36,7 @@ public class ErrorResult extends UnTransformableResult {
 
 
     @Override
-    protected void applyMessage(H.Request request, H.Response response) {
+    protected void applyMessage(Http.Request request, Http.Response response) {
         MvcConfig.errorPageRenderer().apply(request, response, this);
     }
 }
