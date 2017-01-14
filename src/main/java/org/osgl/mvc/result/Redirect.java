@@ -12,14 +12,14 @@ public class Redirect extends Result {
     private static Redirect _INSTANCE = new Redirect() {
         @Override
         protected String url() {
-            return messageBag.get();
+            return payload().message;
         }
     };
 
     private static Redirect _MOVED = new Redirect(true) {
         @Override
         protected String url() {
-            return messageBag.get();
+            return payload().message;
         }
     };
 
@@ -79,22 +79,22 @@ public class Redirect extends Result {
     }
 
     public static Redirect get(String url) {
-        messageBag.set(url);
+        payload.get().message(url);
         return _INSTANCE;
     }
 
     public static Redirect get(String url, Object... args) {
-        messageBag.set(S.fmt(url, args));
+        payload.get().message(url, args);
         return _INSTANCE;
     }
 
     public static Redirect moved(String url) {
-        messageBag.set(url);
+        payload.get().message(url);
         return _MOVED;
     }
 
     public static Redirect moved(String url, Object... args) {
-        messageBag.set(S.fmt(url, args));
+        payload.get().message(url, args);
         return _MOVED;
     }
 }

@@ -14,18 +14,20 @@ import org.osgl.util.S;
  */
 public class Unauthorized extends ErrorResult {
 
+    private static final String PAYLOAD_KEY = "401";
+
     public static final Unauthorized INSTANCE = new Unauthorized();
 
     private static final Unauthorized _INSTANCE = new Unauthorized() {
         @Override
         protected String realm() {
-            $.T2<String, Type> data = dataBag.get();
+            $.T2<String, Type> data = payload().getValue(PAYLOAD_KEY);
             return null == data ? null : data._1;
         }
 
         @Override
         protected Type type() {
-            $.T2<String, Type> data = dataBag.get();
+            $.T2<String, Type> data = payload().getValue(PAYLOAD_KEY);
             return null == data ? null : data._2;
         }
     };
@@ -58,8 +60,6 @@ public class Unauthorized extends ErrorResult {
         ;
         abstract String header(Unauthorized data);
     }
-
-    static ThreadLocal<$.T2<String, Type>> dataBag = new ThreadLocal<$.T2<String, Type>>();
 
     private String realm;
     private Type type;
@@ -112,17 +112,17 @@ public class Unauthorized extends ErrorResult {
     }
 
     /**
-     * Returns a static Unauthorized instance and set the {@link #dataBag} thread local
+     * Returns a static Unauthorized instance and set the {@link #payload} thread local
      * with realm and type
      *
      * When calling the instance on {@link #realm()} and {@link #type()} method, it will return whatever
-     * stored in the {@link #dataBag} thread local
+     * stored in the {@link #payload} thread local
      *
      * @param realm the authentication realm
      * @return a static Unauthorized instance as described above
      */
     public static Unauthorized get(String realm) {
-        dataBag.set($.T2(realm, S.blank(realm) ? Type.FORM : Type.BASIC));
+        payload.get().putValue(PAYLOAD_KEY, $.T2(realm, S.blank(realm) ? Type.FORM : Type.BASIC));
         return _INSTANCE;
     }
 

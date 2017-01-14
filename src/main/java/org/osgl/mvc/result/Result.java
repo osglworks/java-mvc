@@ -5,11 +5,68 @@ import org.osgl.http.H;
 import org.osgl.http.Http;
 import org.osgl.mvc.MvcConfig;
 import org.osgl.util.IO;
+import org.osgl.util.KVStore;
 import org.osgl.util.S;
 
 public class Result extends FastRuntimeException {
 
-    protected static final ThreadLocal<String> messageBag = new ThreadLocal<String>();
+    protected static class Payload extends KVStore {
+        public String message;
+        public Integer errorCode;
+        public Throwable cause;
+        public H.Format format;
+        public H.Status status;
+
+        public Payload message(String message) {
+            this.message = message;
+            return this;
+        }
+
+        public Payload message(String message, Object... args) {
+            this.message = S.fmt(message, args);
+            return this;
+        }
+
+        public Payload errorCode(int errorCode) {
+            this.errorCode = errorCode;
+            return this;
+        }
+
+        public Payload cause(Throwable cause) {
+            this.cause = cause;
+            return this;
+        }
+
+        public Payload format(H.Format format) {
+            this.format = format;
+            return this;
+        }
+
+        public Payload status(H.Status status) {
+            this.status = status;
+            return this;
+        }
+    }
+
+    private transient volatile Payload _payload;
+
+    protected static final ThreadLocal<Payload> payload = new ThreadLocal<Payload>() {
+        @Override
+        protected Payload initialValue() {
+            return new Payload();
+        }
+    };
+
+    protected Payload payload() {
+        if (null == _payload) {
+            synchronized (this) {
+                if (null == _payload) {
+                    _payload = payload.get();
+                }
+            }
+        }
+        return _payload;
+    }
 
     private final Http.Status status;
 
@@ -80,10 +137,7 @@ public class Result extends FastRuntimeException {
     }
 
     public static void clearThreadLocals() {
-        messageBag.remove();
-        ServerError.causeBag.remove();
-        Unauthorized.dataBag.remove();
-        RenderText.formatBag.remove();
+        payload.remove();
     }
 
 }

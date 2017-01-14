@@ -9,7 +9,7 @@ public class RenderJSON extends RenderContent {
     private static RenderJSON _INSTANCE = new RenderJSON() {
         @Override
         public String content() {
-            return messageBag.get();
+            return payload().message;
         }
     };
 
@@ -28,18 +28,18 @@ public class RenderJSON extends RenderContent {
     }
 
     public static RenderJSON get(String jsonStr) {
-        messageBag.set(jsonStr);
+        payload.get().message(jsonStr);
         return _INSTANCE;
     }
 
     public static RenderJSON get(String jsonFormt, Object... args) {
-        messageBag.set(S.fmt(jsonFormt, args));
+        payload.get().message(jsonFormt, args);
         return _INSTANCE;
     }
 
     public static RenderJSON get(Object v) {
         String s = v instanceof String ? (String) v : MvcConfig.jsonSerializer().apply(v);
-        messageBag.set(s);
+        payload.get().message(s);
         return _INSTANCE;
     }
 }

@@ -1,7 +1,5 @@
 package org.osgl.mvc.result;
 
-import org.osgl.util.S;
-
 import static org.osgl.http.H.Status.NOT_ACCEPTABLE;
 
 /**
@@ -17,7 +15,12 @@ public class NotAcceptable extends ErrorResult {
     private static final NotAcceptable _INSTANCE = new NotAcceptable() {
         @Override
         public String getMessage() {
-            return messageBag.get();
+            return payload().message;
+        }
+
+        @Override
+        public Integer errorCode() {
+            return payload().errorCode;
         }
     };
 
@@ -25,16 +28,23 @@ public class NotAcceptable extends ErrorResult {
         super(NOT_ACCEPTABLE);
     }
 
+    public NotAcceptable(int errorCode) {
+        super(errorCode, NOT_ACCEPTABLE);
+    }
+
     public NotAcceptable(String message, Object... args) {
         super(NOT_ACCEPTABLE, message, args);
     }
 
+    public NotAcceptable(int errorCode, String message, Object... args) {
+        super(errorCode, NOT_ACCEPTABLE, message, args);
+    }
     /**
-     * Returns a static NotFound instance and set the {@link #messageBag} thread local
+     * Returns a static NotFound instance and set the {@link #payload} thread local
      * with default message.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
-     * stored in the {@link #messageBag} thread local
+     * stored in the {@link #payload} thread local
      *
      * @return a static NotFound instance as described above
      */
@@ -43,19 +53,51 @@ public class NotAcceptable extends ErrorResult {
     }
 
     /**
-     * Returns a static NotFound instance and set the {@link #messageBag} thread local
+     * Returns a static NotFound instance and set the {@link #payload} thread local
+     * with default message.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param errorCode the app defined error code
+     * @return a static NotFound instance as described above
+     */
+    public static NotAcceptable get(int errorCode) {
+        payload.get().errorCode(errorCode);
+        return _localizedErrorMsg() ? get(defaultMessage(NOT_ACCEPTABLE)) : INSTANCE;
+    }
+
+    /**
+     * Returns a static NotFound instance and set the {@link #payload} thread local
      * with message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
-     * stored in the {@link #messageBag} thread local
+     * stored in the {@link #payload} thread local
      *
      * @param message the message
      * @param args the message arguments
      * @return a static NotFound instance as described above
      */
     public static NotAcceptable get(String message, Object... args) {
-        messageBag.set(S.fmt(message, args));
+        payload.get().message(message, args);
         return _INSTANCE;
     }
 
+    /**
+     * Returns a static NotFound instance and set the {@link #payload} thread local
+     * with message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param errorCode the app defined error code
+     * @param message the message
+     * @param args the message arguments
+     * @return a static NotFound instance as described above
+     */
+    public static NotAcceptable get(int errorCode, String message, Object... args) {
+        payload.get().errorCode(errorCode);
+        payload.get().message(message, args);
+        return _INSTANCE;
+    }
 }

@@ -1,7 +1,5 @@
 package org.osgl.mvc.result;
 
-import org.osgl.util.S;
-
 import static org.osgl.http.H.Status.INTERNAL_SERVER_ERROR;
 
 /**
@@ -12,12 +10,17 @@ public class ServerError extends ErrorResult {
     private static final ServerError _INSTANCE = new ServerError() {
         @Override
         public String getMessage() {
-            return messageBag.get();
+            return payload.get().message;
         }
 
         @Override
         public synchronized Throwable getCause() {
-            return causeBag.get();
+            return payload.get().cause;
+        }
+
+        @Override
+        public Integer errorCode() {
+            return payload.get().errorCode;
         }
     };
 
@@ -34,17 +37,27 @@ public class ServerError extends ErrorResult {
         super(INTERNAL_SERVER_ERROR, t, message, args);
     }
 
-    static ThreadLocal<Throwable> causeBag = new ThreadLocal<Throwable>();
-
+    public ServerError(int errorCode) {
+        super(errorCode, INTERNAL_SERVER_ERROR);
+    }
+    public ServerError(int errorCode, String message, Object... args) {
+        super(errorCode, INTERNAL_SERVER_ERROR, message, args);
+    }
+    public ServerError(int errorCode, Throwable t) {
+        super(errorCode, INTERNAL_SERVER_ERROR, t);
+    }
+    public ServerError(int errorCode, Throwable t, String message, Object... args) {
+        super(errorCode, INTERNAL_SERVER_ERROR, t, message, args);
+    }
 
     /**
-     * Returns a static ServerError instance and set the {@link #messageBag} thread local
-     * with message specified, and store the cause specified into the {@link #causeBag}
+     * Returns a static ServerError instance and set the {@link #payload} thread local
+     * with message specified, and store the cause specified into the {@link #payload}
      * thread local
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
-     * stored in the {@link #messageBag} thread local; When calling the instance on
-     * {@link #getCause()} method, it will return whatever stored in the {@link #causeBag}
+     * stored in the {@link #payload} thread local; When calling the instance on
+     * {@link #getCause()} method, it will return whatever stored in the {@link #payload}
      * thread local
      *
      * @param cause the cause
@@ -53,24 +66,61 @@ public class ServerError extends ErrorResult {
      * @return a static ServerError instance as described above
      */
     public static ServerError get(Throwable cause, String message, Object... args) {
-        causeBag.set(cause);
-        messageBag.set(S.fmt(message, args));
+        payload.get().cause(cause).message(message, args);
         return _INSTANCE;
     }
 
     /**
-     * Returns a static ServerError instance and set the {@link #messageBag} thread local
+     * Returns a static ServerError instance and set the {@link #payload} thread local
+     * with message specified, and store the cause specified into the {@link #payload}
+     * thread local
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local; When calling the instance on
+     * {@link #getCause()} method, it will return whatever stored in the {@link #payload}
+     * thread local
+     *
+     * @param errorCode the app defined error code
+     * @param cause the cause
+     * @param message the message
+     * @param args the message arguments
+     * @return a static ServerError instance as described above
+     */
+    public static ServerError get(int errorCode, Throwable cause, String message, Object... args) {
+        payload.get().errorCode(errorCode).cause(cause).message(message, args);
+        return _INSTANCE;
+    }
+
+    /**
+     * Returns a static ServerError instance and set the {@link #payload} thread local
      * with message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
-     * stored in the {@link #messageBag} thread local
+     * stored in the {@link #payload} thread local
      *
      * @param message the message
      * @param args the message arguments
      * @return a static ServerError instance as described above
      */
     public static ServerError get(String message, Object... args) {
-        messageBag.set(S.fmt(message, args));
+        payload.get().message(message, args);
+        return _INSTANCE;
+    }
+
+    /**
+     * Returns a static ServerError instance and set the {@link #payload} thread local
+     * with message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param errorCode the app defined error code
+     * @param message the message
+     * @param args the message arguments
+     * @return a static ServerError instance as described above
+     */
+    public static ServerError get(int errorCode, String message, Object... args) {
+        payload.get().errorCode(errorCode).message(message, args);
         return _INSTANCE;
     }
 

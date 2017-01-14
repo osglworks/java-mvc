@@ -8,7 +8,7 @@ public class RenderHtml extends RenderContent {
     private static RenderHtml _INSTANCE = new RenderHtml() {
         @Override
         public String content() {
-            return messageBag.get();
+            return payload().message;
         }
     };
 
@@ -25,12 +25,12 @@ public class RenderHtml extends RenderContent {
     }
 
     public static RenderHtml get(String html) {
-        messageBag.set(html);
+        payload.get().message(html);
         return _INSTANCE;
     }
 
     public static RenderHtml get(String html, Object... args) {
-        messageBag.set(S.fmt(html, args));
+        payload.get().message(html, args);
         return _INSTANCE;
     }
 

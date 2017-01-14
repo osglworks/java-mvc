@@ -11,7 +11,7 @@ public class Created extends Result {
     private static final Created _INSTANCE = new Created("") {
         @Override
         protected String location() {
-            return messageBag.get();
+            return payload().message;
         }
     };
 
@@ -43,7 +43,7 @@ public class Created extends Result {
     }
 
     public static Created get(String location) {
-        messageBag.set(location);
+        payload.get().message(location);
         return _INSTANCE;
     }
 }

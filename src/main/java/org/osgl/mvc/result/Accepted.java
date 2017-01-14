@@ -9,7 +9,7 @@ public class Accepted extends Result {
     private static final Accepted _INSTANCE = new Accepted() {
         @Override
         public String location() {
-            return messageBag.get();
+            return payload().message;
         }
     };
 
@@ -45,7 +45,7 @@ public class Accepted extends Result {
     }
 
     public static Accepted get(String statusCheckUrl) {
-        messageBag.set(statusCheckUrl);
+        payload.get().message(statusCheckUrl);
         return _INSTANCE;
     }
 }

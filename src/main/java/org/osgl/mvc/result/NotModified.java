@@ -14,7 +14,7 @@ public class NotModified extends Result {
     private static final NotModified _INSTANCE = new NotModified() {
         @Override
         protected String etag() {
-            return messageBag.get();
+            return payload().message;
         }
     };
 
@@ -59,33 +59,33 @@ public class NotModified extends Result {
     /**
      * Returns a static NotModified instance which when calling on
      * {@link #etag()} method, will return whatever stored in the
-     * {@link #messageBag} thread local.
+     * {@link #payload} thread local.
      *
      * Before return the static instance, the specified etag will
-     * be stored into the {@link #messageBag} thread local
+     * be stored into the {@link #payload} thread local
      *
      * @param etag the etag
      * @return a static instance
      */
     public static NotModified get(String etag) {
-        messageBag.set(etag);
+        payload.get().message(etag);
         return _INSTANCE;
     }
 
     /**
      * Returns a static NotModified instance which when calling on
      * {@link #etag()} method, will return whatever stored in the
-     * {@link #messageBag} thread local.
+     * {@link #payload} thread local.
      *
      * Before return the static instance, the specified etag will
-     * be stored into the {@link #messageBag} thread local
+     * be stored into the {@link #payload} thread local
      *
      * @param etag the etag
      * @param args the args used to populate the etag
      * @return a static instance
      */
     public static NotModified get(String etag, Object... args) {
-        messageBag.set(S.fmt(etag, args));
+        payload.get().message(etag, args);
         return _INSTANCE;
     }
 }

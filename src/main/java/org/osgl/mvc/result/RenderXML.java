@@ -3,15 +3,12 @@ package org.osgl.mvc.result;
 import org.osgl.http.H;
 import org.osgl.util.S;
 
-/**
- * Created by luog on 23/03/14.
- */
 public class RenderXML extends RenderContent {
 
     private static RenderXML _INSTANCE = new RenderXML() {
         @Override
         public String content() {
-            return messageBag.get();
+            return payload().message;
         }
     };
 
@@ -28,12 +25,12 @@ public class RenderXML extends RenderContent {
     }
 
     public static RenderXML get(String xml) {
-        messageBag.set(xml);
+        payload.get().message(xml);
         return _INSTANCE;
     }
 
     public static RenderXML get(String xml, Object... args) {
-        messageBag.set(S.fmt(xml, args));
+        payload.get().message(xml, args);
         return _INSTANCE;
     }
 
