@@ -29,7 +29,7 @@ public class NotImplemented extends ErrorResult {
     }
 
     public NotImplemented(int errorCode) {
-        super(errorCode, NOT_IMPLEMENTED);
+        super(NOT_IMPLEMENTED, errorCode);
     }
 
     public NotImplemented(String message, Object... args) {
@@ -37,7 +37,7 @@ public class NotImplemented extends ErrorResult {
     }
 
     public NotImplemented(int errorCode, String message, Object... args) {
-        super(errorCode, NOT_IMPLEMENTED, message, args);
+        super(NOT_IMPLEMENTED, errorCode, message, args);
     }
 
     public NotImplemented(Throwable cause, String message, Object... args) {
@@ -45,7 +45,7 @@ public class NotImplemented extends ErrorResult {
     }
 
     public NotImplemented(int errorCode, Throwable cause, String message, Object... args) {
-        super(errorCode, NOT_IMPLEMENTED, cause, message, args);
+        super(NOT_IMPLEMENTED, errorCode, cause, message, args);
     }
 
     public NotImplemented(Throwable cause) {
@@ -53,7 +53,7 @@ public class NotImplemented extends ErrorResult {
     }
 
     public NotImplemented(int errorCode, Throwable cause) {
-        super(errorCode, NOT_IMPLEMENTED, cause);
+        super(NOT_IMPLEMENTED, errorCode, cause);
     }
 
     /**
@@ -66,7 +66,7 @@ public class NotImplemented extends ErrorResult {
      * @return a static NotImplemented instance as described above
      */
     public static NotImplemented get() {
-        return _localizedErrorMsg() ? get(defaultMessage(NOT_IMPLEMENTED)) : INSTANCE;
+        return _localizedErrorMsg() ? of(defaultMessage(NOT_IMPLEMENTED)) : INSTANCE;
     }
 
     /**
@@ -79,8 +79,8 @@ public class NotImplemented extends ErrorResult {
      * @param errorCode the app defined error code
      * @return a static NotImplemented instance as described above
      */
-    public static NotImplemented get(int errorCode) {
-        return _localizedErrorMsg() ? get(defaultMessage(NOT_IMPLEMENTED)) : INSTANCE;
+    public static NotImplemented of(int errorCode) {
+        return _localizedErrorMsg() ? of(defaultMessage(NOT_IMPLEMENTED)) : INSTANCE;
     }
 
     /**
@@ -94,7 +94,7 @@ public class NotImplemented extends ErrorResult {
      * @param args the message arguments
      * @return a static NotImplemented instance as described above
      */
-    public static NotImplemented get(String message, Object... args) {
+    public static NotImplemented of(String message, Object... args) {
         payload.get().message(message, args);
         return _INSTANCE;
     }

@@ -24,12 +24,12 @@ public class RenderHtml extends RenderContent {
         super(S.fmt(html, args), H.Format.HTML);
     }
 
-    public static RenderHtml get(String html) {
+    public static RenderHtml of(String html) {
         payload.get().message(html);
         return _INSTANCE;
     }
 
-    public static RenderHtml get(String html, Object... args) {
+    public static RenderHtml of(String html, Object... args) {
         payload.get().message(html, args);
         return _INSTANCE;
     }

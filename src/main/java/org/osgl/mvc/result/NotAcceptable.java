@@ -29,7 +29,7 @@ public class NotAcceptable extends ErrorResult {
     }
 
     public NotAcceptable(int errorCode) {
-        super(errorCode, NOT_ACCEPTABLE);
+        super(NOT_ACCEPTABLE, errorCode);
     }
 
     public NotAcceptable(String message, Object... args) {
@@ -37,7 +37,7 @@ public class NotAcceptable extends ErrorResult {
     }
 
     public NotAcceptable(int errorCode, String message, Object... args) {
-        super(errorCode, NOT_ACCEPTABLE, message, args);
+        super(NOT_ACCEPTABLE, errorCode, message, args);
     }
     /**
      * Returns a static NotFound instance and set the {@link #payload} thread local
@@ -49,7 +49,7 @@ public class NotAcceptable extends ErrorResult {
      * @return a static NotFound instance as described above
      */
     public static NotAcceptable get() {
-        return _localizedErrorMsg() ? get(defaultMessage(NOT_ACCEPTABLE)) : INSTANCE;
+        return _localizedErrorMsg() ? of(defaultMessage(NOT_ACCEPTABLE)) : INSTANCE;
     }
 
     /**
@@ -62,9 +62,9 @@ public class NotAcceptable extends ErrorResult {
      * @param errorCode the app defined error code
      * @return a static NotFound instance as described above
      */
-    public static NotAcceptable get(int errorCode) {
+    public static NotAcceptable of(int errorCode) {
         payload.get().errorCode(errorCode);
-        return _localizedErrorMsg() ? get(defaultMessage(NOT_ACCEPTABLE)) : INSTANCE;
+        return _localizedErrorMsg() ? of(defaultMessage(NOT_ACCEPTABLE)) : INSTANCE;
     }
 
     /**
@@ -78,7 +78,7 @@ public class NotAcceptable extends ErrorResult {
      * @param args the message arguments
      * @return a static NotFound instance as described above
      */
-    public static NotAcceptable get(String message, Object... args) {
+    public static NotAcceptable of(String message, Object... args) {
         payload.get().message(message, args);
         return _INSTANCE;
     }
@@ -95,7 +95,7 @@ public class NotAcceptable extends ErrorResult {
      * @param args the message arguments
      * @return a static NotFound instance as described above
      */
-    public static NotAcceptable get(int errorCode, String message, Object... args) {
+    public static NotAcceptable of(int errorCode, String message, Object... args) {
         payload.get().errorCode(errorCode);
         payload.get().message(message, args);
         return _INSTANCE;

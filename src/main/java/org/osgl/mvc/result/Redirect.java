@@ -78,12 +78,12 @@ public class Redirect extends Result {
         return url;
     }
 
-    public static Redirect get(String url) {
+    public static Redirect of(String url) {
         payload.get().message(url);
         return _INSTANCE;
     }
 
-    public static Redirect get(String url, Object... args) {
+    public static Redirect of(String url, Object... args) {
         payload.get().message(url, args);
         return _INSTANCE;
     }

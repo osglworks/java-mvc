@@ -39,17 +39,17 @@ public class RenderText extends RenderContent {
         super(S.fmt(text, args), fmt);
     }
 
-    public static RenderText get(String text) {
+    public static RenderText of(String text) {
         payload.get().message(text);
         return _INSTANCE;
     }
 
-    public static RenderText get(String text, Object... args) {
+    public static RenderText of(String text, Object... args) {
         payload.get().message(text, args);
         return _INSTANCE;
     }
 
-    public static RenderText get(H.Format fmt, String text, Object... args) {
+    public static RenderText of(H.Format fmt, String text, Object... args) {
         payload.get().message(text, args).format(fmt);
         return _INSTANCE2;
     }

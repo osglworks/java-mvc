@@ -67,7 +67,7 @@ public class NotModified extends Result {
      * @param etag the etag
      * @return a static instance
      */
-    public static NotModified get(String etag) {
+    public static NotModified of(String etag) {
         payload.get().message(etag);
         return _INSTANCE;
     }
@@ -84,7 +84,7 @@ public class NotModified extends Result {
      * @param args the args used to populate the etag
      * @return a static instance
      */
-    public static NotModified get(String etag, Object... args) {
+    public static NotModified of(String etag, Object... args) {
         payload.get().message(etag, args);
         return _INSTANCE;
     }

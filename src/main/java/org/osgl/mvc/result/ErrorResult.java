@@ -57,27 +57,27 @@ public class ErrorResult extends Result {
         super(status, cause, message, args);
     }
 
-    public ErrorResult(Integer errorCode, Http.Status status) {
+    public ErrorResult(Http.Status status, Integer errorCode) {
         super(status, MvcConfig.errorMessage(status));
         this.errorCode = errorCode;
     }
 
-    public ErrorResult(Integer errorCode, Http.Status status, String message) {
+    public ErrorResult(Http.Status status, Integer errorCode, String message) {
         super(status, message);
         this.errorCode = errorCode;
     }
 
-    public ErrorResult(Integer errorCode, Http.Status status, String message, Object... args) {
+    public ErrorResult(Http.Status status, Integer errorCode, String message, Object... args) {
         super(status, message, args);
         this.errorCode = errorCode;
     }
 
-    public ErrorResult(Integer errorCode, Http.Status status, Throwable cause) {
+    public ErrorResult(Http.Status status, Integer errorCode, Throwable cause) {
         super(status, cause, MvcConfig.errorMessage(status));
         this.errorCode = errorCode;
     }
 
-    public ErrorResult(Integer errorCode, Http.Status status, Throwable cause, String message, Object... args) {
+    public ErrorResult(Http.Status status, Integer errorCode, Throwable cause, String message, Object... args) {
         super(status, cause, message, args);
         this.errorCode = errorCode;
     }
@@ -116,38 +116,38 @@ public class ErrorResult extends Result {
         return MvcConfig.localizedErrorMsg();
     }
 
-    public static ErrorResult get(H.Status status) {
+    public static ErrorResult of(H.Status status) {
         payload.get().status(status);
         return _INSTANCE;
     }
 
-    public static ErrorResult get(H.Status status, int errorCode) {
+    public static ErrorResult of(H.Status status, int errorCode) {
         payload.get().errorCode(errorCode);
-        return get(status);
+        return of(status);
     }
 
-    public static ErrorResult get(H.Status status, int errorCode, String message, Object... args) {
+    public static ErrorResult of(H.Status status, int errorCode, String message, Object... args) {
         payload.get().errorCode(errorCode);
-        return get(status, message, args);
+        return of(status, message, args);
     }
 
-    public static ErrorResult get(H.Status status, String message, Object... args) {
+    public static ErrorResult of(H.Status status, String message, Object... args) {
         payload.get().message(S.fmt(message, args));
-        return get(status);
+        return of(status);
     }
 
-    public static ErrorResult get(H.Status status, Throwable cause, String message, Object... args) {
+    public static ErrorResult of(H.Status status, Throwable cause, String message, Object... args) {
         payload.get().cause(cause);
-        return get(status, message, args);
+        return of(status, message, args);
     }
 
-    public static ErrorResult get(H.Status status, int errorCode, Throwable cause, String message, Object... args) {
+    public static ErrorResult of(H.Status status, int errorCode, Throwable cause, String message, Object... args) {
         payload.get().cause(cause);
-        return get(status, errorCode, message, args);
+        return of(status, errorCode, message, args);
     }
 
-    public static ErrorResult get(H.Status status, int errorCode, Throwable cause) {
-        return get(status, errorCode, cause, cause.getMessage());
+    public static ErrorResult of(H.Status status, int errorCode, Throwable cause) {
+        return of(status, errorCode, cause, cause.getMessage());
     }
 
 }

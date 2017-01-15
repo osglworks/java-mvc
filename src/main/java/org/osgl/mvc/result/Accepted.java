@@ -44,7 +44,7 @@ public class Accepted extends Result {
         super.apply(req, resp);
     }
 
-    public static Accepted get(String statusCheckUrl) {
+    public static Accepted of(String statusCheckUrl) {
         payload.get().message(statusCheckUrl);
         return _INSTANCE;
     }

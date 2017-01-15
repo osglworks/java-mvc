@@ -42,19 +42,19 @@ public class NotFound extends ErrorResult {
 
 
     public NotFound(int errorCode) {
-        super(NOT_FOUND);
+        super(NOT_FOUND, errorCode);
     }
 
     public NotFound(int errorCode, String message, Object... args) {
-        super(NOT_FOUND, message, args);
+        super(NOT_FOUND, errorCode, message, args);
     }
 
     public NotFound(int errorCode, Throwable cause, String message, Object... args) {
-        super(NOT_FOUND, cause, message, args);
+        super(NOT_FOUND, errorCode, cause, message, args);
     }
 
     public NotFound(int errorCode, Throwable cause) {
-        super(NOT_FOUND, cause);
+        super(NOT_FOUND, errorCode, cause);
     }
 
     /**
@@ -67,7 +67,7 @@ public class NotFound extends ErrorResult {
      * @return a static NotFound instance as described above
      */
     public static NotFound get() {
-        return _localizedErrorMsg() ? get(defaultMessage(NOT_FOUND)) : INSTANCE;
+        return _localizedErrorMsg() ? of(defaultMessage(NOT_FOUND)) : INSTANCE;
     }
 
     /**
@@ -81,7 +81,7 @@ public class NotFound extends ErrorResult {
      * @param args the message arguments
      * @return a static NotFound instance as described above
      */
-    public static NotFound get(String message, Object... args) {
+    public static NotFound of(String message, Object... args) {
         payload.get().message(message, args);
         return _INSTANCE;
     }

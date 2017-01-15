@@ -39,16 +39,16 @@ public class BadRequest extends ErrorResult {
     }
 
     public BadRequest(int errorCode) {
-        super(errorCode, BAD_REQUEST);
+        super(BAD_REQUEST, errorCode);
     }
     public BadRequest(int errorCode, String message, Object ... args) {
-        super(errorCode, BAD_REQUEST, message, args);
+        super(BAD_REQUEST, errorCode, message, args);
     }
     public BadRequest(int errorCode, Throwable cause, String message, Object ... args) {
-        super(errorCode, BAD_REQUEST, cause, message, args);
+        super(BAD_REQUEST, errorCode, cause, message, args);
     }
     public BadRequest(int errorCode, Throwable cause) {
-        super(errorCode, BAD_REQUEST, cause);
+        super(BAD_REQUEST, errorCode, cause);
     }
 
     /**
@@ -61,7 +61,7 @@ public class BadRequest extends ErrorResult {
      * @return a static BadRequest instance as described above
      */
     public static BadRequest get() {
-        return _localizedErrorMsg() ? get(defaultMessage(BAD_REQUEST)) : INSTANCE;
+        return _localizedErrorMsg() ? of(defaultMessage(BAD_REQUEST)) : INSTANCE;
     }
 
     /**
@@ -74,9 +74,9 @@ public class BadRequest extends ErrorResult {
      * @param errorCode the app defined error code
      * @return a static BadRequest instance as described above
      */
-    public static BadRequest get(int errorCode) {
+    public static BadRequest of(int errorCode) {
         payload.get().errorCode(errorCode);
-        return _localizedErrorMsg() ? get(defaultMessage(BAD_REQUEST)) : INSTANCE;
+        return _localizedErrorMsg() ? of(defaultMessage(BAD_REQUEST)) : INSTANCE;
     }
 
     /**
@@ -90,7 +90,7 @@ public class BadRequest extends ErrorResult {
      * @param args the message arguments
      * @return a static BadRequest instance as described above
      */
-    public static BadRequest get(String message, Object... args) {
+    public static BadRequest of(String message, Object... args) {
         payload.get().message(message, args);
         return _INSTANCE;
     }
@@ -107,7 +107,7 @@ public class BadRequest extends ErrorResult {
      * @param args the message arguments
      * @return a static BadRequest instance as described above
      */
-    public static BadRequest get(int errorCode, String message, Object... args) {
+    public static BadRequest of(int errorCode, String message, Object... args) {
         payload.get().message(message, args).errorCode(errorCode);
         return _INSTANCE;
     }

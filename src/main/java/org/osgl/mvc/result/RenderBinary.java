@@ -130,7 +130,7 @@ public class RenderBinary extends Result {
                     resp.contentType(contentType);
                 } else if (hasName) {
                     String ext = S.afterLast(name, ".");
-                    resp.initContentType(H.Format.of(ext).toContentType());
+                    resp.initContentType(H.Format.of(ext).contentType());
                 }
                 if (!resp.containsHeader(CONTENT_DISPOSITION)) {
                     resp.contentDisposition(name, disposition.isInline());

@@ -41,11 +41,11 @@ public class MethodNotAllowed extends ErrorResult {
     }
 
     public MethodNotAllowed(int errorCode) {
-        super(errorCode, METHOD_NOT_ALLOWED);
+        super(METHOD_NOT_ALLOWED, errorCode);
     }
 
     public MethodNotAllowed(int errorCode, String message, Object... args) {
-        super(errorCode, METHOD_NOT_ALLOWED, message, args);
+        super(METHOD_NOT_ALLOWED, errorCode, message, args);
     }
 
     public MethodNotAllowed(int errorCode, Throwable cause, String message, Object ... args) {
@@ -53,7 +53,7 @@ public class MethodNotAllowed extends ErrorResult {
     }
 
     public MethodNotAllowed(int errorCode, Throwable cause) {
-        super(errorCode, METHOD_NOT_ALLOWED, cause);
+        super(METHOD_NOT_ALLOWED, errorCode, cause);
     }
 
     /**
@@ -66,7 +66,7 @@ public class MethodNotAllowed extends ErrorResult {
      * @return a static MethodNotAllowed instance as described above
      */
     public static MethodNotAllowed get() {
-        return _localizedErrorMsg() ? get(defaultMessage(METHOD_NOT_ALLOWED)) : INSTANCE;
+        return _localizedErrorMsg() ? of(defaultMessage(METHOD_NOT_ALLOWED)) : INSTANCE;
     }
 
     /**
@@ -79,9 +79,9 @@ public class MethodNotAllowed extends ErrorResult {
      * @param errorCode the app defined error code
      * @return a static MethodNotAllowed instance as described above
      */
-    public static MethodNotAllowed get(int errorCode) {
+    public static MethodNotAllowed of(int errorCode) {
         payload.get().errorCode(errorCode);
-        return _localizedErrorMsg() ? get(defaultMessage(METHOD_NOT_ALLOWED)) : INSTANCE;
+        return _localizedErrorMsg() ? of(defaultMessage(METHOD_NOT_ALLOWED)) : INSTANCE;
     }
 
     /**
@@ -95,7 +95,7 @@ public class MethodNotAllowed extends ErrorResult {
      * @param args the message arguments
      * @return a static NotImpleemented instance as described above
      */
-    public static MethodNotAllowed get(String message, Object... args) {
+    public static MethodNotAllowed of(String message, Object... args) {
         payload.get().message(message, args);
         return _INSTANCE;
     }
@@ -112,7 +112,7 @@ public class MethodNotAllowed extends ErrorResult {
      * @param args the message arguments
      * @return a static NotImpleemented instance as described above
      */
-    public static MethodNotAllowed get(int errorCode, String message, Object... args) {
+    public static MethodNotAllowed of(int errorCode, String message, Object... args) {
         payload.get().errorCode(errorCode).message(message, args);
         return _INSTANCE;
     }

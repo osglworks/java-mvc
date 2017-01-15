@@ -42,7 +42,7 @@ public class Created extends Result {
         super.apply(req, resp);
     }
 
-    public static Created get(String location) {
+    public static Created of(String location) {
         payload.get().message(location);
         return _INSTANCE;
     }

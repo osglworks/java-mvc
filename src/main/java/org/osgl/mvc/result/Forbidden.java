@@ -29,7 +29,7 @@ public class Forbidden extends ErrorResult {
     }
 
     public Forbidden(int errorCode) {
-        super(errorCode, FORBIDDEN);
+        super(FORBIDDEN,  errorCode);
     }
 
     public Forbidden(String message, Object... args) {
@@ -37,7 +37,7 @@ public class Forbidden extends ErrorResult {
     }
 
     public Forbidden(int errorCode, String message, Object... args) {
-        super(errorCode, FORBIDDEN, message, args);
+        super(FORBIDDEN, errorCode, message, args);
     }
 
     public Forbidden(Throwable cause, String message, Object... args) {
@@ -45,7 +45,7 @@ public class Forbidden extends ErrorResult {
     }
 
     public Forbidden(int errorCode, Throwable cause, String message, Object... args) {
-        super(errorCode, FORBIDDEN, cause, message, args);
+        super(FORBIDDEN, errorCode, cause, message, args);
     }
 
     public Forbidden(Throwable cause) {
@@ -53,7 +53,7 @@ public class Forbidden extends ErrorResult {
     }
 
     public Forbidden(int errorCode,  Throwable cause) {
-        super(errorCode, FORBIDDEN, cause);
+        super(FORBIDDEN, errorCode, cause);
     }
     /**
      * Returns a static Forbidden instance and set the {@link #payload} thread local
@@ -65,7 +65,7 @@ public class Forbidden extends ErrorResult {
      * @return a static Forbidden instance as described above
      */
     public static Forbidden get() {
-        return _localizedErrorMsg() ? get(defaultMessage(FORBIDDEN)) : INSTANCE;
+        return _localizedErrorMsg() ? of(defaultMessage(FORBIDDEN)) : INSTANCE;
     }
 
     /**
@@ -78,9 +78,9 @@ public class Forbidden extends ErrorResult {
      * @param errorCode the app defined error code
      * @return a static Forbidden instance as described above
      */
-    public static Forbidden get(int errorCode) {
+    public static Forbidden of(int errorCode) {
         payload.get().errorCode(errorCode);
-        return _localizedErrorMsg() ? get(defaultMessage(FORBIDDEN)) : INSTANCE;
+        return _localizedErrorMsg() ? of(defaultMessage(FORBIDDEN)) : INSTANCE;
     }
 
     /**
@@ -94,7 +94,7 @@ public class Forbidden extends ErrorResult {
      * @param args the message arguments
      * @return a static Forbidden instance as described above
      */
-    public static Forbidden get(String message, Object... args) {
+    public static Forbidden of(String message, Object... args) {
         payload.get().message(message, args);
         return _INSTANCE;
     }
@@ -111,7 +111,7 @@ public class Forbidden extends ErrorResult {
      * @param args the message arguments
      * @return a static Forbidden instance as described above
      */
-    public static Forbidden get(int errorCode, String message, Object... args) {
+    public static Forbidden of(int errorCode, String message, Object... args) {
         payload.get().errorCode(errorCode);
         payload.get().message(message, args);
         return _INSTANCE;

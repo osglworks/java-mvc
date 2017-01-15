@@ -37,7 +37,7 @@ public class Unauthorized extends ErrorResult {
             @Override
             String header(Unauthorized data) {
                 StringBuilder sb = S.builder("Basic realm=\"")
-                        .append(Codec.encodeBASE64(data.realm())).append("\"");
+                        .append(Codec.encodeBase64(data.realm())).append("\"");
                 return sb.toString();
             }
         },
@@ -121,7 +121,7 @@ public class Unauthorized extends ErrorResult {
      * @param realm the authentication realm
      * @return a static Unauthorized instance as described above
      */
-    public static Unauthorized get(String realm) {
+    public static Unauthorized of(String realm) {
         payload.get().putValue(PAYLOAD_KEY, $.T2(realm, S.blank(realm) ? Type.FORM : Type.BASIC));
         return _INSTANCE;
     }

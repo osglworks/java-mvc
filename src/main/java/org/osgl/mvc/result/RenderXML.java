@@ -24,12 +24,12 @@ public class RenderXML extends RenderContent {
         super(xmlStr, H.Format.xml);
     }
 
-    public static RenderXML get(String xml) {
+    public static RenderXML of(String xml) {
         payload.get().message(xml);
         return _INSTANCE;
     }
 
-    public static RenderXML get(String xml, Object... args) {
+    public static RenderXML of(String xml, Object... args) {
         payload.get().message(xml, args);
         return _INSTANCE;
     }

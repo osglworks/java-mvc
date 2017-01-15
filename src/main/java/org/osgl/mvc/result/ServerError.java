@@ -38,16 +38,16 @@ public class ServerError extends ErrorResult {
     }
 
     public ServerError(int errorCode) {
-        super(errorCode, INTERNAL_SERVER_ERROR);
+        super(INTERNAL_SERVER_ERROR, errorCode);
     }
     public ServerError(int errorCode, String message, Object... args) {
-        super(errorCode, INTERNAL_SERVER_ERROR, message, args);
+        super(INTERNAL_SERVER_ERROR, errorCode, message, args);
     }
-    public ServerError(int errorCode, Throwable t) {
-        super(errorCode, INTERNAL_SERVER_ERROR, t);
+    public ServerError(int errorCode, Throwable cause) {
+        super(INTERNAL_SERVER_ERROR, errorCode, cause);
     }
-    public ServerError(int errorCode, Throwable t, String message, Object... args) {
-        super(errorCode, INTERNAL_SERVER_ERROR, t, message, args);
+    public ServerError(int errorCode, Throwable cause, String message, Object... args) {
+        super(INTERNAL_SERVER_ERROR, errorCode, cause, message, args);
     }
 
     /**
@@ -65,7 +65,7 @@ public class ServerError extends ErrorResult {
      * @param args the message arguments
      * @return a static ServerError instance as described above
      */
-    public static ServerError get(Throwable cause, String message, Object... args) {
+    public static ServerError of(Throwable cause, String message, Object... args) {
         payload.get().cause(cause).message(message, args);
         return _INSTANCE;
     }
@@ -86,7 +86,7 @@ public class ServerError extends ErrorResult {
      * @param args the message arguments
      * @return a static ServerError instance as described above
      */
-    public static ServerError get(int errorCode, Throwable cause, String message, Object... args) {
+    public static ServerError of(int errorCode, Throwable cause, String message, Object... args) {
         payload.get().errorCode(errorCode).cause(cause).message(message, args);
         return _INSTANCE;
     }
@@ -102,7 +102,7 @@ public class ServerError extends ErrorResult {
      * @param args the message arguments
      * @return a static ServerError instance as described above
      */
-    public static ServerError get(String message, Object... args) {
+    public static ServerError of(String message, Object... args) {
         payload.get().message(message, args);
         return _INSTANCE;
     }
@@ -119,7 +119,7 @@ public class ServerError extends ErrorResult {
      * @param args the message arguments
      * @return a static ServerError instance as described above
      */
-    public static ServerError get(int errorCode, String message, Object... args) {
+    public static ServerError of(int errorCode, String message, Object... args) {
         payload.get().errorCode(errorCode).message(message, args);
         return _INSTANCE;
     }

@@ -27,17 +27,17 @@ public class RenderJSON extends RenderContent {
         this(MvcConfig.jsonSerializer().apply(v));
     }
 
-    public static RenderJSON get(String jsonStr) {
+    public static RenderJSON of(String jsonStr) {
         payload.get().message(jsonStr);
         return _INSTANCE;
     }
 
-    public static RenderJSON get(String jsonFormt, Object... args) {
+    public static RenderJSON of(String jsonFormt, Object... args) {
         payload.get().message(jsonFormt, args);
         return _INSTANCE;
     }
 
-    public static RenderJSON get(Object v) {
+    public static RenderJSON of(Object v) {
         String s = v instanceof String ? (String) v : MvcConfig.jsonSerializer().apply(v);
         payload.get().message(s);
         return _INSTANCE;

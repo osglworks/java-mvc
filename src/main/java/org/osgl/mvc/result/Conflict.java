@@ -41,19 +41,19 @@ public class Conflict extends ErrorResult {
     }
 
     public Conflict(int errorCode) {
-        super(errorCode, CONFLICT);
+        super(CONFLICT, errorCode);
     }
 
     public Conflict(int errorCode, String message, Object... args) {
-        super(errorCode, CONFLICT, message, args);
+        super(CONFLICT, errorCode, message, args);
     }
 
     public Conflict(int errorCode, Throwable cause, String message, Object... args) {
-        super(errorCode, CONFLICT, cause, message, args);
+        super(CONFLICT, errorCode, cause, message, args);
     }
 
     public Conflict(int errorCode, Throwable cause) {
-        super(errorCode, CONFLICT, cause);
+        super(CONFLICT, errorCode, cause);
     }
 
     /**
@@ -66,7 +66,7 @@ public class Conflict extends ErrorResult {
      * @return a static Conflict instance as described above
      */
     public static Conflict get() {
-        return _localizedErrorMsg() ? get(defaultMessage(CONFLICT)) : INSTANCE;
+        return _localizedErrorMsg() ? of(defaultMessage(CONFLICT)) : INSTANCE;
     }
 
     /**
@@ -79,9 +79,9 @@ public class Conflict extends ErrorResult {
      * @param errorCode the app defined error code
      * @return a static Conflict instance as described above
      */
-    public static Conflict get(int errorCode) {
+    public static Conflict of(int errorCode) {
         payload.get().errorCode(errorCode);
-        return _localizedErrorMsg() ? get(defaultMessage(CONFLICT)) : INSTANCE;
+        return _localizedErrorMsg() ? of(defaultMessage(CONFLICT)) : INSTANCE;
     }
 
     /**
@@ -95,7 +95,7 @@ public class Conflict extends ErrorResult {
      * @param args the message arguments
      * @return a static Conflict instance as described above
      */
-    public static Conflict get(String message, Object... args) {
+    public static Conflict of(String message, Object... args) {
         payload.get().message(message, args);
         return _INSTANCE;
     }
@@ -112,7 +112,7 @@ public class Conflict extends ErrorResult {
      * @param args the message arguments
      * @return a static Conflict instance as described above
      */
-    public static Conflict get(int errorCode, String message, Object... args) {
+    public static Conflict of(int errorCode, String message, Object... args) {
         payload.get().errorCode(errorCode).message(message, args);
         return _INSTANCE;
     }
