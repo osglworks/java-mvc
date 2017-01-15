@@ -21,6 +21,7 @@ public class MvcConfig extends HttpConfig {
 
     public static final String MSG_ID_CLIENT_ERROR = "osgl.result.client_error";
     public static final String MSG_ID_BAD_REQUEST = "osgl.result.bad_request";
+    public static final String MSG_ID_UNAUTHORIZED = "osgl.result.unauthorized";
     public static final String MSG_ID_PAYMENT_REQUIRED = "osgl.result.payment_required";
     public static final String MSG_ID_FORBIDDEN = "osgl.result.forbidden";
     public static final String MSG_ID_NOT_FOUND = "osgl.result.not_found";
@@ -37,6 +38,7 @@ public class MvcConfig extends HttpConfig {
             ACCEPTED, MSG_ID_ACCEPTED,
             CREATED, MSG_ID_CREATED,
             BAD_REQUEST, MSG_ID_BAD_REQUEST,
+            UNAUTHORIZED, MSG_ID_UNAUTHORIZED,
             PAYMENT_REQUIRED, MSG_ID_PAYMENT_REQUIRED,
             FORBIDDEN, MSG_ID_FORBIDDEN,
             NOT_FOUND, MSG_ID_NOT_FOUND,

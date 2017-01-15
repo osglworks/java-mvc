@@ -84,12 +84,12 @@ public class ErrorResult extends Result {
 
     @Override
     public String toString() {
-        return "HTTP/1.1 " + statusCode() + " " + getMessage();
+        return "HTTP/1.1 " + statusCode() + " " + getLocalizedMessage();
     }
 
     public String toJsonString() {
         StringBuilder sb = new StringBuilder("{status:")
-                .append(statusCode()).append(", message:\"").append(getMessage());
+                .append(statusCode()).append(", message:\"").append(getLocalizedMessage());
         Integer errorCode = errorCode();
         if (null != errorCode) {
             sb.append("\", error:").append(errorCode).append("}");
