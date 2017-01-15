@@ -90,14 +90,63 @@ public class NotAcceptable extends ErrorResult {
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
      *
+     * @param cause the cause
+     * @param message the message
+     * @param args the message arguments
+     * @return a static NotFound instance as described above
+     */
+    public static NotAcceptable of(Throwable cause, String message, Object... args) {
+        payload.get().message(message, args).cause(cause);
+        return _INSTANCE;
+    }
+
+    /**
+     * Returns a static NotFound instance and set the {@link #payload} thread local
+     * with message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause the cause
+     * @return a static NotFound instance as described above
+     */
+    public static NotAcceptable of(Throwable cause) {
+        payload.get().cause(cause);
+        return _INSTANCE;
+    }
+
+    /**
+     * Returns a static NotFound instance and set the {@link #payload} thread local
+     * with message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
      * @param errorCode the app defined error code
      * @param message the message
      * @param args the message arguments
      * @return a static NotFound instance as described above
      */
     public static NotAcceptable of(int errorCode, String message, Object... args) {
-        payload.get().errorCode(errorCode);
-        payload.get().message(message, args);
+        payload.get().errorCode(errorCode).message(message, args);
+        return _INSTANCE;
+    }
+
+    /**
+     * Returns a static NotFound instance and set the {@link #payload} thread local
+     * with message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause the cause
+     * @param errorCode the app defined error code
+     * @param message the message
+     * @param args the message arguments
+     * @return a static NotFound instance as described above
+     */
+    public static NotAcceptable of(int errorCode, Throwable cause, String message, Object... args) {
+        payload.get().errorCode(errorCode).message(message, args).cause(cause);
         return _INSTANCE;
     }
 }

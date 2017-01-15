@@ -98,4 +98,36 @@ public class NotImplemented extends ErrorResult {
         payload.get().message(message, args);
         return _INSTANCE;
     }
+
+    /**
+     * Returns a static NotImplemented instance and set the {@link #payload} thread local
+     * with message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause the cause
+     * @param message the message
+     * @param args the message arguments
+     * @return a static NotImplemented instance as described above
+     */
+    public static NotImplemented of(Throwable cause, String message, Object... args) {
+        payload.get().message(message, args).cause(cause);
+        return _INSTANCE;
+    }
+
+    /**
+     * Returns a static NotImplemented instance and set the {@link #payload} thread local
+     * with message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause the cause
+     * @return a static NotImplemented instance as described above
+     */
+    public static NotImplemented of(Throwable cause) {
+        payload.get().cause(cause);
+        return _INSTANCE;
+    }
 }

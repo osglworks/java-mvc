@@ -84,7 +84,7 @@ public class ErrorResult extends Result {
 
     @Override
     public String toString() {
-        return toJsonString();
+        return "HTTP/1.1 " + statusCode() + " " + getMessage();
     }
 
     public String toJsonString() {

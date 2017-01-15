@@ -112,4 +112,22 @@ public class BadRequest extends ErrorResult {
         return _INSTANCE;
     }
 
+    /**
+     * Returns a static BadRequest instance and set the {@link #payload} thread local
+     * with message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause  the cause
+     * @param errorCode app defined error code
+     * @param message the message
+     * @param args the message arguments
+     * @return a static BadRequest instance as described above
+     */
+    public static BadRequest of(int errorCode, Throwable cause, String message, Object... args) {
+        payload.get().message(message, args).errorCode(errorCode).cause(cause);
+        return _INSTANCE;
+    }
+
 }

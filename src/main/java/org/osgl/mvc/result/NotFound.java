@@ -86,4 +86,36 @@ public class NotFound extends ErrorResult {
         return _INSTANCE;
     }
 
+    /**
+     * Returns a static NotFound instance and set the {@link #payload} thread local
+     * with message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause the cause
+     * @return a static NotFound instance as described above
+     */
+    public static NotFound of(Throwable cause) {
+        payload.get().cause(cause);
+        return _INSTANCE;
+    }
+
+    /**
+     * Returns a static NotFound instance and set the {@link #payload} thread local
+     * with message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause the cause
+     * @param message the message
+     * @param args the message arguments
+     * @return a static NotFound instance as described above
+     */
+    public static NotFound of(Throwable cause, String message, Object... args) {
+        payload.get().message(message, args).cause(cause);
+        return _INSTANCE;
+    }
+
 }
