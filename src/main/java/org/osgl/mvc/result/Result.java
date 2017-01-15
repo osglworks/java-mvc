@@ -58,14 +58,7 @@ public class Result extends FastRuntimeException {
     };
 
     protected Payload payload() {
-        if (null == _payload) {
-            synchronized (this) {
-                if (null == _payload) {
-                    _payload = payload.get();
-                }
-            }
-        }
-        return _payload;
+        return payload.get();
     }
 
     private final Http.Status status;
