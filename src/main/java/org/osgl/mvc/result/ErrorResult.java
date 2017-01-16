@@ -3,6 +3,7 @@ package org.osgl.mvc.result;
 import org.osgl.http.H;
 import org.osgl.http.Http;
 import org.osgl.mvc.MvcConfig;
+import org.osgl.util.KVStore;
 import org.osgl.util.S;
 
 /**
@@ -133,6 +134,25 @@ public class ErrorResult extends Result {
             sb.append("\"}");
         }
         return sb.toString();
+    }
+
+    /**
+     * Export the error result data into a {@link KVStore}
+     * @return a {@link KVStore KV store} of this error result
+     */
+    public KVStore toKVStore() {
+        KVStore store = new KVStore();
+        store.putValue("status", statusCode());
+        store.putValue("message", getLocalizedMessage());
+        Integer code = errorCode();
+        if (null != code) {
+            store.putValue("code", code);
+        }
+        Object payload = attachment();
+        if (null != payload) {
+            store.putValue("payload", payload);
+        }
+        return store;
     }
 
     public Integer errorCode() {
