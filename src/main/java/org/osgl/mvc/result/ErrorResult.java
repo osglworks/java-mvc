@@ -104,6 +104,11 @@ public class ErrorResult extends Result {
     }
 
     @Override
+    public String getLocalizedMessage() {
+        return MvcConfig.messageTranslater().apply(getMessage());
+    }
+
+    @Override
     protected void applyMessage(H.Request request, H.Response response) {
         MvcConfig.errorPageRenderer().apply(request, response, this);
     }

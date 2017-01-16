@@ -83,6 +83,7 @@ public class MvcConfig extends HttpConfig {
     static $.Function<Object, String> jsonSerializer;
     static $.Func3<Result, H.Request<?>, H.Response<?>, ?> beforeCommitResultHandler = DUMB_COMMIT_RESULT_LISTENER;
     static $.Func3<Result, H.Request<?>, H.Response<?>, ?> afterCommitResultHandler = DUMB_COMMIT_RESULT_LISTENER;
+    static $.Function<String, String> messageTranlater = $.F.identity();
 
     /**
      * Set the cookie prefix for session and flash cookie
@@ -128,6 +129,14 @@ public class MvcConfig extends HttpConfig {
 
     public static void applyAfterCommitResultHandler(Result result, H.Request<?> req, H.Response<?> resp) {
         afterCommitResultHandler.apply(result, req, resp);
+    }
+
+    public static void messageTranslater($.Function<String, String> translater) {
+        MvcConfig.messageTranlater = $.notNull(translater);
+    }
+
+    public static $.Function<String, String> messageTranslater() {
+        return messageTranlater;
     }
 
     public static $.Function<Object, String> jsonSerializer() {
