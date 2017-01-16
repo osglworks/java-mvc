@@ -30,12 +30,33 @@ public class ErrorResult extends Result {
         public synchronized Throwable getCause() {
             return payload().cause;
         }
+
+        @Override
+        public ErrorResult attach(Object attachment) {
+            payload().attach(attachment);
+            return this;
+        }
+
+        @Override
+        public <T> T attachment() {
+            return (T) payload().attachment;
+        }
+
+        @Override
+        public <T> T attachment(Class<T> type) {
+            return (T) payload().attachment;
+        }
     };
 
     /**
      * Stores the app defined error code
      */
     private Integer errorCode;
+
+    /**
+     * Store app defined payload
+     */
+    private Object attachment;
 
     public ErrorResult(Http.Status status) {
         super(status, MvcConfig.errorMessage(status));
@@ -80,6 +101,21 @@ public class ErrorResult extends Result {
     public ErrorResult(Http.Status status, Integer errorCode, Throwable cause, String message, Object... args) {
         super(status, cause, message, args);
         this.errorCode = errorCode;
+    }
+
+    public ErrorResult attach(Object attachment) {
+        this.attachment = attachment;
+        return this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T attachment() {
+        return (T) attachment;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T attachment(Class<T> type) {
+        return (T) attachment;
     }
 
     @Override

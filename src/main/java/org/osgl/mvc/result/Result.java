@@ -16,6 +16,7 @@ public class Result extends FastRuntimeException {
         public Throwable cause;
         public H.Format format;
         public H.Status status;
+        public Object attachment;
 
         public Payload message(String message) {
             this.message = message;
@@ -46,9 +47,12 @@ public class Result extends FastRuntimeException {
             this.status = status;
             return this;
         }
-    }
 
-    private transient volatile Payload _payload;
+        public Payload attach(Object attachment) {
+            this.attachment = attachment;
+            return this;
+        }
+    }
 
     protected static final ThreadLocal<Payload> payload = new ThreadLocal<Payload>() {
         @Override
