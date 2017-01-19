@@ -15,6 +15,9 @@
   ~ under the License.
   -->
 <!-- history
+0.6.1-SNAPSHOT
+- update osgl-http to 0.3.4-SNAPSHOT
+
 0.6.0-SNAPSHOT
 - Bind annotation now accept an array of Binder implementations
 - Add ActionUtil annotation
@@ -84,7 +87,7 @@
   <groupId>org.osgl</groupId>
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>0.6.0-SNAPSHOT</version>
+  <version>0.6.1-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
   <description>Utilities for MVC</description>
@@ -160,13 +163,13 @@
     <dependency>
       <groupId>org.osgl</groupId>
       <artifactId>osgl-http</artifactId>
-      <version>0.3.3-SNAPSHOT</version>
+      <version>0.3.4-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>org.osgl</groupId>
       <artifactId>osgl-tool</artifactId>
-      <version>0.9.0-SNAPSHOT</version>
+      <version>0.9.3-SNAPSHOT</version>
     </dependency>
 
     <dependency>
