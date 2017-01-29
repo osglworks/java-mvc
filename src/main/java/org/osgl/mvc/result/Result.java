@@ -119,7 +119,7 @@ public class Result extends FastRuntimeException {
         if (S.notBlank(msg)) {
             response.writeContent(msg);
         } else {
-            IO.close(response.outputStream());
+            response.commit();
         }
         applyAfterCommitHandler(request, response);
     }

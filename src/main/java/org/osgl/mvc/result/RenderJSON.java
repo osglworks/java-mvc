@@ -14,14 +14,14 @@ public class RenderJSON extends RenderContent {
     };
 
     private RenderJSON() {
-        super(H.Format.HTML);
+        super(H.Format.JSON);
     }
 
     public RenderJSON(String jsonStr) {
-        super(jsonStr, H.Format.json);
+        super(jsonStr, H.Format.JSON);
     }
     public RenderJSON(String jsonFormat, Object ... args) {
-        super(S.fmt(jsonFormat, args), H.Format.json);
+        super(S.fmt(jsonFormat, args), H.Format.JSON);
     }
     public RenderJSON(Object v) {
         this(MvcConfig.jsonSerializer().apply(v));

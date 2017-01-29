@@ -63,7 +63,7 @@ public class Redirect extends Result {
             }
             resp.header("Location", url);
             applyBeforeCommitHandler(req, resp);
-            IO.close(resp.outputStream());
+            resp.commit();
             applyAfterCommitHandler(req, resp);
         } finally {
             clearThreadLocals();

@@ -17,7 +17,7 @@ public class NoResult extends Result {
     public void apply(H.Request req, H.Response resp) {
         try {
             applyBeforeCommitHandler(req, resp);
-            IO.close(resp.outputStream());
+            resp.commit();
             applyAfterCommitHandler(req, resp);
         } finally {
             clearThreadLocals();
