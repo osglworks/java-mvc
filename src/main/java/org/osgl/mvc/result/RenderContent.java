@@ -59,7 +59,7 @@ public abstract class RenderContent extends Result {
         resp.initContentType(s);
     }
 
-    protected void setOutputEncoding(boolean outputEncoding) {
+    public void setOutputEncoding(boolean outputEncoding) {
         this.outputEncoding = outputEncoding;
     }
 

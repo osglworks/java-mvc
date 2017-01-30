@@ -29,14 +29,15 @@ public class RenderText extends RenderContent {
 
     private RenderText() {
         super(H.Format.TXT);
+        setOutputEncoding(false);
     }
 
     public RenderText(String text, Object... args) {
-        super(S.fmt(text, args), H.Format.txt);
+        super(S.fmt(text, args), H.Format.TXT, false);
     }
 
     public RenderText(H.Format fmt, String text, Object... args) {
-        super(S.fmt(text, args), fmt);
+        super(S.fmt(text, args), fmt, false);
     }
 
     public static RenderText of(String text) {
