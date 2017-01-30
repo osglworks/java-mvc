@@ -130,7 +130,13 @@ public class RenderBinary extends Result {
                     resp.contentType(contentType);
                 } else if (hasName) {
                     String ext = S.afterLast(name, ".");
-                    resp.initContentType(H.Format.of(ext).contentType());
+                    if (S.notBlank(ext)) {
+                        H.Format format = H.Format.of(ext);
+                        if (null != format) {
+                            resp.initContentType(format.contentType());
+                        }
+                    }
+                    resp.initContentType("application/octet-stream");
                 }
                 if (!resp.containsHeader(CONTENT_DISPOSITION)) {
                     resp.contentDisposition(name, disposition.isInline());
