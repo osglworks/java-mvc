@@ -115,19 +115,19 @@ public class Result extends FastRuntimeException {
 
     protected void applyMessage(H.Request request, H.Response response) {
         String msg = getMessage();
-        applyBeforeCommitHandler(request, response);
         if (S.notBlank(msg)) {
             response.writeContent(msg);
         } else {
             response.commit();
         }
-        applyAfterCommitHandler(request, response);
     }
 
     public void apply(H.Request req, H.Response resp) {
         try {
             applyStatus(resp);
+            applyBeforeCommitHandler(req, resp);
             applyMessage(req, resp);
+            applyAfterCommitHandler(req, resp);
         } finally {
             clearThreadLocals();
         }
