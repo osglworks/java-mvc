@@ -15,6 +15,10 @@
   ~ under the License.
   -->
 <!-- history
+0.8.0-SNAPSHOT
+- update to tool 0.10.0
+- update to http 0.5.0
+
 0.7.0-SNAPSHOT
 - update osgl-http to 0.4.0-SNAPSHOT
 
@@ -90,7 +94,7 @@
   <groupId>org.osgl</groupId>
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>0.7.0-SNAPSHOT</version>
+  <version>0.8.0-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
   <description>Utilities for MVC</description>
@@ -138,8 +142,8 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.3</version>
           <configuration>
-            <source>1.6</source>
-            <target>1.6</target>
+            <source>1.7</source>
+            <target>1.7</target>
           </configuration>
         </plugin>
         <plugin>
@@ -166,13 +170,7 @@
     <dependency>
       <groupId>org.osgl</groupId>
       <artifactId>osgl-http</artifactId>
-      <version>0.4.0-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.osgl</groupId>
-      <artifactId>osgl-tool</artifactId>
-      <version>0.9.3-SNAPSHOT</version>
+      <version>[0.5.0-SNAPSHOT,)</version>
     </dependency>
 
     <dependency>
