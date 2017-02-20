@@ -15,6 +15,10 @@
   ~ under the License.
   -->
 <!-- history
+0.9.0-SNAPSHOT
+- add PatchAction annotation
+- allow RenderContent sub class to pass H.Status parameter into constructor
+
 0.8.0-SNAPSHOT
 - update to tool 0.10.0
 - update to http 0.5.0
@@ -94,7 +98,7 @@
   <groupId>org.osgl</groupId>
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>0.8.0-SNAPSHOT</version>
+  <version>0.9.0-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
   <description>Utilities for MVC</description>

@@ -13,15 +13,23 @@ public class RenderXML extends RenderContent {
     };
 
     private RenderXML() {
-        super(H.Format.TXT);
+        super(H.Format.XML);
     }
 
     public RenderXML(String xml, Object... args) {
-        super(S.fmt(xml, args), H.Format.txt);
+        super(S.fmt(xml, args), H.Format.XML);
+    }
+
+    public RenderXML(H.Status status, String xml, Object... args) {
+        super(status, S.fmt(xml, args), H.Format.XML);
     }
 
     public RenderXML(String xmlStr) {
-        super(xmlStr, H.Format.xml);
+        super(xmlStr, H.Format.XML);
+    }
+
+    public RenderXML(H.Status status, String xmlStr) {
+        super(status, xmlStr, H.Format.XML);
     }
 
     public static RenderXML of(String xml) {
@@ -29,8 +37,18 @@ public class RenderXML extends RenderContent {
         return _INSTANCE;
     }
 
+    public static RenderXML of(H.Status status, String xml) {
+        payload.get().message(xml).status(status);
+        return _INSTANCE;
+    }
+
     public static RenderXML of(String xml, Object... args) {
         payload.get().message(xml, args);
+        return _INSTANCE;
+    }
+
+    public static RenderXML of(H.Status status, String xml, Object... args) {
+        payload.get().message(xml, args).status(status);
         return _INSTANCE;
     }
 

@@ -40,6 +40,15 @@ public class RenderText extends RenderContent {
         super(S.fmt(text, args), fmt, false);
     }
 
+
+    public RenderText(H.Status status, String text, Object... args) {
+        super(status, S.fmt(text, args), H.Format.TXT, false);
+    }
+
+    public RenderText(H.Status status, H.Format fmt, String text, Object... args) {
+        super(status, S.fmt(text, args), fmt, false);
+    }
+
     public static RenderText of(String text) {
         payload.get().message(text);
         return _INSTANCE;
@@ -52,6 +61,21 @@ public class RenderText extends RenderContent {
 
     public static RenderText of(H.Format fmt, String text, Object... args) {
         payload.get().message(text, args).format(fmt);
+        return _INSTANCE2;
+    }
+
+    public static RenderText of(H.Status status, String text) {
+        payload.get().message(text).status(status);
+        return _INSTANCE;
+    }
+
+    public static RenderText of(H.Status status, String text, Object... args) {
+        payload.get().message(text, args).status(status);
+        return _INSTANCE;
+    }
+
+    public static RenderText of(H.Status status, H.Format fmt, String text, Object... args) {
+        payload.get().message(text, args).format(fmt).status(status);
         return _INSTANCE2;
     }
 }

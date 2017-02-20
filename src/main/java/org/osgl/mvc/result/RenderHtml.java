@@ -24,6 +24,14 @@ public class RenderHtml extends RenderContent {
         super(S.fmt(html, args), H.Format.HTML);
     }
 
+    public RenderHtml(H.Status status, String html) {
+        super(status, html, H.Format.HTML);
+    }
+
+    public RenderHtml(H.Status status, String html, Object ... args) {
+        super(status, S.fmt(html, args), H.Format.HTML);
+    }
+
     public static RenderHtml of(String html) {
         payload.get().message(html);
         return _INSTANCE;
@@ -31,6 +39,16 @@ public class RenderHtml extends RenderContent {
 
     public static RenderHtml of(String html, Object... args) {
         payload.get().message(html, args);
+        return _INSTANCE;
+    }
+
+    public static RenderHtml of(H.Status status, String html) {
+        payload.get().message(html).status(status);
+        return _INSTANCE;
+    }
+
+    public static RenderHtml of(H.Status status, String html, Object... args) {
+        payload.get().message(html, args).status(status);
         return _INSTANCE;
     }
 
