@@ -17,6 +17,7 @@ public class Result extends FastRuntimeException {
         public H.Format format;
         public H.Status status;
         public Object attachment;
+        public String etag;
 
         public Payload message(String message) {
             this.message = message;
@@ -51,6 +52,15 @@ public class Result extends FastRuntimeException {
         public Payload attach(Object attachment) {
             this.attachment = attachment;
             return this;
+        }
+
+        public Payload etag(String etag) {
+            this.etag = etag;
+            return this;
+        }
+
+        public String etag() {
+            return this.etag;
         }
     }
 
