@@ -18,6 +18,7 @@
 0.9.0-SNAPSHOT
 - add PatchAction annotation
 - allow RenderContent sub class to pass H.Status parameter into constructor
+- Deprecate NoResult, add NoContent to replace it
 
 0.8.0-SNAPSHOT
 - update to tool 0.10.0
