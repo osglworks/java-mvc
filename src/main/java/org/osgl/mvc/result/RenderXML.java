@@ -1,6 +1,7 @@
 package org.osgl.mvc.result;
 
 import org.osgl.http.H;
+import org.osgl.http.Http;
 import org.osgl.util.S;
 
 public class RenderXML extends RenderContent {
@@ -9,6 +10,12 @@ public class RenderXML extends RenderContent {
         @Override
         public String content() {
             return payload().message;
+        }
+
+        @Override
+        public Http.Status status() {
+            Http.Status status = payload().status;
+            return null == status ? super.status() : status;
         }
     };
 

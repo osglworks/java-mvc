@@ -32,7 +32,7 @@ public class RenderBinary extends Result {
             }
         }
 
-        private Disposition disposition = Disposition.attachment;
+        private Disposition disposition = Disposition.inline;
         private long length;
         private String name;
         private SObject binary;

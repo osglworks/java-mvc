@@ -4,7 +4,6 @@ import org.osgl.exception.FastRuntimeException;
 import org.osgl.http.H;
 import org.osgl.http.Http;
 import org.osgl.mvc.MvcConfig;
-import org.osgl.util.IO;
 import org.osgl.util.KVStore;
 import org.osgl.util.S;
 
