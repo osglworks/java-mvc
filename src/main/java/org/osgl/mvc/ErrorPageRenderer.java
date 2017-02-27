@@ -19,7 +19,7 @@ public class ErrorPageRenderer extends $.F3<H.Request, H.Response, ErrorResult, 
     public Void apply(H.Request request, H.Response response, ErrorResult error
     ) throws NotAppliedException, $.Break {
         H.Format fmt = request.accept();
-        if (request.isAjax() && fmt == H.Format.html) {
+        if (request.isAjax() && fmt == H.Format.HTML) {
             fmt = H.Format.TXT;
         }
         MvcConfig.applyBeforeCommitResultHandler(error, request, response);

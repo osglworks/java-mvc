@@ -1,13 +1,14 @@
 package org.osgl.mvc.result;
 
+import org.osgl.$;
 import org.osgl.http.H;
 import org.osgl.storage.impl.SObject;
 import org.osgl.util.E;
-import org.osgl.util.IO;
 import org.osgl.util.S;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
 
@@ -36,6 +37,7 @@ public class RenderBinary extends Result {
         private String name;
         private SObject binary;
         private String contentType;
+        private $.Function<OutputStream, ?> outputStreamVisitor;
 
 
         /**
@@ -114,12 +116,13 @@ public class RenderBinary extends Result {
          * @param file readable file to send back
          */
         public RenderBinary(File file, String name, boolean inline) {
-            if (file == null) {
-                throw new RuntimeException("file is null");
-            }
-            this.binary = SObject.of(name, file);
+            this.binary = SObject.of(name, $.notNull(file));
             this.name = name;
             this.disposition = Disposition.of(inline);
+        }
+
+        public RenderBinary($.Function<OutputStream, ?> outputStreamVisitor) {
+            this.outputStreamVisitor = $.notNull(outputStreamVisitor);
         }
 
         @Override
@@ -147,7 +150,11 @@ public class RenderBinary extends Result {
                     }
                 }
                 applyBeforeCommitHandler(req, resp);
-                resp.writeBinary(binary);
+                if (null != binary) {
+                    resp.writeBinary(binary);
+                } else {
+                    outputStreamVisitor.apply(resp.outputStream());
+                }
                 applyAfterCommitHandler(req, resp);
             } catch (Exception e) {
                 throw E.unexpected(e);
