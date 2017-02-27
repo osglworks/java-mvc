@@ -74,7 +74,7 @@ public class Result extends FastRuntimeException {
         return payload.get();
     }
 
-    private final Http.Status status;
+    private Http.Status status;
 
     protected Result() {status = null;}
 
@@ -108,6 +108,11 @@ public class Result extends FastRuntimeException {
 
     public int statusCode() {
         return status().code();
+    }
+
+    public Result status(H.Status status) {
+        this.status = status;
+        return this;
     }
 
     protected final void applyStatus(H.Response response) {

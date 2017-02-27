@@ -67,6 +67,7 @@ public class RenderBinary extends Result {
          * send a binary stream as the response
          * @param is the stream to read from
          * @param name the name to use as Content-Diposition attachement filename
+         * @param contentType the content type of the binary stream
          * @param inline true to set the response Content-Disposition to inline
          */
         public RenderBinary(InputStream is, String name, String contentType, boolean inline) {
@@ -149,6 +150,7 @@ public class RenderBinary extends Result {
                         resp.header(CONTENT_LENGTH, S.string(length));
                     }
                 }
+                applyStatus(resp);
                 applyBeforeCommitHandler(req, resp);
                 if (null != binary) {
                     resp.writeBinary(binary);
