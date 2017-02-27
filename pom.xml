@@ -99,7 +99,7 @@
   <groupId>org.osgl</groupId>
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>0.9.0-SNAPSHOT</version>
+  <version>0.9.0-yb-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
   <description>Utilities for MVC</description>
@@ -175,7 +175,7 @@
     <dependency>
       <groupId>org.osgl</groupId>
       <artifactId>osgl-http</artifactId>
-      <version>0.5.0-SNAPSHOT</version>
+      <version>0.5.0-yb-SNAPSHOT</version>
     </dependency>
 
     <dependency>
