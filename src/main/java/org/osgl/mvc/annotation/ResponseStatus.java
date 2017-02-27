@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * return result of the class, it will automatically set the response status
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target(ElementType.METHOD)
 public @interface ResponseStatus {
     /**
      * Specify the response status code
