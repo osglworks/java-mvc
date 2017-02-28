@@ -119,15 +119,15 @@ public class Result extends FastRuntimeException {
         response.status(statusCode());
     }
 
-    protected final void applyBeforeCommitHandler(H.Request req, H.Response resp) {
+    protected final void applyBeforeCommitHandler(Http.Request req, Http.Response resp) {
         MvcConfig.applyBeforeCommitResultHandler(this, req, resp);
     }
 
-    protected final void applyAfterCommitHandler(H.Request req, H.Response resp) {
+    protected final void applyAfterCommitHandler(Http.Request req, Http.Response resp) {
         MvcConfig.applyAfterCommitResultHandler(this, req, resp);
     }
 
-    protected void applyMessage(H.Request request, H.Response response) {
+    protected void applyMessage(Http.Request request, Http.Response response) {
         String msg = getMessage();
         if (S.notBlank(msg)) {
             response.writeContent(msg);

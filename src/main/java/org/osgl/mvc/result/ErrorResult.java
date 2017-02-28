@@ -165,7 +165,7 @@ public class ErrorResult extends Result {
     }
 
     @Override
-    protected void applyMessage(H.Request request, H.Response response) {
+    protected void applyMessage(Http.Request request, Http.Response response) {
         MvcConfig.errorPageRenderer().apply(request, response, this);
     }
 
