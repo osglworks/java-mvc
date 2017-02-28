@@ -1,19 +1,16 @@
 package org.osgl.mvc.result;
 
-import org.osgl.http.H;
-import org.osgl.util.IO;
-
 /**
- * Do nothing render result
+ * Render NO_CONTENT response. Please use {@link NoContent} instead
  */
-public class NoResult extends UnTransformableResult {
-    public NoResult() {
-    }
+@Deprecated
+public class NoResult extends NoContent {
 
-    @Override
-    public void apply(H.Request req, H.Response resp) {
-        applyBeforeCommitHandler(req, resp);
-        IO.close(resp.outputStream());
-        applyAfterCommitHandler(req, resp);
+    public static NoResult INSTANCE = new NoResult();
+
+    private NoResult() {}
+
+    public static NoResult get() {
+        return INSTANCE;
     }
 }

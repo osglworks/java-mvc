@@ -15,11 +15,29 @@
   ~ under the License.
   -->
 <!-- history
-0.7.0-SNAPSHOT
+0.10.0-SNAPSHOT
 - Support transform a result
+
+0.9.0-SNAPSHOT
+- add PatchAction annotation
+- allow RenderContent sub class to pass H.Status parameter into constructor
+- Deprecate NoResult, add NoContent to replace it
+
+0.8.0-SNAPSHOT
+- update to tool 0.10.0
+- update to http 0.5.0
+
+0.7.0-SNAPSHOT
+- update osgl-http to 0.4.0-SNAPSHOT
+
+0.6.1-SNAPSHOT
+- update osgl-http to 0.3.4-SNAPSHOT
 
 0.6.0-SNAPSHOT
 - Bind annotation now accept an array of Binder implementations
+- Add ActionUtil annotation
+- Support for localized Error Result message
+- Improve result throw/catch flow performance by introducing general static result mechanism
 
 0.5.1-SNAPSHOT
 - Update osgl-http from 0.3.0-SNAPSHOT to 0.3.1-SNAPSHOT
@@ -84,7 +102,7 @@
   <groupId>org.osgl</groupId>
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>0.7.0-SNAPSHOT</version>
+  <version>0.10.0-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
   <description>Utilities for MVC</description>
@@ -132,8 +150,8 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.3</version>
           <configuration>
-            <source>1.6</source>
-            <target>1.6</target>
+            <source>1.7</source>
+            <target>1.7</target>
           </configuration>
         </plugin>
         <plugin>
@@ -160,13 +178,7 @@
     <dependency>
       <groupId>org.osgl</groupId>
       <artifactId>osgl-http</artifactId>
-      <version>0.3.2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.osgl</groupId>
-      <artifactId>osgl-tool</artifactId>
-      <version>0.9.2</version>
+      <version>0.5.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>

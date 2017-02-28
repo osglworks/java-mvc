@@ -11,14 +11,36 @@ public abstract class RenderContent extends Result {
     private boolean outputEncoding;
 
     /**
+     * Create a RenderContent object with blank content, format and
+     * the outputEncoding set to {@code true}
+     *
+     * @param format the content type
+     */
+    protected RenderContent(H.Format format) {
+        this("", format, true);
+    }
+
+    /**
      * Create a RenderContent object with content, format and
      * the outputEncoding set to {@code true}
      *
-     * @param content the content to output
-     * @param format the format of the content type
+     * @param content the content string
+     * @param format the content type
      */
     protected RenderContent(String content, H.Format format) {
         this(content, format, true);
+    }
+
+    /**
+     * Create a RenderContent object with content, format and
+     * the outputEncoding set to {@code true}
+     *
+     * @param status the response status
+     * @param content the content string
+     * @param format the content type
+     */
+    protected RenderContent(H.Status status, String content, H.Format format) {
+        this(status, content, format, true);
     }
 
     /**
@@ -31,12 +53,31 @@ public abstract class RenderContent extends Result {
      * style
      * </p>
      *
-     * @param content
-     * @param format
-     * @param outputEncoding
+     * @param content the content string
+     * @param format the content type
+     * @param outputEncoding output encoding
      */
     protected RenderContent(String content, H.Format format, boolean outputEncoding) {
-        super(H.Status.OK);
+        this(H.Status.OK, content, format, outputEncoding);
+    }
+
+    /**
+     * Create a RenderContent object with content, format and outputEncoding
+     * specified.
+     *
+     * <p>
+     * If outputEncoding is set to {@code true} then when applying the
+     * Result, it will set content type to "content-type; charset=encoding"
+     * style
+     * </p>
+     *
+     * @param status HTTP response status
+     * @param content the content string
+     * @param format the content type
+     * @param outputEncoding output encoding
+     */
+    protected RenderContent(H.Status status, String content, H.Format format, boolean outputEncoding) {
+        super(status);
         E.NPE(format);
 
         this.content = content;
@@ -45,7 +86,7 @@ public abstract class RenderContent extends Result {
     }
 
     protected void setContentType(H.Response resp) {
-        String s = format.contentType();
+        String s = format().contentType();
         if (outputEncoding) {
             String encoding = resp.characterEncoding();
             if (S.notBlank(encoding)) {
@@ -53,6 +94,10 @@ public abstract class RenderContent extends Result {
             }
         }
         resp.initContentType(s);
+    }
+
+    public void setOutputEncoding(boolean outputEncoding) {
+        this.outputEncoding = outputEncoding;
     }
 
     public H.Format format() {
@@ -64,14 +109,18 @@ public abstract class RenderContent extends Result {
     }
 
     public void apply(H.Request req, H.Response resp) {
-        applyStatus(resp);
-        setContentType(resp);
-        applyBeforeCommitHandler(req, resp);
-        if (null != transformer) {
-            transformer.transform(content, resp);
-        } else {
-            resp.writeContent(content);
+        try {
+            applyStatus(resp);
+            setContentType(resp);
+            applyBeforeCommitHandler(req, resp);
+            if (null != transformer) {
+                transformer.transform(content, resp);
+            } else {
+                resp.writeContent(content);
+            }
+            applyAfterCommitHandler(req, resp);
+        } finally {
+            clearThreadLocals();
         }
-        applyAfterCommitHandler(req, resp);
     }
 }

@@ -6,12 +6,78 @@ import org.osgl.http.Http;
 import org.osgl.mvc.MvcConfig;
 import org.osgl.mvc.util.ResultTransformer;
 import org.osgl.util.IO;
+import org.osgl.util.KVStore;
 import org.osgl.util.S;
 
 public class Result extends FastRuntimeException {
 
-    private final Http.Status status;
     protected ResultTransformer transformer;
+    protected static class Payload extends KVStore {
+        public String message;
+        public Integer errorCode;
+        public Throwable cause;
+        public H.Format format;
+        public H.Status status;
+        public Object attachment;
+        public String etag;
+
+        public Payload message(String message) {
+            this.message = message;
+            return this;
+        }
+
+        public Payload message(String message, Object... args) {
+            this.message = S.fmt(message, args);
+            return this;
+        }
+
+        public Payload errorCode(int errorCode) {
+            this.errorCode = errorCode;
+            return this;
+        }
+
+        public Payload cause(Throwable cause) {
+            this.cause = cause;
+            return this;
+        }
+
+        public Payload format(H.Format format) {
+            this.format = format;
+            return this;
+        }
+
+        public Payload status(H.Status status) {
+            this.status = status;
+            return this;
+        }
+
+        public Payload attach(Object attachment) {
+            this.attachment = attachment;
+            return this;
+        }
+
+        public Payload etag(String etag) {
+            this.etag = etag;
+            return this;
+        }
+
+        public String etag() {
+            return this.etag;
+        }
+    }
+
+    protected static final ThreadLocal<Payload> payload = new ThreadLocal<Payload>() {
+        @Override
+        protected Payload initialValue() {
+            return new Payload();
+        }
+    };
+
+    protected Payload payload() {
+        return payload.get();
+    }
+
+    private Http.Status status;
 
     protected Result() {status = null;}
 
@@ -55,6 +121,11 @@ public class Result extends FastRuntimeException {
         return status().code();
     }
 
+    public Result status(H.Status status) {
+        this.status = status;
+        return this;
+    }
+
     protected final void applyStatus(H.Response response) {
         response.status(statusCode());
     }
@@ -75,14 +146,23 @@ public class Result extends FastRuntimeException {
         } else  if (S.notBlank(msg)) {
             response.writeContent(msg);
         } else {
-            IO.close(response.outputStream());
+            response.commit();
         }
-        applyAfterCommitHandler(request, response);
     }
 
     public void apply(H.Request req, H.Response resp) {
-        applyStatus(resp);
-        applyMessage(req, resp);
+        try {
+            applyStatus(resp);
+            applyBeforeCommitHandler(req, resp);
+            applyMessage(req, resp);
+            applyAfterCommitHandler(req, resp);
+        } finally {
+            clearThreadLocals();
+        }
+    }
+
+    public static void clearThreadLocals() {
+        payload.remove();
     }
 
 }

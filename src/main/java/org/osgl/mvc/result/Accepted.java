@@ -4,28 +4,48 @@ import org.osgl.$;
 import org.osgl.http.H;
 import org.osgl.http.Http;
 
-public final class Accepted extends UnTransformableResult {
+public class Accepted extends UnTransformableResult {
+
+    private static final Accepted _INSTANCE = new Accepted() {
+        @Override
+        public String location() {
+            return payload().message;
+        }
+    };
 
     private final String location;
 
+    private Accepted() {
+        location = null;
+    }
+
     public Accepted(String statusCheckUrl) {
-        super(Http.Status.ACCEPTED, "202 Accepted");
+        super(Http.Status.ACCEPTED);
         this.location = $.notNull(statusCheckUrl);
     }
 
     @Override
     public boolean equals(Object obj) {
-        return obj == this || (obj instanceof Accepted && ((Accepted) obj).location.equals(location));
+        return obj == this || (obj instanceof Accepted && ((Accepted) obj).location().equals(location()));
+    }
+
+    public String location() {
+        return location;
     }
 
     @Override
     public String toString() {
-        return "HTTP/1.1 201 Created";
+        return "201 Created";
     }
 
     @Override
     public void apply(H.Request req, H.Response resp) {
-        resp.header(H.Header.Names.LOCATION, location);
+        resp.header(H.Header.Names.LOCATION, location());
         super.apply(req, resp);
+    }
+
+    public static Accepted of(String statusCheckUrl) {
+        payload.get().message(statusCheckUrl);
+        return _INSTANCE;
     }
 }

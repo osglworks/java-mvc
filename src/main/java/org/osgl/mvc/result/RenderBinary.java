@@ -1,14 +1,15 @@
 package org.osgl.mvc.result;
 
+import org.osgl.$;
 import org.osgl.http.H;
 import org.osgl.storage.impl.SObject;
 import org.osgl.util.E;
-import org.osgl.util.IO;
 import org.osgl.util.S;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
-import java.net.URLEncoder;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
 
@@ -32,11 +33,12 @@ public class RenderBinary extends Result {
             }
         }
 
-        private Disposition disposition = Disposition.attachment;
+        private Disposition disposition = Disposition.inline;
         private long length;
         private String name;
         private SObject binary;
         private String contentType;
+        private $.Function<OutputStream, ?> outputStreamVisitor;
 
 
         /**
@@ -66,6 +68,7 @@ public class RenderBinary extends Result {
          * send a binary stream as the response
          * @param is the stream to read from
          * @param name the name to use as Content-Diposition attachement filename
+         * @param contentType the content type of the binary stream
          * @param inline true to set the response Content-Disposition to inline
          */
         public RenderBinary(InputStream is, String name, String contentType, boolean inline) {
@@ -115,12 +118,13 @@ public class RenderBinary extends Result {
          * @param file readable file to send back
          */
         public RenderBinary(File file, String name, boolean inline) {
-            if (file == null) {
-                throw new RuntimeException("file is null");
-            }
-            this.binary = SObject.of(name, file);
+            this.binary = SObject.of(name, $.notNull(file));
             this.name = name;
             this.disposition = Disposition.of(inline);
+        }
+
+        public RenderBinary($.Function<OutputStream, ?> outputStreamVisitor) {
+            this.outputStreamVisitor = $.notNull(outputStreamVisitor);
         }
 
         @Override
@@ -131,7 +135,17 @@ public class RenderBinary extends Result {
                     resp.contentType(contentType);
                 } else if (hasName) {
                     String ext = S.afterLast(name, ".");
-                    resp.initContentType(H.Format.of(ext).contentType());
+                    while(true) {
+                        if (S.notBlank(ext)) {
+                            H.Format format = H.Format.of(ext);
+                            if (null != format) {
+                                resp.initContentType(format.contentType());
+                                break;
+                            }
+                        }
+                        resp.initContentType("application/octet-stream");
+                        break;
+                    }
                 }
                 if (!resp.containsHeader(CONTENT_DISPOSITION)) {
                     resp.contentDisposition(name, disposition.isInline());
@@ -141,11 +155,21 @@ public class RenderBinary extends Result {
                         resp.header(CONTENT_LENGTH, S.string(length));
                     }
                 }
+                applyStatus(resp);
                 applyBeforeCommitHandler(req, resp);
                 if (null != transformer) {
+                    if (null == binary) {
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        outputStreamVisitor.apply(baos);
+                        binary = SObject.of(baos.toByteArray());
+                    }
                     transformer.transform(binary, resp);
                 } else {
-                    IO.copy(binary.asInputStream(), resp.outputStream(), false);
+                    if (null != binary) {
+                        resp.writeBinary(binary);
+                    } else {
+                        outputStreamVisitor.apply(resp.outputStream());
+                    }
                 }
                 applyAfterCommitHandler(req, resp);
             } catch (Exception e) {

@@ -6,7 +6,7 @@ public final class Ok extends UnTransformableResult {
 
     public static Ok INSTANCE = new Ok();
 
-    public Ok() {
+    private Ok() {
         super(Http.Status.OK, "200 Ok");
     }
 
@@ -18,5 +18,9 @@ public final class Ok extends UnTransformableResult {
     @Override
     public String toString() {
         return "HTTP/1.1 200 OK";
+    }
+
+    public static Ok get() {
+        return INSTANCE;
     }
 }
