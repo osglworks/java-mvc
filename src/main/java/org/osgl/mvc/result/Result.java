@@ -76,7 +76,7 @@ public class Result extends FastRuntimeException {
 
     private Http.Status status;
 
-    protected Result() {status = null;}
+    protected Result() {status = Http.Status.OK;}
 
     protected Result(Http.Status status) {
         this.status = status;
