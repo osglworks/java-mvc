@@ -178,7 +178,7 @@ public class ErrorResult extends Result {
     }
 
     public static ErrorResult of(H.Status status) {
-        payload.get().status(status);
+        payload.get().status(status).message(MvcConfig.errorMessage(status));
         return _INSTANCE;
     }
 
