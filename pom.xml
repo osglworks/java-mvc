@@ -15,6 +15,9 @@
   ~ under the License.
   -->
 <!-- history
+1.0.0
+- baseline from 0.9
+
 0.9.0-SNAPSHOT
 - add PatchAction annotation
 - allow RenderContent sub class to pass H.Status parameter into constructor
@@ -99,7 +102,7 @@
   <groupId>org.osgl</groupId>
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>0.9.0-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
   <description>Utilities for MVC</description>
@@ -122,6 +125,8 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <maven.test.skip>false</maven.test.skip>
+    <osgl-http.version>[1.0.0,2.0.0)</osgl-http.version>
+    <servlet.version>2.5</servlet.version>
   </properties>
 
   <licenses>
@@ -175,13 +180,13 @@
     <dependency>
       <groupId>org.osgl</groupId>
       <artifactId>osgl-http</artifactId>
-      <version>0.5.0-SNAPSHOT</version>
+      <version>${osgl-http.version}</version>
     </dependency>
 
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-      <version>2.5</version>
+      <version>${servlet.version}</version>
       <scope>provided</scope>
     </dependency>
 

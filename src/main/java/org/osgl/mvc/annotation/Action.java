@@ -21,7 +21,7 @@ public @interface Action {
      * action mapped to.
      *
      * <p>It is possible to use variable in the path, like
-     * @{code /service/{id}}, however it is up to
+     * {@code /service/{id}}, however it is up to
      * the MVC server implementation to decide the
      * format</p>
      *

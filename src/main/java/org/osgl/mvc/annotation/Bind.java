@@ -29,22 +29,22 @@ public @interface Bind {
      * used to resolve request parameters into the domain model
      * object. Example:
      * <p>HTML code</p>
-     * <code>
      * <pre>
+     * <code>
      * &lt;form&gt;
      *     &lt;input name="u.name"&gt;
      *     &lt;input name="u.password" type="password" &gt;
      * &lt;/form&gt;
-     * </pre>
      * </code>
+     * </pre>
      * <p>Java code</p>
-     * <code>
      * <pre>
+     * <code>
      * public Result createUser(@Binder(value = UserBinder.class, model = "u") User user) {
      *     ...
      * }
-     * </pre>
      * </code>
+     * </pre>
      * <p>If <code>model</code> is ignored, then implementation should use the
      * parameter name (<code>user</code>) in our case to resolve the model instance; and
      * the frontend developer shall not use {@code u.name} and {@code u.password} to refer
