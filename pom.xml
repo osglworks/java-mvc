@@ -15,6 +15,9 @@
   ~ under the License.
   -->
 <!-- history
+1.0.1
+- Fix #3 Make it possible to output charset encoding for JSON result
+
 1.0.0
 - baseline from 0.9
 
@@ -101,7 +104,7 @@
   <groupId>org.osgl</groupId>
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.0</version>
+  <version>1.0.1-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
   <description>Utilities for MVC</description>

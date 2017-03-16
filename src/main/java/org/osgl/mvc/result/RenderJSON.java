@@ -18,6 +18,16 @@ public class RenderJSON extends RenderContent {
             Http.Status status = payload().status;
             return null == status ? super.status() : status;
         }
+
+        @Override
+        protected boolean isOutputEncoding() {
+            return payload().outputEncoding();
+        }
+
+        @Override
+        public void setOutputEncoding(boolean outputEncoding) {
+            payload().outputEncoding(outputEncoding);
+        }
     };
 
     private RenderJSON() {
@@ -26,6 +36,9 @@ public class RenderJSON extends RenderContent {
     }
 
     public RenderJSON(String jsonStr) {
+        /*
+         * By default we don't output encoding. See http://www.ietf.org/rfc/rfc7159.txt
+         */
         super(jsonStr, H.Format.JSON, false);
     }
     public RenderJSON(String jsonFormat, Object ... args) {
