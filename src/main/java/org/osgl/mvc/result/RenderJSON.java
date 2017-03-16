@@ -32,27 +32,24 @@ public class RenderJSON extends RenderContent {
 
     private RenderJSON() {
         super(H.Format.JSON);
-        setOutputEncoding(false);
+        setOutputEncoding(MvcConfig.renderJsonOutputCharset());
     }
 
     public RenderJSON(String jsonStr) {
-        /*
-         * By default we don't output encoding. See http://www.ietf.org/rfc/rfc7159.txt
-         */
-        super(jsonStr, H.Format.JSON, false);
+        super(jsonStr, H.Format.JSON, MvcConfig.renderJsonOutputCharset());
     }
     public RenderJSON(String jsonFormat, Object ... args) {
-        super(S.fmt(jsonFormat, args), H.Format.JSON, false);
+        super(S.fmt(jsonFormat, args), H.Format.JSON, MvcConfig.renderJsonOutputCharset());
     }
     public RenderJSON(Object v) {
         this(MvcConfig.jsonSerializer().apply(v));
     }
 
     public RenderJSON(H.Status status, String jsonStr) {
-        super(status, jsonStr, H.Format.JSON, false);
+        super(status, jsonStr, H.Format.JSON, MvcConfig.renderJsonOutputCharset());
     }
     public RenderJSON(H.Status status, String jsonFormat, Object ... args) {
-        super(status, S.fmt(jsonFormat, args), H.Format.JSON, false);
+        super(status, S.fmt(jsonFormat, args), H.Format.JSON, MvcConfig.renderJsonOutputCharset());
     }
     public RenderJSON(H.Status status, Object v) {
         this(status, MvcConfig.jsonSerializer().apply(v));
