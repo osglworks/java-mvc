@@ -17,6 +17,7 @@ public class Result extends FastRuntimeException {
         public H.Status status;
         public Object attachment;
         public String etag;
+        public Boolean outputEncoding;
 
         public Payload message(String message) {
             this.message = message;
@@ -60,6 +61,15 @@ public class Result extends FastRuntimeException {
 
         public String etag() {
             return this.etag;
+        }
+
+        public Payload outputEncoding(boolean outputEncoding) {
+            this.outputEncoding = outputEncoding;
+            return this;
+        }
+
+        public boolean outputEncoding() {
+            return null != outputEncoding && outputEncoding;
         }
     }
 

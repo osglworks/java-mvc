@@ -84,6 +84,10 @@ public class MvcConfig extends HttpConfig {
     static $.Func3<Result, H.Request<?>, H.Response<?>, ?> beforeCommitResultHandler = DUMB_COMMIT_RESULT_LISTENER;
     static $.Func3<Result, H.Request<?>, H.Response<?>, ?> afterCommitResultHandler = DUMB_COMMIT_RESULT_LISTENER;
     static $.Function<String, String> messageTranlater = $.F.identity();
+    /*
+     * By default we don't output encoding. See http://www.ietf.org/rfc/rfc7159.txt
+     */
+    static boolean renderJsonOutputCharset = false;
 
     /**
      * Set the cookie prefix for session and flash cookie
@@ -109,6 +113,14 @@ public class MvcConfig extends HttpConfig {
     public static void secret(String secret) {
         E.illegalArgumentIf(S.blank(secret));
         MvcConfig.secret = secret;
+    }
+
+    public static void renderJsonOutputCharset(boolean b) {
+        renderJsonOutputCharset = b;
+    }
+
+    public static boolean renderJsonOutputCharset() {
+        return renderJsonOutputCharset;
     }
 
     public static void jsonSerializer($.Function<Object, String> serializer) {

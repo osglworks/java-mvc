@@ -87,13 +87,17 @@ public abstract class RenderContent extends Result {
 
     protected void setContentType(H.Response resp) {
         String s = format().contentType();
-        if (outputEncoding) {
+        if (isOutputEncoding()) {
             String encoding = resp.characterEncoding();
             if (S.notBlank(encoding)) {
                 s = S.builder(s).append("; charset=").append(encoding).toString();
             }
         }
         resp.initContentType(s);
+    }
+
+    protected boolean isOutputEncoding() {
+        return outputEncoding;
     }
 
     public void setOutputEncoding(boolean outputEncoding) {
