@@ -84,6 +84,13 @@ public class MvcConfig extends HttpConfig {
     static $.Func3<Result, H.Request<?>, H.Response<?>, ?> beforeCommitResultHandler = DUMB_COMMIT_RESULT_LISTENER;
     static $.Func3<Result, H.Request<?>, H.Response<?>, ?> afterCommitResultHandler = DUMB_COMMIT_RESULT_LISTENER;
     static $.Function<String, String> messageTranlater = $.F.identity();
+    // We need this indirect to handle IE's nasty issue with application/json
+    static $.Func0<H.Format> jsonMediaTypeProvider = new $.Func0<H.Format>() {
+        @Override
+        public H.Format apply() throws NotAppliedException, Osgl.Break {
+            return H.Format.JSON;
+        }
+    };
     /*
      * By default we don't output encoding. See http://www.ietf.org/rfc/rfc7159.txt
      */
@@ -121,6 +128,14 @@ public class MvcConfig extends HttpConfig {
 
     public static boolean renderJsonOutputCharset() {
         return renderJsonOutputCharset;
+    }
+
+    public static void jsonMediaTypeProvider($.Func0<H.Format> provider) {
+        jsonMediaTypeProvider = $.notNull(provider);
+    }
+
+    public static $.Func0<H.Format> jsonMediaTypeProvider() {
+        return jsonMediaTypeProvider;
     }
 
     public static void jsonSerializer($.Function<Object, String> serializer) {

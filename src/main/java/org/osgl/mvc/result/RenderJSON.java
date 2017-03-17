@@ -31,26 +31,29 @@ public class RenderJSON extends RenderContent {
     };
 
     private RenderJSON() {
-        super(H.Format.JSON);
+        super(MvcConfig.jsonMediaTypeProvider().apply());
         setOutputEncoding(MvcConfig.renderJsonOutputCharset());
     }
 
     public RenderJSON(String jsonStr) {
-        super(jsonStr, H.Format.JSON, MvcConfig.renderJsonOutputCharset());
+        super(jsonStr, MvcConfig.jsonMediaTypeProvider().apply(), MvcConfig.renderJsonOutputCharset());
     }
     public RenderJSON(String jsonFormat, Object ... args) {
-        super(S.fmt(jsonFormat, args), H.Format.JSON, MvcConfig.renderJsonOutputCharset());
+        super(S.fmt(jsonFormat, args), MvcConfig.jsonMediaTypeProvider().apply(), MvcConfig.renderJsonOutputCharset());
     }
+
     public RenderJSON(Object v) {
         this(MvcConfig.jsonSerializer().apply(v));
     }
 
     public RenderJSON(H.Status status, String jsonStr) {
-        super(status, jsonStr, H.Format.JSON, MvcConfig.renderJsonOutputCharset());
+        super(status, jsonStr, MvcConfig.jsonMediaTypeProvider().apply(), MvcConfig.renderJsonOutputCharset());
     }
+
     public RenderJSON(H.Status status, String jsonFormat, Object ... args) {
-        super(status, S.fmt(jsonFormat, args), H.Format.JSON, MvcConfig.renderJsonOutputCharset());
+        super(status, S.fmt(jsonFormat, args), MvcConfig.jsonMediaTypeProvider().apply(), MvcConfig.renderJsonOutputCharset());
     }
+
     public RenderJSON(H.Status status, Object v) {
         this(status, MvcConfig.jsonSerializer().apply(v));
     }
