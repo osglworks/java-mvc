@@ -15,6 +15,10 @@
   ~ under the License.
   -->
 <!-- history
+1.0.3
+- take out version range. See https://issues.apache.org/jira/browse/MNG-3092
+- Allow `@With` to be used on method
+
 1.0.2
 - #4 IE does not support application/json content
 
@@ -130,7 +134,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <maven.test.skip>false</maven.test.skip>
-    <osgl-http.version>[1.0.0,2.0.0)</osgl-http.version>
+    <osgl-http.version>1.0.2</osgl-http.version>
     <servlet.version>2.5</servlet.version>
   </properties>
 

@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * The {@code With} annotation is used to delegate interceptors
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.METHOD})
 public @interface With {
 
     /**
