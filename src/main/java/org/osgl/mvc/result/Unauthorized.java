@@ -90,7 +90,11 @@ public class Unauthorized extends ErrorResult {
             resp.header(H.Header.Names.WWW_AUTHENTICATE, type().header(this));
             applyMessage(req, resp);
         } finally {
-            clearThreadLocals();
+            try {
+                resp.commit();
+            } finally {
+                clearThreadLocals();
+            }
         }
     }
 
