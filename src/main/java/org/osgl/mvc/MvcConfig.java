@@ -30,6 +30,7 @@ public class MvcConfig extends HttpConfig {
     public static final String MSG_ID_PROXY_AUTHENTICATION_REQUIRED = "osgl.result.proxy_authentication_required";
     public static final String MSG_ID_REQUREST_TIMEOUT = "osgl.result.requrest_timeout";
     public static final String MSG_ID_CONFLICT = "osgl.result.conflict";
+    public static final String MSG_ID_UNKNOWN_STATUS = "osgl.result.unknown_status";
 
     public static final String MSG_ID_SERVER_ERROR = "osgl.result.server_error";
     public static final String MSG_ID_NOT_IMPLEMENTED = "osgl.result.not_implemented";
@@ -209,6 +210,10 @@ public class MvcConfig extends HttpConfig {
             } else {
                 msg = "Unknown status";
             }
+        }
+
+        if (i18n) {
+            msg = messageTranlater.apply(msg);
         }
 
         return msg;

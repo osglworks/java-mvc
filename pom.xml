@@ -15,6 +15,9 @@
   ~ under the License.
   -->
 <!-- history
+1.0.6
+- #6 Localized error message not translated
+
 1.0.5
 - update osgl-http dependency to 1.0.3
 
