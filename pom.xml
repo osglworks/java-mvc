@@ -15,6 +15,9 @@
   ~ under the License.
   -->
 <!-- history
+1.0.7
+- Catch up to osgl-http 1.0.4
+
 1.0.6
 - #6 Localized error message not translated
 
@@ -120,7 +123,7 @@
   <groupId>org.osgl</groupId>
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.7-SNAPSHOT</version>
+  <version>1.0.7</version>
 
   <name>OSGL MVC</name>
   <description>Utilities for MVC</description>
@@ -143,7 +146,8 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <maven.test.skip>false</maven.test.skip>
-    <osgl-http.version>1.0.2</osgl-http.version>
+    <osgl-http.version>1.0.4</osgl-http.version>
+    <osgl-storage.version>1.2.0</osgl-storage.version>
     <servlet.version>2.5</servlet.version>
   </properties>
 
@@ -199,6 +203,13 @@
       <groupId>org.osgl</groupId>
       <artifactId>osgl-http</artifactId>
       <version>${osgl-http.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.osgl</groupId>
+      <artifactId>osgl-storage</artifactId>
+      <version>${osgl-storage.version}</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
