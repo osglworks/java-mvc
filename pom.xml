@@ -15,6 +15,9 @@
   ~ under the License.
   -->
 <!-- history
+1.2.0
+- #9 Support different semantic for new redirection responses
+
 1.1.1
 - #7 Add WsAction
 - Catch up to osgl-http 1.0.5
@@ -127,7 +130,7 @@
   <groupId>org.osgl</groupId>
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>1.1.2-SNAPSHOT</version>
+  <version>1.2.0-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
   <description>Utilities for MVC</description>
@@ -150,7 +153,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <maven.test.skip>false</maven.test.skip>
-    <osgl-http.version>1.0.5</osgl-http.version>
+    <osgl-http.version>1.1.1</osgl-http.version>
     <osgl-storage.version>1.2.0</osgl-storage.version>
     <servlet.version>2.5</servlet.version>
   </properties>
