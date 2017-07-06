@@ -92,11 +92,15 @@ public class Unauthorized extends ErrorResult {
     public void apply(H.Request req, H.Response resp) {
         try {
             applyStatus(resp);
+            applyCookies(resp);
+            applyHeaders(resp);
             resp.header(H.Header.Names.WWW_AUTHENTICATE, type().header(this));
+            applyBeforeCommitHandler(req, resp);
             applyMessage(req, resp);
         } finally {
             try {
                 resp.commit();
+                applyAfterCommitHandler(req, resp);
             } finally {
                 clearThreadLocals();
             }

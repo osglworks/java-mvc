@@ -5,10 +5,11 @@ import org.osgl.exception.FastRuntimeException;
 import org.osgl.http.H;
 import org.osgl.http.Http;
 import org.osgl.mvc.MvcConfig;
+import org.osgl.util.C;
 import org.osgl.util.KVStore;
 import org.osgl.util.S;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Result extends FastRuntimeException {
@@ -102,6 +103,9 @@ public class Result extends FastRuntimeException {
 
     private long timestamp = $.ms();
 
+    private Map<String, H.Header> headers = new HashMap<>();
+    private Map<String, H.Cookie> cookies = new HashMap<>();
+
     protected Result() {status = Http.Status.OK;}
 
     protected Result(Http.Status status) {
@@ -145,6 +149,47 @@ public class Result extends FastRuntimeException {
         return timestamp;
     }
 
+    public Result header(H.Header header) {
+        this.headers.put(header.name(), header);
+        return this;
+    }
+
+    public Result addHeader(String name, String ... values) {
+        H.Header header = this.headers.get(name);
+        if (null == header) {
+            header = new H.Header(name, values);
+        } else {
+            header = new H.Header(name, C.list(header.values()).append(C.listOf(values)));
+        }
+        return this;
+    }
+
+    public Result addCookie(H.Cookie cookie) {
+        this.cookies.put(cookie.name(), cookie);
+        return this;
+    }
+
+    protected final void applyHeaders(H.Response response) {
+        if (headers.isEmpty()) {
+            return;
+        }
+        for (H.Header header : headers.values()) {
+            String name = header.name();
+            for (String value : header.values()) {
+                response.addHeader(name, value);
+            }
+        }
+    }
+
+    protected final void applyCookies(H.Response response) {
+        if (cookies.isEmpty()) {
+            return;
+        }
+        for (H.Cookie cookie: cookies.values()) {
+            response.addCookie(cookie);
+        }
+    }
+
     protected final void applyStatus(H.Response response) {
         response.status(statusCode());
     }
@@ -167,12 +212,14 @@ public class Result extends FastRuntimeException {
     public void apply(H.Request req, H.Response resp) {
         try {
             applyStatus(resp);
+            applyCookies(resp);
+            applyHeaders(resp);
             applyBeforeCommitHandler(req, resp);
             applyMessage(req, resp);
-            applyAfterCommitHandler(req, resp);
         } finally {
             try {
                 resp.commit();
+                applyAfterCommitHandler(req, resp);
             } finally {
                 clearThreadLocals();
             }

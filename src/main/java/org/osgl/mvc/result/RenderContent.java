@@ -116,11 +116,17 @@ public abstract class RenderContent extends Result {
         try {
             applyStatus(resp);
             setContentType(resp);
+            applyCookies(resp);
+            applyHeaders(resp);
             applyBeforeCommitHandler(req, resp);
             resp.writeContent(content());
-            applyAfterCommitHandler(req, resp);
         } finally {
-            clearThreadLocals();
+            try {
+                resp.commit();
+                applyAfterCommitHandler(req, resp);
+            } finally {
+                clearThreadLocals();
+            }
         }
     }
 }

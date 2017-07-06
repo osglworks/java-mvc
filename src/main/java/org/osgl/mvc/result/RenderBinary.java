@@ -130,6 +130,8 @@ public class RenderBinary extends Result {
         public void apply(H.Request req, H.Response resp) {
             boolean hasName = S.notBlank(name);
             try {
+                applyCookies(resp);
+                applyHeaders(resp);
                 if (null != contentType) {
                     resp.contentType(contentType);
                 } else if (hasName) {
@@ -157,9 +159,15 @@ public class RenderBinary extends Result {
                 } else {
                     outputStreamVisitor.apply(resp.outputStream());
                 }
-                applyAfterCommitHandler(req, resp);
             } catch (Exception e) {
                 throw E.unexpected(e);
+            } finally {
+                try {
+                    resp.commit();
+                    applyAfterCommitHandler(req, resp);
+                } finally {
+                    clearThreadLocals();
+                }
             }
         }
 
