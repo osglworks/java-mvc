@@ -17,6 +17,7 @@
 <!-- history
 1.2.0
 - #9 Support different semantic for new redirection responses
+- update osgl-http to 1.1.3
 
 1.1.1
 - #7 Add WsAction
@@ -153,7 +154,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <maven.test.skip>false</maven.test.skip>
-    <osgl-http.version>1.1.2-SNAPSHOT</osgl-http.version>
+    <osgl-http.version>1.1.3</osgl-http.version>
     <osgl-storage.version>1.2.0</osgl-storage.version>
     <servlet.version>2.5</servlet.version>
   </properties>

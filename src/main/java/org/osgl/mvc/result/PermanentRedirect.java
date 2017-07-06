@@ -10,6 +10,11 @@ public class PermanentRedirect extends RedirectBase {
         protected String url() {
             return payload().message;
         }
+
+        @Override
+        public long timestamp() {
+            return payload().timestamp;
+        }
     };
 
     private PermanentRedirect() {
@@ -25,12 +30,12 @@ public class PermanentRedirect extends RedirectBase {
     }
 
     public static PermanentRedirect of(String url) {
-        payload.get().message(url);
+        touchPayload().message(url);
         return _INSTANCE;
     }
 
     public static PermanentRedirect of(String url, Object... args) {
-        payload.get().message(url, args);
+        touchPayload().message(url, args);
         return _INSTANCE;
     }
 

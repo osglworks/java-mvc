@@ -17,6 +17,11 @@ public class RenderHtml extends RenderContent {
             Http.Status status = payload().status;
             return null == status ? super.status() : status;
         }
+
+        @Override
+        public long timestamp() {
+            return payload().timestamp;
+        }
     };
 
     private RenderHtml() {
@@ -40,22 +45,22 @@ public class RenderHtml extends RenderContent {
     }
 
     public static RenderHtml of(String html) {
-        payload.get().message(html);
+        touchPayload().message(html);
         return _INSTANCE;
     }
 
     public static RenderHtml of(String html, Object... args) {
-        payload.get().message(html, args);
+        touchPayload().message(html, args);
         return _INSTANCE;
     }
 
     public static RenderHtml of(H.Status status, String html) {
-        payload.get().message(html).status(status);
+        touchPayload().message(html).status(status);
         return _INSTANCE;
     }
 
     public static RenderHtml of(H.Status status, String html, Object... args) {
-        payload.get().message(html, args).status(status);
+        touchPayload().message(html, args).status(status);
         return _INSTANCE;
     }
 

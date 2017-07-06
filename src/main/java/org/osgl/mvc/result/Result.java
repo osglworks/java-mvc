@@ -1,11 +1,15 @@
 package org.osgl.mvc.result;
 
+import org.osgl.$;
 import org.osgl.exception.FastRuntimeException;
 import org.osgl.http.H;
 import org.osgl.http.Http;
 import org.osgl.mvc.MvcConfig;
 import org.osgl.util.KVStore;
 import org.osgl.util.S;
+
+import java.util.List;
+import java.util.Map;
 
 public class Result extends FastRuntimeException {
 
@@ -18,6 +22,7 @@ public class Result extends FastRuntimeException {
         public Object attachment;
         public String etag;
         public Boolean outputEncoding;
+        public long timestamp;
 
         public Payload message(String message) {
             this.message = message;
@@ -26,6 +31,11 @@ public class Result extends FastRuntimeException {
 
         public Payload message(String message, Object... args) {
             this.message = S.fmt(message, args);
+            return this;
+        }
+
+        public Payload touch() {
+            this.timestamp = timestamp;
             return this;
         }
 
@@ -73,18 +83,24 @@ public class Result extends FastRuntimeException {
         }
     }
 
-    protected static final ThreadLocal<Payload> payload = new ThreadLocal<Payload>() {
+    private static final ThreadLocal<Payload> payload = new ThreadLocal<Payload>() {
         @Override
         protected Payload initialValue() {
             return new Payload();
         }
     };
 
-    protected Payload payload() {
+    protected static Payload payload() {
         return payload.get();
     }
 
+    protected static Payload touchPayload() {
+        return payload().touch();
+    }
+
     private Http.Status status;
+
+    private long timestamp = $.ms();
 
     protected Result() {status = Http.Status.OK;}
 
@@ -123,6 +139,10 @@ public class Result extends FastRuntimeException {
     public Result status(H.Status status) {
         this.status = status;
         return this;
+    }
+
+    public long timestamp() {
+        return timestamp;
     }
 
     protected final void applyStatus(H.Response response) {

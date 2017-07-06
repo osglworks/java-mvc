@@ -20,6 +20,11 @@ public class RenderJSON extends RenderContent {
         }
 
         @Override
+        public long timestamp() {
+            return payload().timestamp;
+        }
+
+        @Override
         protected boolean isOutputEncoding() {
             return payload().outputEncoding();
         }
@@ -59,34 +64,34 @@ public class RenderJSON extends RenderContent {
     }
 
     public static RenderJSON of(String jsonStr) {
-        payload.get().message(jsonStr);
+        touchPayload().message(jsonStr);
         return _INSTANCE;
     }
 
     public static RenderJSON of(String jsonFormt, Object... args) {
-        payload.get().message(jsonFormt, args);
+        touchPayload().message(jsonFormt, args);
         return _INSTANCE;
     }
 
     public static RenderJSON of(Object v) {
         String s = v instanceof String ? (String) v : MvcConfig.jsonSerializer().apply(v);
-        payload.get().message(s);
+        touchPayload().message(s);
         return _INSTANCE;
     }
 
     public static RenderJSON of(H.Status status, String jsonStr) {
-        payload.get().message(jsonStr).status(status);
+        touchPayload().message(jsonStr).status(status);
         return _INSTANCE;
     }
 
     public static RenderJSON of(H.Status status, String jsonFormt, Object... args) {
-        payload.get().message(jsonFormt, args).status(status);
+        touchPayload().message(jsonFormt, args).status(status);
         return _INSTANCE;
     }
 
     public static RenderJSON of(H.Status status, Object v) {
         String s = v instanceof String ? (String) v : MvcConfig.jsonSerializer().apply(v);
-        payload.get().message(s).status(status);
+        touchPayload().message(s).status(status);
         return _INSTANCE;
     }
 }

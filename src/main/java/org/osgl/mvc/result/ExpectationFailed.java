@@ -1,20 +1,18 @@
 package org.osgl.mvc.result;
 
-import static org.osgl.http.H.Status.NOT_ACCEPTABLE;
+import static org.osgl.http.H.Status.EXPECTATION_FAILED;
 
 /**
- * The requested resource is capable of generating only content not acceptable according to the
- * Accept headers sent in the request.
- * See <a href="https://en.wikipedia.org/wiki/Content_negotiation">Content negotiation</a>.
+ * The server cannot meet the requirements of the Expect request-header field.
  */
-public class NotAcceptable extends ErrorResult {
+public class ExpectationFailed extends ErrorResult {
 
     /**
-     * The static instance of NotAcceptable result.
+     * The static instance of ExpectationFailed result.
      */
-    public static final NotAcceptable INSTANCE = new NotAcceptable();
+    public static final ExpectationFailed INSTANCE = new ExpectationFailed();
 
-    private static final NotAcceptable _INSTANCE = new NotAcceptable() {
+    private static final ExpectationFailed _INSTANCE = new ExpectationFailed() {
         @Override
         public String getMessage() {
             return payload().message;
@@ -31,51 +29,51 @@ public class NotAcceptable extends ErrorResult {
         }
     };
 
-    public NotAcceptable() {
-        super(NOT_ACCEPTABLE);
+    public ExpectationFailed() {
+        super(EXPECTATION_FAILED);
     }
 
-    public NotAcceptable(int errorCode) {
-        super(NOT_ACCEPTABLE, errorCode);
+    public ExpectationFailed(int errorCode) {
+        super(EXPECTATION_FAILED, errorCode);
     }
 
-    public NotAcceptable(String message, Object... args) {
-        super(NOT_ACCEPTABLE, message, args);
+    public ExpectationFailed(String message, Object... args) {
+        super(EXPECTATION_FAILED, message, args);
     }
 
-    public NotAcceptable(int errorCode, String message, Object... args) {
-        super(NOT_ACCEPTABLE, errorCode, message, args);
+    public ExpectationFailed(int errorCode, String message, Object... args) {
+        super(EXPECTATION_FAILED, errorCode, message, args);
     }
     /**
-     * Returns a static NotAcceptable instance and set the {@link #payload} thread local
+     * Returns a static ExpectationFailed instance and set the {@link #payload} thread local
      * with default message.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
      *
-     * @return a static NotAcceptable instance as described above
+     * @return a static ExpectationFailed instance as described above
      */
-    public static NotAcceptable get() {
-        return _localizedErrorMsg() ? of(defaultMessage(NOT_ACCEPTABLE)) : INSTANCE;
+    public static ExpectationFailed get() {
+        return _localizedErrorMsg() ? of(defaultMessage(EXPECTATION_FAILED)) : INSTANCE;
     }
 
     /**
-     * Returns a static NotAcceptable instance and set the {@link #payload} thread local
+     * Returns a static ExpectationFailed instance and set the {@link #payload} thread local
      * with default message.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
      *
      * @param errorCode the app defined error code
-     * @return a static NotAcceptable instance as described above
+     * @return a static ExpectationFailed instance as described above
      */
-    public static NotAcceptable of(int errorCode) {
+    public static ExpectationFailed of(int errorCode) {
         touchPayload().errorCode(errorCode);
-        return _localizedErrorMsg() ? of(defaultMessage(NOT_ACCEPTABLE)) : INSTANCE;
+        return _localizedErrorMsg() ? of(defaultMessage(EXPECTATION_FAILED)) : INSTANCE;
     }
 
     /**
-     * Returns a static NotAcceptable instance and set the {@link #payload} thread local
+     * Returns a static ExpectationFailed instance and set the {@link #payload} thread local
      * with message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
@@ -83,15 +81,15 @@ public class NotAcceptable extends ErrorResult {
      *
      * @param message the message
      * @param args the message arguments
-     * @return a static NotAcceptable instance as described above
+     * @return a static ExpectationFailed instance as described above
      */
-    public static NotAcceptable of(String message, Object... args) {
+    public static ExpectationFailed of(String message, Object... args) {
         touchPayload().message(message, args);
         return _INSTANCE;
     }
 
     /**
-     * Returns a static NotAcceptable instance and set the {@link #payload} thread local
+     * Returns a static ExpectationFailed instance and set the {@link #payload} thread local
      * with message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
@@ -100,30 +98,30 @@ public class NotAcceptable extends ErrorResult {
      * @param cause the cause
      * @param message the message
      * @param args the message arguments
-     * @return a static NotAcceptable instance as described above
+     * @return a static ExpectationFailed instance as described above
      */
-    public static NotAcceptable of(Throwable cause, String message, Object... args) {
+    public static ExpectationFailed of(Throwable cause, String message, Object... args) {
         touchPayload().message(message, args).cause(cause);
         return _INSTANCE;
     }
 
     /**
-     * Returns a static NotAcceptable instance and set the {@link #payload} thread local
+     * Returns a static ExpectationFailed instance and set the {@link #payload} thread local
      * with message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
      *
      * @param cause the cause
-     * @return a static NotAcceptable instance as described above
+     * @return a static ExpectationFailed instance as described above
      */
-    public static NotAcceptable of(Throwable cause) {
+    public static ExpectationFailed of(Throwable cause) {
         touchPayload().cause(cause);
         return _INSTANCE;
     }
 
     /**
-     * Returns a static NotAcceptable instance and set the {@link #payload} thread local
+     * Returns a static ExpectationFailed instance and set the {@link #payload} thread local
      * with message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
@@ -132,15 +130,15 @@ public class NotAcceptable extends ErrorResult {
      * @param errorCode the app defined error code
      * @param message the message
      * @param args the message arguments
-     * @return a static NotAcceptable instance as described above
+     * @return a static ExpectationFailed instance as described above
      */
-    public static NotAcceptable of(int errorCode, String message, Object... args) {
+    public static ExpectationFailed of(int errorCode, String message, Object... args) {
         touchPayload().errorCode(errorCode).message(message, args);
         return _INSTANCE;
     }
 
     /**
-     * Returns a static NotAcceptable instance and set the {@link #payload} thread local
+     * Returns a static ExpectationFailed instance and set the {@link #payload} thread local
      * with message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
@@ -150,9 +148,9 @@ public class NotAcceptable extends ErrorResult {
      * @param errorCode the app defined error code
      * @param message the message
      * @param args the message arguments
-     * @return a static NotAcceptable instance as described above
+     * @return a static ExpectationFailed instance as described above
      */
-    public static NotAcceptable of(int errorCode, Throwable cause, String message, Object... args) {
+    public static ExpectationFailed of(int errorCode, Throwable cause, String message, Object... args) {
         touchPayload().errorCode(errorCode).message(message, args).cause(cause);
         return _INSTANCE;
     }

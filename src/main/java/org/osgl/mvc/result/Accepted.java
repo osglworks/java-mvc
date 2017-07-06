@@ -11,6 +11,11 @@ public class Accepted extends Result {
         public String location() {
             return payload().message;
         }
+
+        @Override
+        public long timestamp() {
+            return payload().timestamp;
+        }
     };
 
     private final String location;
@@ -45,7 +50,7 @@ public class Accepted extends Result {
     }
 
     public static Accepted of(String statusCheckUrl) {
-        payload.get().message(statusCheckUrl);
+        touchPayload().message(statusCheckUrl);
         return _INSTANCE;
     }
 }

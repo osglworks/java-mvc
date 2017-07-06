@@ -28,6 +28,11 @@ public class ErrorResult extends Result {
         }
 
         @Override
+        public long timestamp() {
+            return payload().timestamp;
+        }
+
+        @Override
         public synchronized Throwable getCause() {
             return payload().cause;
         }
@@ -125,15 +130,15 @@ public class ErrorResult extends Result {
     }
 
     public String toJsonString() {
-        StringBuilder sb = new StringBuilder("{status:")
-                .append(statusCode()).append(", message:\"").append(getLocalizedMessage());
+        StringBuilder sb = new StringBuilder("{\"status\":")
+                .append(statusCode()).append(", \"message\":\"").append(getLocalizedMessage());
         Integer errorCode = errorCode();
         if (null != errorCode) {
-            sb.append("\", error:").append(errorCode).append("}");
+            sb.append("\", \"error\":").append(errorCode);
         } else {
-            sb.append("\"}");
+            sb.append("\"");
         }
-        return sb.toString();
+        return sb.append(", \"timestamp\":").append(timestamp()).append("}").toString();
     }
 
     /**
@@ -144,6 +149,7 @@ public class ErrorResult extends Result {
         KVStore store = new KVStore();
         store.putValue("status", statusCode());
         store.putValue("message", getLocalizedMessage());
+        store.putValue("timestamp", timestamp());
         Integer code = errorCode();
         if (null != code) {
             store.putValue("code", code);
@@ -178,32 +184,32 @@ public class ErrorResult extends Result {
     }
 
     public static ErrorResult of(H.Status status) {
-        payload.get().status(status).message(MvcConfig.errorMessage(status));
+        touchPayload().status(status).message(MvcConfig.errorMessage(status));
         return _INSTANCE;
     }
 
     public static ErrorResult of(H.Status status, int errorCode) {
-        payload.get().errorCode(errorCode);
+        touchPayload().errorCode(errorCode);
         return of(status);
     }
 
     public static ErrorResult of(H.Status status, int errorCode, String message, Object... args) {
-        payload.get().errorCode(errorCode);
+        touchPayload().errorCode(errorCode);
         return of(status, message, args);
     }
 
     public static ErrorResult of(H.Status status, String message, Object... args) {
-        payload.get().message(S.fmt(message, args));
+        touchPayload().message(S.fmt(message, args));
         return of(status);
     }
 
     public static ErrorResult of(H.Status status, Throwable cause, String message, Object... args) {
-        payload.get().cause(cause);
+        touchPayload().cause(cause);
         return of(status, message, args);
     }
 
     public static ErrorResult of(H.Status status, int errorCode, Throwable cause, String message, Object... args) {
-        payload.get().cause(cause);
+        touchPayload().cause(cause);
         return of(status, errorCode, message, args);
     }
 

@@ -1,16 +1,13 @@
 package org.osgl.mvc.result;
 
-import static org.osgl.http.H.Status.INTERNAL_SERVER_ERROR;
+import static org.osgl.http.H.Status.GATEWAY_TIMEOUT;
 
 /**
- * Indicate an internal server error and set 500 status on response
- *
- * This class is deprecated. Please use {@link InternalServerError} instead
+ * The server was acting as a gateway or proxy and did not receive a timely response from the upstream server.
  */
-@Deprecated
-public class ServerError extends ErrorResult {
+public class GatewayTimeout extends ErrorResult {
 
-    private static final ServerError _INSTANCE = new ServerError() {
+    private static final GatewayTimeout _INSTANCE = new GatewayTimeout() {
         @Override
         public String getMessage() {
             return payload().message;
@@ -32,34 +29,34 @@ public class ServerError extends ErrorResult {
         }
     };
 
-    public ServerError() {
-        super(INTERNAL_SERVER_ERROR);
+    public GatewayTimeout() {
+        super(GATEWAY_TIMEOUT);
     }
-    public ServerError(String message, Object... args) {
-        super(INTERNAL_SERVER_ERROR, message, args);
+    public GatewayTimeout(String message, Object... args) {
+        super(GATEWAY_TIMEOUT, message, args);
     }
-    public ServerError(Throwable t) {
-        super(INTERNAL_SERVER_ERROR, t);
+    public GatewayTimeout(Throwable t) {
+        super(GATEWAY_TIMEOUT, t);
     }
-    public ServerError(Throwable t, String message, Object... args) {
-        super(INTERNAL_SERVER_ERROR, t, message, args);
+    public GatewayTimeout(Throwable t, String message, Object... args) {
+        super(GATEWAY_TIMEOUT, t, message, args);
     }
 
-    public ServerError(int errorCode) {
-        super(INTERNAL_SERVER_ERROR, errorCode);
+    public GatewayTimeout(int errorCode) {
+        super(GATEWAY_TIMEOUT, errorCode);
     }
-    public ServerError(int errorCode, String message, Object... args) {
-        super(INTERNAL_SERVER_ERROR, errorCode, message, args);
+    public GatewayTimeout(int errorCode, String message, Object... args) {
+        super(GATEWAY_TIMEOUT, errorCode, message, args);
     }
-    public ServerError(int errorCode, Throwable cause) {
-        super(INTERNAL_SERVER_ERROR, errorCode, cause);
+    public GatewayTimeout(int errorCode, Throwable cause) {
+        super(GATEWAY_TIMEOUT, errorCode, cause);
     }
-    public ServerError(int errorCode, Throwable cause, String message, Object... args) {
-        super(INTERNAL_SERVER_ERROR, errorCode, cause, message, args);
+    public GatewayTimeout(int errorCode, Throwable cause, String message, Object... args) {
+        super(GATEWAY_TIMEOUT, errorCode, cause, message, args);
     }
 
     /**
-     * Returns a static ServerError instance and set the {@link #payload} thread local
+     * Returns a static GatewayTimeout instance and set the {@link #payload} thread local
      * with message specified, and store the cause specified into the {@link #payload}
      * thread local
      *
@@ -71,15 +68,15 @@ public class ServerError extends ErrorResult {
      * @param cause the cause
      * @param message the message
      * @param args the message arguments
-     * @return a static ServerError instance as described above
+     * @return a static GatewayTimeout instance as described above
      */
-    public static ServerError of(Throwable cause, String message, Object... args) {
+    public static GatewayTimeout of(Throwable cause, String message, Object... args) {
         touchPayload().cause(cause).message(message, args);
         return _INSTANCE;
     }
 
     /**
-     * Returns a static ServerError instance and set the {@link #payload} thread local
+     * Returns a static GatewayTimeout instance and set the {@link #payload} thread local
      * with message specified, and store the cause specified into the {@link #payload}
      * thread local
      *
@@ -92,15 +89,15 @@ public class ServerError extends ErrorResult {
      * @param cause the cause
      * @param message the message
      * @param args the message arguments
-     * @return a static ServerError instance as described above
+     * @return a static GatewayTimeout instance as described above
      */
-    public static ServerError of(int errorCode, Throwable cause, String message, Object... args) {
+    public static GatewayTimeout of(int errorCode, Throwable cause, String message, Object... args) {
         touchPayload().errorCode(errorCode).cause(cause).message(message, args);
         return _INSTANCE;
     }
 
     /**
-     * Returns a static ServerError instance and set the {@link #payload} thread local
+     * Returns a static GatewayTimeout instance and set the {@link #payload} thread local
      * with message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
@@ -108,15 +105,15 @@ public class ServerError extends ErrorResult {
      *
      * @param message the message
      * @param args the message arguments
-     * @return a static ServerError instance as described above
+     * @return a static GatewayTimeout instance as described above
      */
-    public static ServerError of(String message, Object... args) {
+    public static GatewayTimeout of(String message, Object... args) {
         touchPayload().message(message, args);
         return _INSTANCE;
     }
 
     /**
-     * Returns a static ServerError instance and set the {@link #payload} thread local
+     * Returns a static GatewayTimeout instance and set the {@link #payload} thread local
      * with message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
@@ -125,9 +122,9 @@ public class ServerError extends ErrorResult {
      * @param errorCode the app defined error code
      * @param message the message
      * @param args the message arguments
-     * @return a static ServerError instance as described above
+     * @return a static GatewayTimeout instance as described above
      */
-    public static ServerError of(int errorCode, String message, Object... args) {
+    public static GatewayTimeout of(int errorCode, String message, Object... args) {
         touchPayload().errorCode(errorCode).message(message, args);
         return _INSTANCE;
     }

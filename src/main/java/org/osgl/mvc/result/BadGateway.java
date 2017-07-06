@@ -1,16 +1,13 @@
 package org.osgl.mvc.result;
 
-import static org.osgl.http.H.Status.INTERNAL_SERVER_ERROR;
+import static org.osgl.http.H.Status.BAD_GATEWAY;
 
 /**
- * Indicate an internal server error and set 500 status on response
- *
- * This class is deprecated. Please use {@link InternalServerError} instead
+ * The server was acting as a gateway or proxy and received an invalid response from the upstream server.
  */
-@Deprecated
-public class ServerError extends ErrorResult {
+public class BadGateway extends ErrorResult {
 
-    private static final ServerError _INSTANCE = new ServerError() {
+    private static final BadGateway _INSTANCE = new BadGateway() {
         @Override
         public String getMessage() {
             return payload().message;
@@ -32,34 +29,34 @@ public class ServerError extends ErrorResult {
         }
     };
 
-    public ServerError() {
-        super(INTERNAL_SERVER_ERROR);
+    public BadGateway() {
+        super(BAD_GATEWAY);
     }
-    public ServerError(String message, Object... args) {
-        super(INTERNAL_SERVER_ERROR, message, args);
+    public BadGateway(String message, Object... args) {
+        super(BAD_GATEWAY, message, args);
     }
-    public ServerError(Throwable t) {
-        super(INTERNAL_SERVER_ERROR, t);
+    public BadGateway(Throwable t) {
+        super(BAD_GATEWAY, t);
     }
-    public ServerError(Throwable t, String message, Object... args) {
-        super(INTERNAL_SERVER_ERROR, t, message, args);
+    public BadGateway(Throwable t, String message, Object... args) {
+        super(BAD_GATEWAY, t, message, args);
     }
 
-    public ServerError(int errorCode) {
-        super(INTERNAL_SERVER_ERROR, errorCode);
+    public BadGateway(int errorCode) {
+        super(BAD_GATEWAY, errorCode);
     }
-    public ServerError(int errorCode, String message, Object... args) {
-        super(INTERNAL_SERVER_ERROR, errorCode, message, args);
+    public BadGateway(int errorCode, String message, Object... args) {
+        super(BAD_GATEWAY, errorCode, message, args);
     }
-    public ServerError(int errorCode, Throwable cause) {
-        super(INTERNAL_SERVER_ERROR, errorCode, cause);
+    public BadGateway(int errorCode, Throwable cause) {
+        super(BAD_GATEWAY, errorCode, cause);
     }
-    public ServerError(int errorCode, Throwable cause, String message, Object... args) {
-        super(INTERNAL_SERVER_ERROR, errorCode, cause, message, args);
+    public BadGateway(int errorCode, Throwable cause, String message, Object... args) {
+        super(BAD_GATEWAY, errorCode, cause, message, args);
     }
 
     /**
-     * Returns a static ServerError instance and set the {@link #payload} thread local
+     * Returns a static BadGateway instance and set the {@link #payload} thread local
      * with message specified, and store the cause specified into the {@link #payload}
      * thread local
      *
@@ -71,15 +68,15 @@ public class ServerError extends ErrorResult {
      * @param cause the cause
      * @param message the message
      * @param args the message arguments
-     * @return a static ServerError instance as described above
+     * @return a static BadGateway instance as described above
      */
-    public static ServerError of(Throwable cause, String message, Object... args) {
+    public static BadGateway of(Throwable cause, String message, Object... args) {
         touchPayload().cause(cause).message(message, args);
         return _INSTANCE;
     }
 
     /**
-     * Returns a static ServerError instance and set the {@link #payload} thread local
+     * Returns a static BadGateway instance and set the {@link #payload} thread local
      * with message specified, and store the cause specified into the {@link #payload}
      * thread local
      *
@@ -92,15 +89,15 @@ public class ServerError extends ErrorResult {
      * @param cause the cause
      * @param message the message
      * @param args the message arguments
-     * @return a static ServerError instance as described above
+     * @return a static BadGateway instance as described above
      */
-    public static ServerError of(int errorCode, Throwable cause, String message, Object... args) {
+    public static BadGateway of(int errorCode, Throwable cause, String message, Object... args) {
         touchPayload().errorCode(errorCode).cause(cause).message(message, args);
         return _INSTANCE;
     }
 
     /**
-     * Returns a static ServerError instance and set the {@link #payload} thread local
+     * Returns a static BadGateway instance and set the {@link #payload} thread local
      * with message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
@@ -108,15 +105,15 @@ public class ServerError extends ErrorResult {
      *
      * @param message the message
      * @param args the message arguments
-     * @return a static ServerError instance as described above
+     * @return a static BadGateway instance as described above
      */
-    public static ServerError of(String message, Object... args) {
+    public static BadGateway of(String message, Object... args) {
         touchPayload().message(message, args);
         return _INSTANCE;
     }
 
     /**
-     * Returns a static ServerError instance and set the {@link #payload} thread local
+     * Returns a static BadGateway instance and set the {@link #payload} thread local
      * with message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
@@ -125,9 +122,9 @@ public class ServerError extends ErrorResult {
      * @param errorCode the app defined error code
      * @param message the message
      * @param args the message arguments
-     * @return a static ServerError instance as described above
+     * @return a static BadGateway instance as described above
      */
-    public static ServerError of(int errorCode, String message, Object... args) {
+    public static BadGateway of(int errorCode, String message, Object... args) {
         touchPayload().errorCode(errorCode).message(message, args);
         return _INSTANCE;
     }

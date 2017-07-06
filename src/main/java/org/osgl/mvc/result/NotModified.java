@@ -16,6 +16,11 @@ public class NotModified extends Result {
         protected String etag() {
             return payload().message;
         }
+
+        @Override
+        public long timestamp() {
+            return payload().timestamp;
+        }
     };
 
     private String etag;
@@ -67,7 +72,7 @@ public class NotModified extends Result {
      * @return a static instance
      */
     public static NotModified of(String etag) {
-        payload.get().message(etag);
+        touchPayload().message(etag);
         return _INSTANCE;
     }
 
@@ -84,7 +89,7 @@ public class NotModified extends Result {
      * @return a static instance
      */
     public static NotModified of(String etag, Object... args) {
-        payload.get().message(etag, args);
+        touchPayload().message(etag, args);
         return _INSTANCE;
     }
 }

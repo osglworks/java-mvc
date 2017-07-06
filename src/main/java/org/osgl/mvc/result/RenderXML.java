@@ -40,22 +40,22 @@ public class RenderXML extends RenderContent {
     }
 
     public static RenderXML of(String xml) {
-        payload.get().message(xml);
+        touchPayload().message(xml);
         return _INSTANCE;
     }
 
     public static RenderXML of(H.Status status, String xml) {
-        payload.get().message(xml).status(status);
+        touchPayload().message(xml).status(status);
         return _INSTANCE;
     }
 
     public static RenderXML of(String xml, Object... args) {
-        payload.get().message(xml, args);
+        touchPayload().message(xml, args);
         return _INSTANCE;
     }
 
     public static RenderXML of(H.Status status, String xml, Object... args) {
-        payload.get().message(xml, args).status(status);
+        touchPayload().message(xml, args).status(status);
         return _INSTANCE;
     }
 

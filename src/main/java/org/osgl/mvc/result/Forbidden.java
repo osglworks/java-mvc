@@ -22,6 +22,11 @@ public class Forbidden extends ErrorResult {
         public Integer errorCode() {
             return payload().errorCode;
         }
+
+        @Override
+        public long timestamp() {
+            return payload().timestamp;
+        }
     };
 
     public Forbidden() {
@@ -79,7 +84,7 @@ public class Forbidden extends ErrorResult {
      * @return a static Forbidden instance as described above
      */
     public static Forbidden of(int errorCode) {
-        payload.get().errorCode(errorCode);
+        touchPayload().errorCode(errorCode);
         return _localizedErrorMsg() ? of(defaultMessage(FORBIDDEN)) : INSTANCE;
     }
 
@@ -95,7 +100,7 @@ public class Forbidden extends ErrorResult {
      * @return a static Forbidden instance as described above
      */
     public static Forbidden of(Throwable cause, int errorCode) {
-        payload.get().errorCode(errorCode).cause(cause);
+        touchPayload().errorCode(errorCode).cause(cause);
         return _localizedErrorMsg() ? of(defaultMessage(FORBIDDEN)) : INSTANCE;
     }
 
@@ -111,7 +116,7 @@ public class Forbidden extends ErrorResult {
      * @return a static Forbidden instance as described above
      */
     public static Forbidden of(String message, Object... args) {
-        payload.get().message(message, args);
+        touchPayload().message(message, args);
         return _INSTANCE;
     }
 
@@ -128,7 +133,7 @@ public class Forbidden extends ErrorResult {
      * @return a static Forbidden instance as described above
      */
     public static Forbidden of(Throwable cause, String message, Object... args) {
-        payload.get().message(message, args).cause(cause);
+        touchPayload().message(message, args).cause(cause);
         return _INSTANCE;
     }
 
@@ -143,7 +148,7 @@ public class Forbidden extends ErrorResult {
      * @return a static Forbidden instance as described above
      */
     public static Forbidden of(Throwable cause) {
-        payload.get().cause(cause);
+        touchPayload().cause(cause);
         return _INSTANCE;
     }
 
@@ -161,7 +166,7 @@ public class Forbidden extends ErrorResult {
      * @return a static Forbidden instance as described above
      */
     public static Forbidden of(Throwable cause, int errorCode, String message, Object... args) {
-        payload.get().errorCode(errorCode).message(message, args).cause(cause);
+        touchPayload().errorCode(errorCode).message(message, args).cause(cause);
         return _INSTANCE;
     }
 
@@ -178,7 +183,7 @@ public class Forbidden extends ErrorResult {
      * @return a static Forbidden instance as described above
      */
     public static Forbidden of(int errorCode, String message, Object... args) {
-        payload.get().errorCode(errorCode).message(message, args);
+        touchPayload().errorCode(errorCode).message(message, args);
         return _INSTANCE;
     }
 
@@ -195,7 +200,7 @@ public class Forbidden extends ErrorResult {
      * @return a static Forbidden instance as described above
      */
     public static Forbidden of(int errorCode, Throwable cause, String message, Object... args) {
-        payload.get().errorCode(errorCode).cause(cause).message(message, args);
+        touchPayload().errorCode(errorCode).cause(cause).message(message, args);
         return _INSTANCE;
     }
 

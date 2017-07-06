@@ -12,6 +12,11 @@ public class Redirect extends RedirectBase {
         protected String url() {
             return payload().message;
         }
+
+        @Override
+        public long timestamp() {
+            return payload().timestamp;
+        }
     };
 
     private Redirect() {
@@ -36,12 +41,12 @@ public class Redirect extends RedirectBase {
     }
 
     public static Redirect of(String url) {
-        payload.get().message(url);
+        touchPayload().message(url);
         return _INSTANCE;
     }
 
     public static Redirect of(String url, Object... args) {
-        payload.get().message(url, args);
+        touchPayload().message(url, args);
         return _INSTANCE;
     }
 
@@ -90,7 +95,7 @@ public class Redirect extends RedirectBase {
      */
     @Deprecated
     public static Redirect moved(String url) {
-        payload.get().message(url);
+        touchPayload().message(url);
         return _INSTANCE;
     }
 
@@ -99,7 +104,7 @@ public class Redirect extends RedirectBase {
      */
     @Deprecated
     public static Redirect moved(String url, Object... args) {
-        payload.get().message(url, args);
+        touchPayload().message(url, args);
         return _INSTANCE;
     }
 

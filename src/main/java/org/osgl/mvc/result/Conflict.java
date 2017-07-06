@@ -3,7 +3,8 @@ package org.osgl.mvc.result;
 import static org.osgl.http.H.Status.CONFLICT;
 
 /**
- * Indicate a 404 Not found response
+ * Indicates that the request could not be processed because of conflict in the request, such as an edit
+ * conflict between multiple simultaneous updates.
  */
 public class Conflict extends ErrorResult {
 
@@ -21,6 +22,11 @@ public class Conflict extends ErrorResult {
         @Override
         public Integer errorCode() {
             return payload().errorCode;
+        }
+
+        @Override
+        public long timestamp() {
+            return payload().timestamp;
         }
     };
 
@@ -80,7 +86,7 @@ public class Conflict extends ErrorResult {
      * @return a static Conflict instance as described above
      */
     public static Conflict of(int errorCode) {
-        payload.get().errorCode(errorCode);
+        touchPayload().errorCode(errorCode);
         return _localizedErrorMsg() ? of(defaultMessage(CONFLICT)) : INSTANCE;
     }
 
@@ -96,7 +102,7 @@ public class Conflict extends ErrorResult {
      * @return a static Conflict instance as described above
      */
     public static Conflict of(String message, Object... args) {
-        payload.get().message(message, args);
+        touchPayload().message(message, args);
         return _INSTANCE;
     }
 
@@ -111,7 +117,7 @@ public class Conflict extends ErrorResult {
      * @return a static Conflict instance as described above
      */
     public static Conflict of(Throwable cause) {
-        payload.get().cause(cause);
+        touchPayload().cause(cause);
         return _INSTANCE;
     }
 
@@ -128,7 +134,7 @@ public class Conflict extends ErrorResult {
      * @return a static Conflict instance as described above
      */
     public static Conflict of(Throwable cause, String message, Object... args) {
-        payload.get().message(message, args).cause(cause);
+        touchPayload().message(message, args).cause(cause);
         return _INSTANCE;
     }
 
@@ -145,7 +151,7 @@ public class Conflict extends ErrorResult {
      * @return a static Conflict instance as described above
      */
     public static Conflict of(int errorCode, String message, Object... args) {
-        payload.get().errorCode(errorCode).message(message, args);
+        touchPayload().errorCode(errorCode).message(message, args);
         return _INSTANCE;
     }
 
@@ -164,7 +170,7 @@ public class Conflict extends ErrorResult {
      * @return a static Conflict instance as described above
      */
     public static Conflict of(int errorCode, Throwable cause, String message, Object... args) {
-        payload.get().errorCode(errorCode).message(message, args).cause(cause);
+        touchPayload().errorCode(errorCode).message(message, args).cause(cause);
         return _INSTANCE;
     }
 }

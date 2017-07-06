@@ -20,6 +20,11 @@ public class RenderText extends RenderContent {
             Http.Status status = payload().status;
             return null == status ? super.status() : status;
         }
+
+        @Override
+        public long timestamp() {
+            return payload().timestamp;
+        }
     };
 
     private static RenderText _INSTANCE2 = new RenderText() {
@@ -57,32 +62,32 @@ public class RenderText extends RenderContent {
     }
 
     public static RenderText of(String text) {
-        payload.get().message(text);
+        touchPayload().message(text);
         return _INSTANCE;
     }
 
     public static RenderText of(String text, Object... args) {
-        payload.get().message(text, args);
+        touchPayload().message(text, args);
         return _INSTANCE;
     }
 
     public static RenderText of(H.Format fmt, String text, Object... args) {
-        payload.get().message(text, args).format(fmt);
+        touchPayload().message(text, args).format(fmt);
         return _INSTANCE2;
     }
 
     public static RenderText of(H.Status status, String text) {
-        payload.get().message(text).status(status);
+        touchPayload().message(text).status(status);
         return _INSTANCE;
     }
 
     public static RenderText of(H.Status status, String text, Object... args) {
-        payload.get().message(text, args).status(status);
+        touchPayload().message(text, args).status(status);
         return _INSTANCE;
     }
 
     public static RenderText of(H.Status status, H.Format fmt, String text, Object... args) {
-        payload.get().message(text, args).format(fmt).status(status);
+        touchPayload().message(text, args).format(fmt).status(status);
         return _INSTANCE2;
     }
 }

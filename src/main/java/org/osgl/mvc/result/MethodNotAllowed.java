@@ -22,6 +22,11 @@ public class MethodNotAllowed extends ErrorResult {
         public Integer errorCode() {
             return payload().errorCode;
         }
+
+        @Override
+        public long timestamp() {
+            return payload().timestamp;
+        }
     };
 
     public MethodNotAllowed() {
@@ -80,7 +85,7 @@ public class MethodNotAllowed extends ErrorResult {
      * @return a static MethodNotAllowed instance as described above
      */
     public static MethodNotAllowed of(int errorCode) {
-        payload.get().errorCode(errorCode);
+        touchPayload().errorCode(errorCode);
         return _localizedErrorMsg() ? of(defaultMessage(METHOD_NOT_ALLOWED)) : INSTANCE;
     }
 
@@ -96,7 +101,7 @@ public class MethodNotAllowed extends ErrorResult {
      * @return a static NotImpleemented instance as described above
      */
     public static MethodNotAllowed of(String message, Object... args) {
-        payload.get().message(message, args);
+        touchPayload().message(message, args);
         return _INSTANCE;
     }
 
@@ -113,7 +118,7 @@ public class MethodNotAllowed extends ErrorResult {
      * @return a static NotImpleemented instance as described above
      */
     public static MethodNotAllowed of(Throwable cause, String message, Object... args) {
-        payload.get().message(message, args).cause(cause);
+        touchPayload().message(message, args).cause(cause);
         return _INSTANCE;
     }
 
@@ -128,7 +133,7 @@ public class MethodNotAllowed extends ErrorResult {
      * @return a static NotImpleemented instance as described above
      */
     public static MethodNotAllowed of(Throwable cause) {
-        payload.get().cause(cause);
+        touchPayload().cause(cause);
         return _INSTANCE;
     }
 
@@ -145,7 +150,7 @@ public class MethodNotAllowed extends ErrorResult {
      * @return a static NotImpleemented instance as described above
      */
     public static MethodNotAllowed of(int errorCode, String message, Object... args) {
-        payload.get().errorCode(errorCode).message(message, args);
+        touchPayload().errorCode(errorCode).message(message, args);
         return _INSTANCE;
     }
 
@@ -163,7 +168,7 @@ public class MethodNotAllowed extends ErrorResult {
      * @return a static NotImpleemented instance as described above
      */
     public static MethodNotAllowed of(int errorCode, Throwable cause, String message, Object... args) {
-        payload.get().errorCode(errorCode).message(message, args).cause(cause);
+        touchPayload().errorCode(errorCode).message(message, args).cause(cause);
         return _INSTANCE;
     }
 

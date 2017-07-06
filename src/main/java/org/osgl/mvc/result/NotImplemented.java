@@ -22,6 +22,11 @@ public class NotImplemented extends ErrorResult {
         public Integer errorCode() {
             return payload().errorCode;
         }
+
+        @Override
+        public long timestamp() {
+            return payload().timestamp;
+        }
     };
 
     public NotImplemented() {
@@ -95,7 +100,7 @@ public class NotImplemented extends ErrorResult {
      * @return a static NotImplemented instance as described above
      */
     public static NotImplemented of(String message, Object... args) {
-        payload.get().message(message, args);
+        touchPayload().message(message, args);
         return _INSTANCE;
     }
 
@@ -112,7 +117,7 @@ public class NotImplemented extends ErrorResult {
      * @return a static NotImplemented instance as described above
      */
     public static NotImplemented of(Throwable cause, String message, Object... args) {
-        payload.get().message(message, args).cause(cause);
+        touchPayload().message(message, args).cause(cause);
         return _INSTANCE;
     }
 
@@ -127,7 +132,7 @@ public class NotImplemented extends ErrorResult {
      * @return a static NotImplemented instance as described above
      */
     public static NotImplemented of(Throwable cause) {
-        payload.get().cause(cause);
+        touchPayload().cause(cause);
         return _INSTANCE;
     }
 }

@@ -30,6 +30,11 @@ public class Unauthorized extends ErrorResult {
             $.T2<String, Type> data = payload().getValue(PAYLOAD_KEY);
             return null == data ? null : data._2;
         }
+
+        @Override
+        public long timestamp() {
+            return payload().timestamp;
+        }
     };
 
     enum Type {
@@ -126,7 +131,7 @@ public class Unauthorized extends ErrorResult {
      * @return a static Unauthorized instance as described above
      */
     public static Unauthorized of(String realm) {
-        payload.get().putValue(PAYLOAD_KEY, $.T2(realm, S.blank(realm) ? Type.FORM : Type.BASIC));
+        touchPayload().putValue(PAYLOAD_KEY, $.T2(realm, S.blank(realm) ? Type.FORM : Type.BASIC));
         return _INSTANCE;
     }
 

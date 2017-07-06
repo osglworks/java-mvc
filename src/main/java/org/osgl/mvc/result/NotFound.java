@@ -22,6 +22,11 @@ public class NotFound extends ErrorResult {
         public Integer errorCode() {
             return payload().errorCode;
         }
+
+        @Override
+        public long timestamp() {
+            return payload().timestamp;
+        }
     };
 
     public NotFound() {
@@ -82,7 +87,7 @@ public class NotFound extends ErrorResult {
      * @return a static NotFound instance as described above
      */
     public static NotFound of(String message, Object... args) {
-        payload.get().message(message, args);
+        touchPayload().message(message, args);
         return _INSTANCE;
     }
 
@@ -97,7 +102,7 @@ public class NotFound extends ErrorResult {
      * @return a static NotFound instance as described above
      */
     public static NotFound of(Throwable cause) {
-        payload.get().cause(cause);
+        touchPayload().cause(cause);
         return _INSTANCE;
     }
 
@@ -114,7 +119,7 @@ public class NotFound extends ErrorResult {
      * @return a static NotFound instance as described above
      */
     public static NotFound of(Throwable cause, String message, Object... args) {
-        payload.get().message(message, args).cause(cause);
+        touchPayload().message(message, args).cause(cause);
         return _INSTANCE;
     }
 

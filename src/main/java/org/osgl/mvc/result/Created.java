@@ -31,6 +31,11 @@ public class Created extends Result {
             payload().etag(etag);
             return this;
         }
+
+        @Override
+        public long timestamp() {
+            return payload().timestamp;
+        }
     };
 
     private String location;
@@ -87,17 +92,17 @@ public class Created extends Result {
      */
     @Deprecated
     public static Created of(String location) {
-        payload.get().message(location);
+        touchPayload().message(location);
         return _INSTANCE;
     }
 
     public static Created withLocation(String location) {
-        payload.get().message(location);
+        touchPayload().message(location);
         return _INSTANCE;
     }
 
     public static Created withEtag(String etag) {
-        payload.get().etag(etag);
+        touchPayload().etag(etag);
         return _INSTANCE;
     }
 }

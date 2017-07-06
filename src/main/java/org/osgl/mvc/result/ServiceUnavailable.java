@@ -1,18 +1,19 @@
 package org.osgl.mvc.result;
 
-import static org.osgl.http.H.Status.BAD_REQUEST;
+import static org.osgl.http.H.Status.SERVICE_UNAVAILABLE;
 
 /**
- * Indicate a client error
+ * The server is currently unavailable (because it is overloaded or down for maintenance). Generally, this
+ * is a temporary state.
  */
-public class BadRequest extends ErrorResult {
+public class ServiceUnavailable extends ErrorResult {
 
     /**
      * The static instance of BadRequest result.
      */
-    public static final BadRequest INSTANCE = new BadRequest();
+    public static final ServiceUnavailable INSTANCE = new ServiceUnavailable();
 
-    private static final BadRequest _INSTANCE = new BadRequest() {
+    private static final ServiceUnavailable _INSTANCE = new ServiceUnavailable() {
         @Override
         public String getMessage() {
             return payload().message;
@@ -30,30 +31,30 @@ public class BadRequest extends ErrorResult {
     };
 
 
-    public BadRequest() {
-        super(BAD_REQUEST);
+    public ServiceUnavailable() {
+        super(SERVICE_UNAVAILABLE);
     }
-    public BadRequest(String message, Object ... args) {
-        super(BAD_REQUEST, message, args);
+    public ServiceUnavailable(String message, Object ... args) {
+        super(SERVICE_UNAVAILABLE, message, args);
     }
-    public BadRequest(Throwable cause, String message, Object ... args) {
-        super(BAD_REQUEST, cause, message, args);
+    public ServiceUnavailable(Throwable cause, String message, Object ... args) {
+        super(SERVICE_UNAVAILABLE, cause, message, args);
     }
-    public BadRequest(Throwable cause) {
-        super(BAD_REQUEST, cause);
+    public ServiceUnavailable(Throwable cause) {
+        super(SERVICE_UNAVAILABLE, cause);
     }
 
-    public BadRequest(int errorCode) {
-        super(BAD_REQUEST, errorCode);
+    public ServiceUnavailable(int errorCode) {
+        super(SERVICE_UNAVAILABLE, errorCode);
     }
-    public BadRequest(int errorCode, String message, Object ... args) {
-        super(BAD_REQUEST, errorCode, message, args);
+    public ServiceUnavailable(int errorCode, String message, Object ... args) {
+        super(SERVICE_UNAVAILABLE, errorCode, message, args);
     }
-    public BadRequest(int errorCode, Throwable cause, String message, Object ... args) {
-        super(BAD_REQUEST, errorCode, cause, message, args);
+    public ServiceUnavailable(int errorCode, Throwable cause, String message, Object ... args) {
+        super(SERVICE_UNAVAILABLE, errorCode, cause, message, args);
     }
-    public BadRequest(int errorCode, Throwable cause) {
-        super(BAD_REQUEST, errorCode, cause);
+    public ServiceUnavailable(int errorCode, Throwable cause) {
+        super(SERVICE_UNAVAILABLE, errorCode, cause);
     }
 
     /**
@@ -65,8 +66,8 @@ public class BadRequest extends ErrorResult {
      *
      * @return a static BadRequest instance as described above
      */
-    public static BadRequest get() {
-        return _localizedErrorMsg() ? of(defaultMessage(BAD_REQUEST)) : INSTANCE;
+    public static ServiceUnavailable get() {
+        return _localizedErrorMsg() ? of(defaultMessage(SERVICE_UNAVAILABLE)) : INSTANCE;
     }
 
     /**
@@ -79,9 +80,9 @@ public class BadRequest extends ErrorResult {
      * @param errorCode the app defined error code
      * @return a static BadRequest instance as described above
      */
-    public static BadRequest of(int errorCode) {
+    public static ServiceUnavailable of(int errorCode) {
         touchPayload().errorCode(errorCode);
-        return _localizedErrorMsg() ? of(defaultMessage(BAD_REQUEST)) : INSTANCE;
+        return _localizedErrorMsg() ? of(defaultMessage(SERVICE_UNAVAILABLE)) : INSTANCE;
     }
 
     /**
@@ -95,7 +96,7 @@ public class BadRequest extends ErrorResult {
      * @param args the message arguments
      * @return a static BadRequest instance as described above
      */
-    public static BadRequest of(String message, Object... args) {
+    public static ServiceUnavailable of(String message, Object... args) {
         touchPayload().message(message, args);
         return _INSTANCE;
     }
@@ -112,7 +113,7 @@ public class BadRequest extends ErrorResult {
      * @param args the message arguments
      * @return a static BadRequest instance as described above
      */
-    public static BadRequest of(int errorCode, String message, Object... args) {
+    public static ServiceUnavailable of(int errorCode, String message, Object... args) {
         touchPayload().message(message, args).errorCode(errorCode);
         return _INSTANCE;
     }
@@ -130,7 +131,7 @@ public class BadRequest extends ErrorResult {
      * @param args the message arguments
      * @return a static BadRequest instance as described above
      */
-    public static BadRequest of(int errorCode, Throwable cause, String message, Object... args) {
+    public static ServiceUnavailable of(int errorCode, Throwable cause, String message, Object... args) {
         touchPayload().message(message, args).errorCode(errorCode).cause(cause);
         return _INSTANCE;
     }

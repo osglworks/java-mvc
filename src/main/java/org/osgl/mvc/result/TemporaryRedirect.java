@@ -25,12 +25,12 @@ public class TemporaryRedirect extends RedirectBase {
     }
 
     public static TemporaryRedirect of(String url) {
-        payload.get().message(url);
+        payload().message(url);
         return _INSTANCE;
     }
 
     public static TemporaryRedirect of(String url, Object... args) {
-        payload.get().message(url, args);
+        payload().message(url, args);
         return _INSTANCE;
     }
 
