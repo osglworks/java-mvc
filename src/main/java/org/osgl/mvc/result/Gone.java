@@ -12,10 +12,6 @@ import static org.osgl.http.H.Status.GONE;
  */
 public class Gone extends ErrorResult {
 
-    /**
-     * The static instance of Gone result.
-     */
-    public static final Gone INSTANCE = new Gone();
 
     private static final Gone _INSTANCE = new Gone() {
         @Override
@@ -77,7 +73,12 @@ public class Gone extends ErrorResult {
      * @return a static Gone instance as described above
      */
     public static Gone get() {
-        return _localizedErrorMsg() ? of(defaultMessage(GONE)) : INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(defaultMessage(GONE));
+        } else {
+            touchPayload();
+            return _INSTANCE;
+        }
     }
 
     /**
@@ -98,7 +99,7 @@ public class Gone extends ErrorResult {
 
     /**
      * Returns a static Gone instance and set the {@link #payload} thread local
-     * with message specified.
+     * with cause specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -107,13 +108,17 @@ public class Gone extends ErrorResult {
      * @return a static Gone instance as described above
      */
     public static Gone of(Throwable cause) {
-        touchPayload().cause(cause);
-        return _INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(cause, defaultMessage(GONE));
+        } else {
+            touchPayload().cause(cause);
+            return _INSTANCE;
+        }
     }
 
     /**
      * Returns a static Gone instance and set the {@link #payload} thread local
-     * with message specified.
+     * with cause and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -128,4 +133,79 @@ public class Gone extends ErrorResult {
         return _INSTANCE;
     }
 
+    /**
+     * Returns a static Gone instance and set the {@link #payload} thread local
+     * with error code and default message.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param errorCode the app defined error code
+     * @return a static Gone instance as described above
+     */
+    public static Gone of(int errorCode) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, defaultMessage(GONE));
+        } else {
+            touchPayload().errorCode(errorCode);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static Gone instance and set the {@link #payload} thread local
+     * with error code and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param errorCode the app defined error code
+     * @param message the message
+     * @param args the message arguments
+     * @return a static Gone instance as described above
+     */
+    public static Gone of(int errorCode, String message, Object... args) {
+        touchPayload().errorCode(errorCode).message(message, args);
+        return _INSTANCE;
+    }
+
+
+    /**
+     * Returns a static Gone instance and set the {@link #payload} thread local
+     * with error code and cause specified
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause  the cause
+     * @param errorCode the app defined error code
+     * @return a static Gone instance as described above
+     */
+    public static Gone of(int errorCode, Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, cause, defaultMessage(GONE));
+        } else {
+            touchPayload().errorCode(errorCode).cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+
+    /**
+     * Returns a static Gone instance and set the {@link #payload} thread local
+     * with error code, cause and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause  the cause
+     * @param errorCode the app defined error code
+     * @param message the message
+     * @param args the message arguments
+     * @return a static Gone instance as described above
+     */
+    public static Gone of(int errorCode, Throwable cause, String message, Object... args) {
+        touchPayload().errorCode(errorCode).message(message, args).cause(cause);
+        return _INSTANCE;
+    }
 }

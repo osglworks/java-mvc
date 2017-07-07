@@ -188,6 +188,11 @@ public class ErrorResult extends Result {
         return _INSTANCE;
     }
 
+    public static ErrorResult of(H.Status status, String message, Object... args) {
+        touchPayload().message(S.fmt(message, args));
+        return of(status);
+    }
+
     public static ErrorResult of(H.Status status, int errorCode) {
         touchPayload().errorCode(errorCode);
         return of(status);
@@ -198,14 +203,8 @@ public class ErrorResult extends Result {
         return of(status, message, args);
     }
 
-    public static ErrorResult of(H.Status status, String message, Object... args) {
-        touchPayload().message(S.fmt(message, args));
-        return of(status);
-    }
-
-    public static ErrorResult of(H.Status status, Throwable cause, String message, Object... args) {
-        touchPayload().cause(cause);
-        return of(status, message, args);
+    public static ErrorResult of(H.Status status, int errorCode, Throwable cause) {
+        return of(status, errorCode, cause, cause.getMessage());
     }
 
     public static ErrorResult of(H.Status status, int errorCode, Throwable cause, String message, Object... args) {
@@ -213,8 +212,9 @@ public class ErrorResult extends Result {
         return of(status, errorCode, message, args);
     }
 
-    public static ErrorResult of(H.Status status, int errorCode, Throwable cause) {
-        return of(status, errorCode, cause, cause.getMessage());
+    public static ErrorResult of(H.Status status, Throwable cause, String message, Object... args) {
+        touchPayload().cause(cause);
+        return of(status, message, args);
     }
 
 }

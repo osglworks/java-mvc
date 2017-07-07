@@ -1,6 +1,5 @@
 package org.osgl.mvc.result;
 
-import static org.osgl.http.H.Status.BAD_REQUEST;
 import static org.osgl.http.H.Status.PAYMENT_REQUIRED;
 
 /**
@@ -10,11 +9,6 @@ import static org.osgl.http.H.Status.PAYMENT_REQUIRED;
  * status if a particular developer has exceeded the daily limit on requests.
  */
 public class PaymentRequired extends ErrorResult {
-
-    /**
-     * The static instance of PaymentRequired result.
-     */
-    public static final PaymentRequired INSTANCE = new PaymentRequired();
 
     private static final PaymentRequired _INSTANCE = new PaymentRequired() {
         @Override
@@ -70,22 +64,12 @@ public class PaymentRequired extends ErrorResult {
      * @return a static PaymentRequired instance as described above
      */
     public static PaymentRequired get() {
-        return _localizedErrorMsg() ? of(defaultMessage(BAD_REQUEST)) : INSTANCE;
-    }
-
-    /**
-     * Returns a static PaymentRequired instance and set the {@link #payload} thread local
-     * with default message.
-     *
-     * When calling the instance on {@link #getMessage()} method, it will return whatever
-     * stored in the {@link #payload} thread local
-     *
-     * @param errorCode the app defined error code
-     * @return a static PaymentRequired instance as described above
-     */
-    public static PaymentRequired of(int errorCode) {
-        touchPayload().errorCode(errorCode);
-        return _localizedErrorMsg() ? of(defaultMessage(BAD_REQUEST)) : INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(defaultMessage(PAYMENT_REQUIRED));
+        } else {
+            touchPayload();
+            return _INSTANCE;
+        }
     }
 
     /**
@@ -106,36 +90,113 @@ public class PaymentRequired extends ErrorResult {
 
     /**
      * Returns a static PaymentRequired instance and set the {@link #payload} thread local
-     * with message specified.
+     * with cause specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
      *
-     * @param errorCode app defined error code
+     * @param cause the cause
+     * @return a static PaymentRequired instance as described above
+     */
+    public static PaymentRequired of(Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(cause, defaultMessage(PAYMENT_REQUIRED));
+        } else {
+            touchPayload().cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static PaymentRequired instance and set the {@link #payload} thread local
+     * with cause and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause the cause
      * @param message the message
      * @param args the message arguments
      * @return a static PaymentRequired instance as described above
      */
-    public static PaymentRequired of(int errorCode, String message, Object... args) {
-        touchPayload().message(message, args).errorCode(errorCode);
+    public static PaymentRequired of(Throwable cause, String message, Object... args) {
+        touchPayload().message(message, args).cause(cause);
         return _INSTANCE;
     }
 
     /**
      * Returns a static PaymentRequired instance and set the {@link #payload} thread local
-     * with message specified.
+     * with error code and default message.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param errorCode the app defined error code
+     * @return a static PaymentRequired instance as described above
+     */
+    public static PaymentRequired of(int errorCode) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, defaultMessage(PAYMENT_REQUIRED));
+        } else {
+            touchPayload().errorCode(errorCode);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static PaymentRequired instance and set the {@link #payload} thread local
+     * with error code and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param errorCode the app defined error code
+     * @param message the message
+     * @param args the message arguments
+     * @return a static PaymentRequired instance as described above
+     */
+    public static PaymentRequired of(int errorCode, String message, Object... args) {
+        touchPayload().errorCode(errorCode).message(message, args);
+        return _INSTANCE;
+    }
+
+
+    /**
+     * Returns a static PaymentRequired instance and set the {@link #payload} thread local
+     * with error code and cause specified
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
      *
      * @param cause  the cause
-     * @param errorCode app defined error code
+     * @param errorCode the app defined error code
+     * @return a static PaymentRequired instance as described above
+     */
+    public static PaymentRequired of(int errorCode, Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, cause, defaultMessage(PAYMENT_REQUIRED));
+        } else {
+            touchPayload().errorCode(errorCode).cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+
+    /**
+     * Returns a static PaymentRequired instance and set the {@link #payload} thread local
+     * with error code, cause and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause  the cause
+     * @param errorCode the app defined error code
      * @param message the message
      * @param args the message arguments
      * @return a static PaymentRequired instance as described above
      */
     public static PaymentRequired of(int errorCode, Throwable cause, String message, Object... args) {
-        touchPayload().message(message, args).errorCode(errorCode).cause(cause);
+        touchPayload().errorCode(errorCode).message(message, args).cause(cause);
         return _INSTANCE;
     }
 

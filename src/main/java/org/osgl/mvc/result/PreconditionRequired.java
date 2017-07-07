@@ -9,11 +9,6 @@ import static org.osgl.http.H.Status.PRECONDITION_REQUIRED;
  */
 public class PreconditionRequired extends ErrorResult {
 
-    /**
-     * The static instance of PreconditionRequired result.
-     */
-    public static final PreconditionRequired INSTANCE = new PreconditionRequired();
-
     private static final PreconditionRequired _INSTANCE = new PreconditionRequired() {
         @Override
         public String getMessage() {
@@ -73,22 +68,12 @@ public class PreconditionRequired extends ErrorResult {
      * @return a static PreconditionRequired instance as described above
      */
     public static PreconditionRequired get() {
-        return _localizedErrorMsg() ? of(defaultMessage(PRECONDITION_REQUIRED)) : INSTANCE;
-    }
-
-    /**
-     * Returns a static PreconditionRequired instance and set the {@link #payload} thread local
-     * with default message.
-     *
-     * When calling the instance on {@link #getMessage()} method, it will return whatever
-     * stored in the {@link #payload} thread local
-     *
-     * @param errorCode the app defined error code
-     * @return a static PreconditionRequired instance as described above
-     */
-    public static PreconditionRequired of(int errorCode) {
-        touchPayload().errorCode(errorCode);
-        return _localizedErrorMsg() ? of(defaultMessage(PRECONDITION_REQUIRED)) : INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(defaultMessage(PRECONDITION_REQUIRED));
+        } else {
+            touchPayload();
+            return _INSTANCE;
+        }
     }
 
     /**
@@ -109,7 +94,7 @@ public class PreconditionRequired extends ErrorResult {
 
     /**
      * Returns a static PreconditionRequired instance and set the {@link #payload} thread local
-     * with message specified.
+     * with cause specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -118,13 +103,17 @@ public class PreconditionRequired extends ErrorResult {
      * @return a static PreconditionRequired instance as described above
      */
     public static PreconditionRequired of(Throwable cause) {
-        touchPayload().cause(cause);
-        return _INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(cause, defaultMessage(PRECONDITION_REQUIRED));
+        } else {
+            touchPayload().cause(cause);
+            return _INSTANCE;
+        }
     }
 
     /**
      * Returns a static PreconditionRequired instance and set the {@link #payload} thread local
-     * with message specified.
+     * with cause and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -141,7 +130,26 @@ public class PreconditionRequired extends ErrorResult {
 
     /**
      * Returns a static PreconditionRequired instance and set the {@link #payload} thread local
-     * with message specified.
+     * with error code and default message.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param errorCode the app defined error code
+     * @return a static PreconditionRequired instance as described above
+     */
+    public static PreconditionRequired of(int errorCode) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, defaultMessage(PRECONDITION_REQUIRED));
+        } else {
+            touchPayload().errorCode(errorCode);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static PreconditionRequired instance and set the {@link #payload} thread local
+     * with error code and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -159,7 +167,28 @@ public class PreconditionRequired extends ErrorResult {
 
     /**
      * Returns a static PreconditionRequired instance and set the {@link #payload} thread local
-     * with message specified.
+     * with error code and cause specified
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause  the cause
+     * @param errorCode the app defined error code
+     * @return a static PreconditionRequired instance as described above
+     */
+    public static PreconditionRequired of(int errorCode, Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, cause, defaultMessage(PRECONDITION_REQUIRED));
+        } else {
+            touchPayload().errorCode(errorCode).cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+
+    /**
+     * Returns a static PreconditionRequired instance and set the {@link #payload} thread local
+     * with error code, cause and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local

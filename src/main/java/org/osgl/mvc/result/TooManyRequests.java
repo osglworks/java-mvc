@@ -71,22 +71,12 @@ public class TooManyRequests extends ErrorResult {
      * @return a static TooManyRequests instance as described above
      */
     public static TooManyRequests get() {
-        return _localizedErrorMsg() ? of(defaultMessage(TOO_MANY_REQUESTS)) : INSTANCE;
-    }
-
-    /**
-     * Returns a static TooManyRequests instance and set the {@link #payload} thread local
-     * with default message.
-     *
-     * When calling the instance on {@link #getMessage()} method, it will return whatever
-     * stored in the {@link #payload} thread local
-     *
-     * @param errorCode the app defined error code
-     * @return a static TooManyRequests instance as described above
-     */
-    public static TooManyRequests of(int errorCode) {
-        touchPayload().errorCode(errorCode);
-        return _localizedErrorMsg() ? of(defaultMessage(TOO_MANY_REQUESTS)) : INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(defaultMessage(TOO_MANY_REQUESTS));
+        } else {
+            touchPayload();
+            return _INSTANCE;
+        }
     }
 
     /**
@@ -107,7 +97,7 @@ public class TooManyRequests extends ErrorResult {
 
     /**
      * Returns a static TooManyRequests instance and set the {@link #payload} thread local
-     * with message specified.
+     * with cause specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -116,13 +106,17 @@ public class TooManyRequests extends ErrorResult {
      * @return a static TooManyRequests instance as described above
      */
     public static TooManyRequests of(Throwable cause) {
-        touchPayload().cause(cause);
-        return _INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(cause, defaultMessage(TOO_MANY_REQUESTS));
+        } else {
+            touchPayload().cause(cause);
+            return _INSTANCE;
+        }
     }
 
     /**
      * Returns a static TooManyRequests instance and set the {@link #payload} thread local
-     * with message specified.
+     * with cause and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -139,7 +133,26 @@ public class TooManyRequests extends ErrorResult {
 
     /**
      * Returns a static TooManyRequests instance and set the {@link #payload} thread local
-     * with message specified.
+     * with error code and default message.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param errorCode the app defined error code
+     * @return a static TooManyRequests instance as described above
+     */
+    public static TooManyRequests of(int errorCode) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, defaultMessage(TOO_MANY_REQUESTS));
+        } else {
+            touchPayload().errorCode(errorCode);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static TooManyRequests instance and set the {@link #payload} thread local
+     * with error code and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -157,7 +170,28 @@ public class TooManyRequests extends ErrorResult {
 
     /**
      * Returns a static TooManyRequests instance and set the {@link #payload} thread local
-     * with message specified.
+     * with error code and cause specified
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause  the cause
+     * @param errorCode the app defined error code
+     * @return a static TooManyRequests instance as described above
+     */
+    public static TooManyRequests of(int errorCode, Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, cause, defaultMessage(TOO_MANY_REQUESTS));
+        } else {
+            touchPayload().errorCode(errorCode).cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+
+    /**
+     * Returns a static TooManyRequests instance and set the {@link #payload} thread local
+     * with error code, cause and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local

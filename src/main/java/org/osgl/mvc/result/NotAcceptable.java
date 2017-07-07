@@ -11,7 +11,10 @@ public class NotAcceptable extends ErrorResult {
 
     /**
      * The static instance of NotAcceptable result.
+     *
+     * This field is deprecated. Please use {@link #get()} instead
      */
+    @Deprecated
     public static final NotAcceptable INSTANCE = new NotAcceptable();
 
     private static final NotAcceptable _INSTANCE = new NotAcceptable() {
@@ -46,6 +49,7 @@ public class NotAcceptable extends ErrorResult {
     public NotAcceptable(int errorCode, String message, Object... args) {
         super(NOT_ACCEPTABLE, errorCode, message, args);
     }
+
     /**
      * Returns a static NotAcceptable instance and set the {@link #payload} thread local
      * with default message.
@@ -56,22 +60,12 @@ public class NotAcceptable extends ErrorResult {
      * @return a static NotAcceptable instance as described above
      */
     public static NotAcceptable get() {
-        return _localizedErrorMsg() ? of(defaultMessage(NOT_ACCEPTABLE)) : INSTANCE;
-    }
-
-    /**
-     * Returns a static NotAcceptable instance and set the {@link #payload} thread local
-     * with default message.
-     *
-     * When calling the instance on {@link #getMessage()} method, it will return whatever
-     * stored in the {@link #payload} thread local
-     *
-     * @param errorCode the app defined error code
-     * @return a static NotAcceptable instance as described above
-     */
-    public static NotAcceptable of(int errorCode) {
-        touchPayload().errorCode(errorCode);
-        return _localizedErrorMsg() ? of(defaultMessage(NOT_ACCEPTABLE)) : INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(defaultMessage(NOT_ACCEPTABLE));
+        } else {
+            touchPayload();
+            return _INSTANCE;
+        }
     }
 
     /**
@@ -92,7 +86,26 @@ public class NotAcceptable extends ErrorResult {
 
     /**
      * Returns a static NotAcceptable instance and set the {@link #payload} thread local
-     * with message specified.
+     * with cause specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause the cause
+     * @return a static NotAcceptable instance as described above
+     */
+    public static NotAcceptable of(Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(cause, defaultMessage(NOT_ACCEPTABLE));
+        } else {
+            touchPayload().cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static NotAcceptable instance and set the {@link #payload} thread local
+     * with cause and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -109,22 +122,26 @@ public class NotAcceptable extends ErrorResult {
 
     /**
      * Returns a static NotAcceptable instance and set the {@link #payload} thread local
-     * with message specified.
+     * with error code and default message.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
      *
-     * @param cause the cause
+     * @param errorCode the app defined error code
      * @return a static NotAcceptable instance as described above
      */
-    public static NotAcceptable of(Throwable cause) {
-        touchPayload().cause(cause);
-        return _INSTANCE;
+    public static NotAcceptable of(int errorCode) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, defaultMessage(NOT_ACCEPTABLE));
+        } else {
+            touchPayload().errorCode(errorCode);
+            return _INSTANCE;
+        }
     }
 
     /**
      * Returns a static NotAcceptable instance and set the {@link #payload} thread local
-     * with message specified.
+     * with error code and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -139,14 +156,36 @@ public class NotAcceptable extends ErrorResult {
         return _INSTANCE;
     }
 
+
     /**
      * Returns a static NotAcceptable instance and set the {@link #payload} thread local
-     * with message specified.
+     * with error code and cause specified
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
      *
-     * @param cause the cause
+     * @param cause  the cause
+     * @param errorCode the app defined error code
+     * @return a static NotAcceptable instance as described above
+     */
+    public static NotAcceptable of(int errorCode, Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, cause, defaultMessage(NOT_ACCEPTABLE));
+        } else {
+            touchPayload().errorCode(errorCode).cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+
+    /**
+     * Returns a static NotAcceptable instance and set the {@link #payload} thread local
+     * with error code, cause and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause  the cause
      * @param errorCode the app defined error code
      * @param message the message
      * @param args the message arguments

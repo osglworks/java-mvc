@@ -3,7 +3,8 @@ package org.osgl.mvc.result;
 import static org.osgl.http.H.Status.GATEWAY_TIMEOUT;
 
 /**
- * The server was acting as a gateway or proxy and did not receive a timely response from the upstream server.
+ * The server was acting as a gateway or proxy and did not receive a timely response
+ * from the upstream server.
  */
 public class GatewayTimeout extends ErrorResult {
 
@@ -57,43 +58,20 @@ public class GatewayTimeout extends ErrorResult {
 
     /**
      * Returns a static GatewayTimeout instance and set the {@link #payload} thread local
-     * with message specified, and store the cause specified into the {@link #payload}
-     * thread local
+     * with default message.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
-     * stored in the {@link #payload} thread local; When calling the instance on
-     * {@link #getCause()} method, it will return whatever stored in the {@link #payload}
-     * thread local
+     * stored in the {@link #payload} thread local
      *
-     * @param cause the cause
-     * @param message the message
-     * @param args the message arguments
      * @return a static GatewayTimeout instance as described above
      */
-    public static GatewayTimeout of(Throwable cause, String message, Object... args) {
-        touchPayload().cause(cause).message(message, args);
-        return _INSTANCE;
-    }
-
-    /**
-     * Returns a static GatewayTimeout instance and set the {@link #payload} thread local
-     * with message specified, and store the cause specified into the {@link #payload}
-     * thread local
-     *
-     * When calling the instance on {@link #getMessage()} method, it will return whatever
-     * stored in the {@link #payload} thread local; When calling the instance on
-     * {@link #getCause()} method, it will return whatever stored in the {@link #payload}
-     * thread local
-     *
-     * @param errorCode the app defined error code
-     * @param cause the cause
-     * @param message the message
-     * @param args the message arguments
-     * @return a static GatewayTimeout instance as described above
-     */
-    public static GatewayTimeout of(int errorCode, Throwable cause, String message, Object... args) {
-        touchPayload().errorCode(errorCode).cause(cause).message(message, args);
-        return _INSTANCE;
+    public static GatewayTimeout get() {
+        if (_localizedErrorMsg()) {
+            return of(defaultMessage(GATEWAY_TIMEOUT));
+        } else {
+            touchPayload();
+            return _INSTANCE;
+        }
     }
 
     /**
@@ -114,18 +92,111 @@ public class GatewayTimeout extends ErrorResult {
 
     /**
      * Returns a static GatewayTimeout instance and set the {@link #payload} thread local
-     * with message specified.
+     * with cause specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause the cause
+     * @return a static GatewayTimeout instance as described above
+     */
+    public static GatewayTimeout of(Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(cause, defaultMessage(GATEWAY_TIMEOUT));
+        } else {
+            touchPayload().cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static GatewayTimeout instance and set the {@link #payload} thread local
+     * with cause and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause  the cause
+     * @param message the message
+     * @param args the message arguments
+     * @return a static GatewayTimeout instance as described above
+     */
+    public static GatewayTimeout of(Throwable cause, String message, Object... args) {
+        touchPayload().message(message, args).cause(cause);
+        return _INSTANCE;
+    }
+
+    /**
+     * Returns a static GatewayTimeout instance and set the {@link #payload} thread local
+     * with error code and default message.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
      *
      * @param errorCode the app defined error code
+     * @return a static GatewayTimeout instance as described above
+     */
+    public static GatewayTimeout of(int errorCode) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, defaultMessage(GATEWAY_TIMEOUT));
+        } else {
+            touchPayload().errorCode(errorCode);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static GatewayTimeout instance and set the {@link #payload} thread local
+     * with error code and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param errorCode app defined error code
      * @param message the message
      * @param args the message arguments
      * @return a static GatewayTimeout instance as described above
      */
     public static GatewayTimeout of(int errorCode, String message, Object... args) {
-        touchPayload().errorCode(errorCode).message(message, args);
+        touchPayload().message(message, args).errorCode(errorCode);
+        return _INSTANCE;
+    }
+
+    /**
+     * Returns a static GatewayTimeout instance and set the {@link #payload} thread local
+     * with error code and cause specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause  the cause
+     * @param errorCode app defined error code
+     * @return a static GatewayTimeout instance as described above
+     */
+    public static GatewayTimeout of(int errorCode, Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, cause, defaultMessage(GATEWAY_TIMEOUT));
+        } else {
+            touchPayload().errorCode(errorCode).cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static GatewayTimeout instance and set the {@link #payload} thread local
+     * with error code, cause and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause  the cause
+     * @param errorCode app defined error code
+     * @param message the message
+     * @param args the message arguments
+     * @return a static GatewayTimeout instance as described above
+     */
+    public static GatewayTimeout of(int errorCode, Throwable cause, String message, Object... args) {
+        touchPayload().message(message, args).errorCode(errorCode).cause(cause);
         return _INSTANCE;
     }
 

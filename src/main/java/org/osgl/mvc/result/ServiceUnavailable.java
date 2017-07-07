@@ -8,11 +8,6 @@ import static org.osgl.http.H.Status.SERVICE_UNAVAILABLE;
  */
 public class ServiceUnavailable extends ErrorResult {
 
-    /**
-     * The static instance of BadRequest result.
-     */
-    public static final ServiceUnavailable INSTANCE = new ServiceUnavailable();
-
     private static final ServiceUnavailable _INSTANCE = new ServiceUnavailable() {
         @Override
         public String getMessage() {
@@ -58,35 +53,25 @@ public class ServiceUnavailable extends ErrorResult {
     }
 
     /**
-     * Returns a static BadRequest instance and set the {@link #payload} thread local
+     * Returns a static ServiceUnavailable instance and set the {@link #payload} thread local
      * with default message.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
      *
-     * @return a static BadRequest instance as described above
+     * @return a static ServiceUnavailable instance as described above
      */
     public static ServiceUnavailable get() {
-        return _localizedErrorMsg() ? of(defaultMessage(SERVICE_UNAVAILABLE)) : INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(defaultMessage(SERVICE_UNAVAILABLE));
+        } else {
+            touchPayload();
+            return _INSTANCE;
+        }
     }
 
     /**
-     * Returns a static BadRequest instance and set the {@link #payload} thread local
-     * with default message.
-     *
-     * When calling the instance on {@link #getMessage()} method, it will return whatever
-     * stored in the {@link #payload} thread local
-     *
-     * @param errorCode the app defined error code
-     * @return a static BadRequest instance as described above
-     */
-    public static ServiceUnavailable of(int errorCode) {
-        touchPayload().errorCode(errorCode);
-        return _localizedErrorMsg() ? of(defaultMessage(SERVICE_UNAVAILABLE)) : INSTANCE;
-    }
-
-    /**
-     * Returns a static BadRequest instance and set the {@link #payload} thread local
+     * Returns a static ServiceUnavailable instance and set the {@link #payload} thread local
      * with message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
@@ -94,7 +79,7 @@ public class ServiceUnavailable extends ErrorResult {
      *
      * @param message the message
      * @param args the message arguments
-     * @return a static BadRequest instance as described above
+     * @return a static ServiceUnavailable instance as described above
      */
     public static ServiceUnavailable of(String message, Object... args) {
         touchPayload().message(message, args);
@@ -102,37 +87,114 @@ public class ServiceUnavailable extends ErrorResult {
     }
 
     /**
-     * Returns a static BadRequest instance and set the {@link #payload} thread local
-     * with message specified.
+     * Returns a static ServiceUnavailable instance and set the {@link #payload} thread local
+     * with cause specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
      *
-     * @param errorCode app defined error code
+     * @param cause the cause
+     * @return a static ServiceUnavailable instance as described above
+     */
+    public static ServiceUnavailable of(Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(cause, defaultMessage(SERVICE_UNAVAILABLE));
+        } else {
+            touchPayload().cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static ServiceUnavailable instance and set the {@link #payload} thread local
+     * with cause and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause the cause
      * @param message the message
      * @param args the message arguments
-     * @return a static BadRequest instance as described above
+     * @return a static ServiceUnavailable instance as described above
      */
-    public static ServiceUnavailable of(int errorCode, String message, Object... args) {
-        touchPayload().message(message, args).errorCode(errorCode);
+    public static ServiceUnavailable of(Throwable cause, String message, Object... args) {
+        touchPayload().message(message, args).cause(cause);
         return _INSTANCE;
     }
 
     /**
-     * Returns a static BadRequest instance and set the {@link #payload} thread local
-     * with message specified.
+     * Returns a static ServiceUnavailable instance and set the {@link #payload} thread local
+     * with error code and default message.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param errorCode the app defined error code
+     * @return a static ServiceUnavailable instance as described above
+     */
+    public static ServiceUnavailable of(int errorCode) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, defaultMessage(SERVICE_UNAVAILABLE));
+        } else {
+            touchPayload().errorCode(errorCode);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static ServiceUnavailable instance and set the {@link #payload} thread local
+     * with error code and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param errorCode the app defined error code
+     * @param message the message
+     * @param args the message arguments
+     * @return a static ServiceUnavailable instance as described above
+     */
+    public static ServiceUnavailable of(int errorCode, String message, Object... args) {
+        touchPayload().errorCode(errorCode).message(message, args);
+        return _INSTANCE;
+    }
+
+
+    /**
+     * Returns a static ServiceUnavailable instance and set the {@link #payload} thread local
+     * with error code and cause specified
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
      *
      * @param cause  the cause
-     * @param errorCode app defined error code
+     * @param errorCode the app defined error code
+     * @return a static ServiceUnavailable instance as described above
+     */
+    public static ServiceUnavailable of(int errorCode, Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, cause, defaultMessage(SERVICE_UNAVAILABLE));
+        } else {
+            touchPayload().errorCode(errorCode).cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+
+    /**
+     * Returns a static ServiceUnavailable instance and set the {@link #payload} thread local
+     * with error code, cause and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause  the cause
+     * @param errorCode the app defined error code
      * @param message the message
      * @param args the message arguments
-     * @return a static BadRequest instance as described above
+     * @return a static ServiceUnavailable instance as described above
      */
     public static ServiceUnavailable of(int errorCode, Throwable cause, String message, Object... args) {
-        touchPayload().message(message, args).errorCode(errorCode).cause(cause);
+        touchPayload().errorCode(errorCode).message(message, args).cause(cause);
         return _INSTANCE;
     }
 

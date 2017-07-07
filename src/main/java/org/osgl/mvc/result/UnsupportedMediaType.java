@@ -9,11 +9,6 @@ import static org.osgl.http.H.Status.UNSUPPORTED_MEDIA_TYPE;
  */
 public class UnsupportedMediaType extends ErrorResult {
 
-    /**
-     * The static instance of UnsupportedMediaType result.
-     */
-    public static final UnsupportedMediaType INSTANCE = new UnsupportedMediaType();
-
     private static final UnsupportedMediaType _INSTANCE = new UnsupportedMediaType() {
         @Override
         public String getMessage() {
@@ -46,6 +41,7 @@ public class UnsupportedMediaType extends ErrorResult {
     public UnsupportedMediaType(int errorCode, String message, Object... args) {
         super(UNSUPPORTED_MEDIA_TYPE, errorCode, message, args);
     }
+
     /**
      * Returns a static UnsupportedMediaType instance and set the {@link #payload} thread local
      * with default message.
@@ -56,22 +52,12 @@ public class UnsupportedMediaType extends ErrorResult {
      * @return a static UnsupportedMediaType instance as described above
      */
     public static UnsupportedMediaType get() {
-        return _localizedErrorMsg() ? of(defaultMessage(UNSUPPORTED_MEDIA_TYPE)) : INSTANCE;
-    }
-
-    /**
-     * Returns a static UnsupportedMediaType instance and set the {@link #payload} thread local
-     * with default message.
-     *
-     * When calling the instance on {@link #getMessage()} method, it will return whatever
-     * stored in the {@link #payload} thread local
-     *
-     * @param errorCode the app defined error code
-     * @return a static UnsupportedMediaType instance as described above
-     */
-    public static UnsupportedMediaType of(int errorCode) {
-        touchPayload().errorCode(errorCode);
-        return _localizedErrorMsg() ? of(defaultMessage(UNSUPPORTED_MEDIA_TYPE)) : INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(defaultMessage(UNSUPPORTED_MEDIA_TYPE));
+        } else {
+            touchPayload();
+            return _INSTANCE;
+        }
     }
 
     /**
@@ -92,7 +78,26 @@ public class UnsupportedMediaType extends ErrorResult {
 
     /**
      * Returns a static UnsupportedMediaType instance and set the {@link #payload} thread local
-     * with message specified.
+     * with cause specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause the cause
+     * @return a static UnsupportedMediaType instance as described above
+     */
+    public static UnsupportedMediaType of(Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(cause, defaultMessage(UNSUPPORTED_MEDIA_TYPE));
+        } else {
+            touchPayload().cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static UnsupportedMediaType instance and set the {@link #payload} thread local
+     * with cause and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -109,22 +114,26 @@ public class UnsupportedMediaType extends ErrorResult {
 
     /**
      * Returns a static UnsupportedMediaType instance and set the {@link #payload} thread local
-     * with message specified.
+     * with error code and default message.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
      *
-     * @param cause the cause
+     * @param errorCode the app defined error code
      * @return a static UnsupportedMediaType instance as described above
      */
-    public static UnsupportedMediaType of(Throwable cause) {
-        touchPayload().cause(cause);
-        return _INSTANCE;
+    public static UnsupportedMediaType of(int errorCode) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, defaultMessage(UNSUPPORTED_MEDIA_TYPE));
+        } else {
+            touchPayload().errorCode(errorCode);
+            return _INSTANCE;
+        }
     }
 
     /**
      * Returns a static UnsupportedMediaType instance and set the {@link #payload} thread local
-     * with message specified.
+     * with error code and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -139,14 +148,36 @@ public class UnsupportedMediaType extends ErrorResult {
         return _INSTANCE;
     }
 
+
     /**
      * Returns a static UnsupportedMediaType instance and set the {@link #payload} thread local
-     * with message specified.
+     * with error code and cause specified
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
      *
-     * @param cause the cause
+     * @param cause  the cause
+     * @param errorCode the app defined error code
+     * @return a static UnsupportedMediaType instance as described above
+     */
+    public static UnsupportedMediaType of(int errorCode, Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, cause, defaultMessage(UNSUPPORTED_MEDIA_TYPE));
+        } else {
+            touchPayload().errorCode(errorCode).cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+
+    /**
+     * Returns a static UnsupportedMediaType instance and set the {@link #payload} thread local
+     * with error code, cause and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause  the cause
      * @param errorCode the app defined error code
      * @param message the message
      * @param args the message arguments
@@ -156,4 +187,5 @@ public class UnsupportedMediaType extends ErrorResult {
         touchPayload().errorCode(errorCode).message(message, args).cause(cause);
         return _INSTANCE;
     }
+
 }

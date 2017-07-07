@@ -8,11 +8,6 @@ import static org.osgl.http.H.Status.UNAVAILABLE_FOR_LEGAL_REASONS;
  */
 public class UnavailableForLegalReasons extends ErrorResult {
 
-    /**
-     * The static instance of UnavailableForLegalReasons result.
-     */
-    public static final UnavailableForLegalReasons INSTANCE = new UnavailableForLegalReasons();
-
     private static final UnavailableForLegalReasons _INSTANCE = new UnavailableForLegalReasons() {
         @Override
         public String getMessage() {
@@ -72,22 +67,12 @@ public class UnavailableForLegalReasons extends ErrorResult {
      * @return a static UnavailableForLegalReasons instance as described above
      */
     public static UnavailableForLegalReasons get() {
-        return _localizedErrorMsg() ? of(defaultMessage(UNAVAILABLE_FOR_LEGAL_REASONS)) : INSTANCE;
-    }
-
-    /**
-     * Returns a static UnavailableForLegalReasons instance and set the {@link #payload} thread local
-     * with default message.
-     *
-     * When calling the instance on {@link #getMessage()} method, it will return whatever
-     * stored in the {@link #payload} thread local
-     *
-     * @param errorCode the app defined error code
-     * @return a static UnavailableForLegalReasons instance as described above
-     */
-    public static UnavailableForLegalReasons of(int errorCode) {
-        touchPayload().errorCode(errorCode);
-        return _localizedErrorMsg() ? of(defaultMessage(UNAVAILABLE_FOR_LEGAL_REASONS)) : INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(defaultMessage(UNAVAILABLE_FOR_LEGAL_REASONS));
+        } else {
+            touchPayload();
+            return _INSTANCE;
+        }
     }
 
     /**
@@ -108,7 +93,7 @@ public class UnavailableForLegalReasons extends ErrorResult {
 
     /**
      * Returns a static UnavailableForLegalReasons instance and set the {@link #payload} thread local
-     * with message specified.
+     * with cause specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -117,13 +102,17 @@ public class UnavailableForLegalReasons extends ErrorResult {
      * @return a static UnavailableForLegalReasons instance as described above
      */
     public static UnavailableForLegalReasons of(Throwable cause) {
-        touchPayload().cause(cause);
-        return _INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(cause, defaultMessage(UNAVAILABLE_FOR_LEGAL_REASONS));
+        } else {
+            touchPayload().cause(cause);
+            return _INSTANCE;
+        }
     }
 
     /**
      * Returns a static UnavailableForLegalReasons instance and set the {@link #payload} thread local
-     * with message specified.
+     * with cause and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -140,7 +129,26 @@ public class UnavailableForLegalReasons extends ErrorResult {
 
     /**
      * Returns a static UnavailableForLegalReasons instance and set the {@link #payload} thread local
-     * with message specified.
+     * with error code and default message.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param errorCode the app defined error code
+     * @return a static UnavailableForLegalReasons instance as described above
+     */
+    public static UnavailableForLegalReasons of(int errorCode) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, defaultMessage(UNAVAILABLE_FOR_LEGAL_REASONS));
+        } else {
+            touchPayload().errorCode(errorCode);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static UnavailableForLegalReasons instance and set the {@link #payload} thread local
+     * with error code and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -158,7 +166,28 @@ public class UnavailableForLegalReasons extends ErrorResult {
 
     /**
      * Returns a static UnavailableForLegalReasons instance and set the {@link #payload} thread local
-     * with message specified.
+     * with error code and cause specified
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause  the cause
+     * @param errorCode the app defined error code
+     * @return a static UnavailableForLegalReasons instance as described above
+     */
+    public static UnavailableForLegalReasons of(int errorCode, Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, cause, defaultMessage(UNAVAILABLE_FOR_LEGAL_REASONS));
+        } else {
+            touchPayload().errorCode(errorCode).cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+
+    /**
+     * Returns a static UnavailableForLegalReasons instance and set the {@link #payload} thread local
+     * with error code, cause and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -173,4 +202,5 @@ public class UnavailableForLegalReasons extends ErrorResult {
         touchPayload().errorCode(errorCode).message(message, args).cause(cause);
         return _INSTANCE;
     }
+
 }

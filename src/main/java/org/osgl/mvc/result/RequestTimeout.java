@@ -1,6 +1,5 @@
 package org.osgl.mvc.result;
 
-import static org.osgl.http.H.Status.BAD_REQUEST;
 import static org.osgl.http.H.Status.REQUEST_TIMEOUT;
 
 /**
@@ -9,11 +8,6 @@ import static org.osgl.http.H.Status.REQUEST_TIMEOUT;
  * repeat the request without modifications at any later time."
  */
 public class RequestTimeout extends ErrorResult {
-
-    /**
-     * The static instance of RequestTimeout result.
-     */
-    public static final RequestTimeout INSTANCE = new RequestTimeout();
 
     private static final RequestTimeout _INSTANCE = new RequestTimeout() {
         @Override
@@ -69,22 +63,12 @@ public class RequestTimeout extends ErrorResult {
      * @return a static RequestTimeout instance as described above
      */
     public static RequestTimeout get() {
-        return _localizedErrorMsg() ? of(defaultMessage(BAD_REQUEST)) : INSTANCE;
-    }
-
-    /**
-     * Returns a static RequestTimeout instance and set the {@link #payload} thread local
-     * with default message.
-     *
-     * When calling the instance on {@link #getMessage()} method, it will return whatever
-     * stored in the {@link #payload} thread local
-     *
-     * @param errorCode the app defined error code
-     * @return a static RequestTimeout instance as described above
-     */
-    public static RequestTimeout of(int errorCode) {
-        touchPayload().errorCode(errorCode);
-        return _localizedErrorMsg() ? of(defaultMessage(BAD_REQUEST)) : INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(defaultMessage(REQUEST_TIMEOUT));
+        } else {
+            touchPayload();
+            return _INSTANCE;
+        }
     }
 
     /**
@@ -105,36 +89,113 @@ public class RequestTimeout extends ErrorResult {
 
     /**
      * Returns a static RequestTimeout instance and set the {@link #payload} thread local
-     * with message specified.
+     * with cause specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
      *
-     * @param errorCode app defined error code
+     * @param cause the cause
+     * @return a static RequestTimeout instance as described above
+     */
+    public static RequestTimeout of(Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(cause, defaultMessage(REQUEST_TIMEOUT));
+        } else {
+            touchPayload().cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static RequestTimeout instance and set the {@link #payload} thread local
+     * with cause and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause the cause
      * @param message the message
      * @param args the message arguments
      * @return a static RequestTimeout instance as described above
      */
-    public static RequestTimeout of(int errorCode, String message, Object... args) {
-        touchPayload().message(message, args).errorCode(errorCode);
+    public static RequestTimeout of(Throwable cause, String message, Object... args) {
+        touchPayload().message(message, args).cause(cause);
         return _INSTANCE;
     }
 
     /**
      * Returns a static RequestTimeout instance and set the {@link #payload} thread local
-     * with message specified.
+     * with error code and default message.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param errorCode the app defined error code
+     * @return a static RequestTimeout instance as described above
+     */
+    public static RequestTimeout of(int errorCode) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, defaultMessage(REQUEST_TIMEOUT));
+        } else {
+            touchPayload().errorCode(errorCode);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static RequestTimeout instance and set the {@link #payload} thread local
+     * with error code and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param errorCode the app defined error code
+     * @param message the message
+     * @param args the message arguments
+     * @return a static RequestTimeout instance as described above
+     */
+    public static RequestTimeout of(int errorCode, String message, Object... args) {
+        touchPayload().errorCode(errorCode).message(message, args);
+        return _INSTANCE;
+    }
+
+
+    /**
+     * Returns a static RequestTimeout instance and set the {@link #payload} thread local
+     * with error code and cause specified
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
      *
      * @param cause  the cause
-     * @param errorCode app defined error code
+     * @param errorCode the app defined error code
+     * @return a static RequestTimeout instance as described above
+     */
+    public static RequestTimeout of(int errorCode, Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, cause, defaultMessage(REQUEST_TIMEOUT));
+        } else {
+            touchPayload().errorCode(errorCode).cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+
+    /**
+     * Returns a static RequestTimeout instance and set the {@link #payload} thread local
+     * with error code, cause and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause  the cause
+     * @param errorCode the app defined error code
      * @param message the message
      * @param args the message arguments
      * @return a static RequestTimeout instance as described above
      */
     public static RequestTimeout of(int errorCode, Throwable cause, String message, Object... args) {
-        touchPayload().message(message, args).errorCode(errorCode).cause(cause);
+        touchPayload().errorCode(errorCode).message(message, args).cause(cause);
         return _INSTANCE;
     }
 

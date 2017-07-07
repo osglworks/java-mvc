@@ -9,7 +9,10 @@ public class MethodNotAllowed extends ErrorResult {
 
     /**
      * The static instance of `MethodNotAllowed` result
+     *
+     * This field is deprecated, please use {@link #get()} instead
      */
+    @Deprecated
     public static final MethodNotAllowed INSTANCE = new MethodNotAllowed();
 
     private static final MethodNotAllowed _INSTANCE = new MethodNotAllowed() {
@@ -71,12 +74,69 @@ public class MethodNotAllowed extends ErrorResult {
      * @return a static MethodNotAllowed instance as described above
      */
     public static MethodNotAllowed get() {
-        return _localizedErrorMsg() ? of(defaultMessage(METHOD_NOT_ALLOWED)) : INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(defaultMessage(METHOD_NOT_ALLOWED));
+        } else {
+            touchPayload();
+            return _INSTANCE;
+        }
     }
 
     /**
      * Returns a static MethodNotAllowed instance and set the {@link #payload} thread local
-     * with default message.
+     * with message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param message the message
+     * @param args the message arguments
+     * @return a static MethodNotAllowed instance as described above
+     */
+    public static MethodNotAllowed of(String message, Object... args) {
+        touchPayload().message(message, args);
+        return _INSTANCE;
+    }
+
+    /**
+     * Returns a static MethodNotAllowed instance and set the {@link #payload} thread local
+     * with cause specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause the cause
+     * @return a static MethodNotAllowed instance as described above
+     */
+    public static MethodNotAllowed of(Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(cause, defaultMessage(METHOD_NOT_ALLOWED));
+        } else {
+            touchPayload().cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static MethodNotAllowed instance and set the {@link #payload} thread local
+     * with cause and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause the cause
+     * @param message the message
+     * @param args the message arguments
+     * @return a static MethodNotAllowed instance as described above
+     */
+    public static MethodNotAllowed of(Throwable cause, String message, Object... args) {
+        touchPayload().message(message, args).cause(cause);
+        return _INSTANCE;
+    }
+
+    /**
+     * Returns a static MethodNotAllowed instance and set the {@link #payload} thread local
+     * with error code and default message.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -85,61 +145,17 @@ public class MethodNotAllowed extends ErrorResult {
      * @return a static MethodNotAllowed instance as described above
      */
     public static MethodNotAllowed of(int errorCode) {
-        touchPayload().errorCode(errorCode);
-        return _localizedErrorMsg() ? of(defaultMessage(METHOD_NOT_ALLOWED)) : INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(errorCode, defaultMessage(METHOD_NOT_ALLOWED));
+        } else {
+            touchPayload().errorCode(errorCode);
+            return _INSTANCE;
+        }
     }
 
     /**
-     * Returns a static NotImplemented instance and set the {@link #payload} thread local
-     * with message specified.
-     *
-     * When calling the instance on {@link #getMessage()} method, it will return whatever
-     * stored in the {@link #payload} thread local
-     *
-     * @param message the message
-     * @param args the message arguments
-     * @return a static NotImpleemented instance as described above
-     */
-    public static MethodNotAllowed of(String message, Object... args) {
-        touchPayload().message(message, args);
-        return _INSTANCE;
-    }
-
-    /**
-     * Returns a static NotImplemented instance and set the {@link #payload} thread local
-     * with message specified.
-     *
-     * When calling the instance on {@link #getMessage()} method, it will return whatever
-     * stored in the {@link #payload} thread local
-     *
-     * @param  cause the cause
-     * @param message the message
-     * @param args the message arguments
-     * @return a static NotImpleemented instance as described above
-     */
-    public static MethodNotAllowed of(Throwable cause, String message, Object... args) {
-        touchPayload().message(message, args).cause(cause);
-        return _INSTANCE;
-    }
-
-    /**
-     * Returns a static NotImplemented instance and set the {@link #payload} thread local
-     * with message specified.
-     *
-     * When calling the instance on {@link #getMessage()} method, it will return whatever
-     * stored in the {@link #payload} thread local
-     *
-     * @param  cause the cause
-     * @return a static NotImpleemented instance as described above
-     */
-    public static MethodNotAllowed of(Throwable cause) {
-        touchPayload().cause(cause);
-        return _INSTANCE;
-    }
-
-    /**
-     * Returns a static NotImplemented instance and set the {@link #payload} thread local
-     * with message specified.
+     * Returns a static MethodNotAllowed instance and set the {@link #payload} thread local
+     * with error code and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -147,29 +163,50 @@ public class MethodNotAllowed extends ErrorResult {
      * @param errorCode the app defined error code
      * @param message the message
      * @param args the message arguments
-     * @return a static NotImpleemented instance as described above
+     * @return a static MethodNotAllowed instance as described above
      */
     public static MethodNotAllowed of(int errorCode, String message, Object... args) {
         touchPayload().errorCode(errorCode).message(message, args);
         return _INSTANCE;
     }
 
+
     /**
-     * Returns a static NotImplemented instance and set the {@link #payload} thread local
-     * with message specified.
+     * Returns a static MethodNotAllowed instance and set the {@link #payload} thread local
+     * with error code and cause specified
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
      *
-     * @param cause the cause
+     * @param cause  the cause
+     * @param errorCode the app defined error code
+     * @return a static MethodNotAllowed instance as described above
+     */
+    public static MethodNotAllowed of(int errorCode, Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, cause, defaultMessage(METHOD_NOT_ALLOWED));
+        } else {
+            touchPayload().errorCode(errorCode).cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+
+    /**
+     * Returns a static MethodNotAllowed instance and set the {@link #payload} thread local
+     * with error code, cause and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause  the cause
      * @param errorCode the app defined error code
      * @param message the message
      * @param args the message arguments
-     * @return a static NotImpleemented instance as described above
+     * @return a static MethodNotAllowed instance as described above
      */
     public static MethodNotAllowed of(int errorCode, Throwable cause, String message, Object... args) {
         touchPayload().errorCode(errorCode).message(message, args).cause(cause);
         return _INSTANCE;
     }
-
 }

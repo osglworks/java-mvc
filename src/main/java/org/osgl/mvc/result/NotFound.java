@@ -8,8 +8,11 @@ import static org.osgl.http.H.Status.NOT_FOUND;
 public class NotFound extends ErrorResult {
 
     /**
-     * The static instance of NotFound result.
+     * The static instance of NotFound result.、
+     *
+     * This field is deprecated. Please use {@link #get()} instead
      */
+    @Deprecated
     public static final NotFound INSTANCE = new NotFound();
 
     private static final NotFound _INSTANCE = new NotFound() {
@@ -72,7 +75,12 @@ public class NotFound extends ErrorResult {
      * @return a static NotFound instance as described above
      */
     public static NotFound get() {
-        return _localizedErrorMsg() ? of(defaultMessage(NOT_FOUND)) : INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(defaultMessage(NOT_FOUND));
+        } else {
+            touchPayload();
+            return _INSTANCE;
+        }
     }
 
     /**
@@ -93,7 +101,7 @@ public class NotFound extends ErrorResult {
 
     /**
      * Returns a static NotFound instance and set the {@link #payload} thread local
-     * with message specified.
+     * with cause specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -102,13 +110,17 @@ public class NotFound extends ErrorResult {
      * @return a static NotFound instance as described above
      */
     public static NotFound of(Throwable cause) {
-        touchPayload().cause(cause);
-        return _INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(cause, defaultMessage(NOT_FOUND));
+        } else {
+            touchPayload().cause(cause);
+            return _INSTANCE;
+        }
     }
 
     /**
      * Returns a static NotFound instance and set the {@link #payload} thread local
-     * with message specified.
+     * with cause and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -120,6 +132,82 @@ public class NotFound extends ErrorResult {
      */
     public static NotFound of(Throwable cause, String message, Object... args) {
         touchPayload().message(message, args).cause(cause);
+        return _INSTANCE;
+    }
+
+    /**
+     * Returns a static NotFound instance and set the {@link #payload} thread local
+     * with error code and default message.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param errorCode the app defined error code
+     * @return a static NotFound instance as described above
+     */
+    public static NotFound of(int errorCode) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, defaultMessage(NOT_FOUND));
+        } else {
+            touchPayload().errorCode(errorCode);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static NotFound instance and set the {@link #payload} thread local
+     * with error code and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param errorCode the app defined error code
+     * @param message the message
+     * @param args the message arguments
+     * @return a static NotFound instance as described above
+     */
+    public static NotFound of(int errorCode, String message, Object... args) {
+        touchPayload().errorCode(errorCode).message(message, args);
+        return _INSTANCE;
+    }
+
+
+    /**
+     * Returns a static NotFound instance and set the {@link #payload} thread local
+     * with error code and cause specified
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause  the cause
+     * @param errorCode the app defined error code
+     * @return a static NotFound instance as described above
+     */
+    public static NotFound of(int errorCode, Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, cause, defaultMessage(NOT_FOUND));
+        } else {
+            touchPayload().errorCode(errorCode).cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+
+    /**
+     * Returns a static NotFound instance and set the {@link #payload} thread local
+     * with error code, cause and message specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause  the cause
+     * @param errorCode the app defined error code
+     * @param message the message
+     * @param args the message arguments
+     * @return a static NotFound instance as described above
+     */
+    public static NotFound of(int errorCode, Throwable cause, String message, Object... args) {
+        touchPayload().errorCode(errorCode).message(message, args).cause(cause);
         return _INSTANCE;
     }
 

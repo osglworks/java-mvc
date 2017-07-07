@@ -10,7 +10,10 @@ public class Conflict extends ErrorResult {
 
     /**
      * The static instance of Conflict result.
+     *
+     * This is deprecated. Please use {@link #get()} instead
      */
+    @Deprecated
     public static final Conflict INSTANCE = new Conflict();
 
     private static final Conflict _INSTANCE = new Conflict() {
@@ -72,22 +75,12 @@ public class Conflict extends ErrorResult {
      * @return a static Conflict instance as described above
      */
     public static Conflict get() {
-        return _localizedErrorMsg() ? of(defaultMessage(CONFLICT)) : INSTANCE;
-    }
-
-    /**
-     * Returns a static Conflict instance and set the {@link #payload} thread local
-     * with default message.
-     *
-     * When calling the instance on {@link #getMessage()} method, it will return whatever
-     * stored in the {@link #payload} thread local
-     *
-     * @param errorCode the app defined error code
-     * @return a static Conflict instance as described above
-     */
-    public static Conflict of(int errorCode) {
-        touchPayload().errorCode(errorCode);
-        return _localizedErrorMsg() ? of(defaultMessage(CONFLICT)) : INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(defaultMessage(CONFLICT));
+        } else {
+            touchPayload();
+            return _INSTANCE;
+        }
     }
 
     /**
@@ -108,7 +101,7 @@ public class Conflict extends ErrorResult {
 
     /**
      * Returns a static Conflict instance and set the {@link #payload} thread local
-     * with message specified.
+     * with cause specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -117,13 +110,17 @@ public class Conflict extends ErrorResult {
      * @return a static Conflict instance as described above
      */
     public static Conflict of(Throwable cause) {
-        touchPayload().cause(cause);
-        return _INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(cause, defaultMessage(CONFLICT));
+        } else {
+            touchPayload().cause(cause);
+            return _INSTANCE;
+        }
     }
 
     /**
      * Returns a static Conflict instance and set the {@link #payload} thread local
-     * with message specified.
+     * with cause and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -140,7 +137,26 @@ public class Conflict extends ErrorResult {
 
     /**
      * Returns a static Conflict instance and set the {@link #payload} thread local
-     * with message specified.
+     * with error code and default message.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param errorCode the app defined error code
+     * @return a static Conflict instance as described above
+     */
+    public static Conflict of(int errorCode) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, defaultMessage(CONFLICT));
+        } else {
+            touchPayload().errorCode(errorCode);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static Conflict instance and set the {@link #payload} thread local
+     * with error code and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -158,7 +174,28 @@ public class Conflict extends ErrorResult {
 
     /**
      * Returns a static Conflict instance and set the {@link #payload} thread local
-     * with message specified.
+     * with error code and cause specified
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause  the cause
+     * @param errorCode the app defined error code
+     * @return a static Conflict instance as described above
+     */
+    public static Conflict of(int errorCode, Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, cause, defaultMessage(CONFLICT));
+        } else {
+            touchPayload().errorCode(errorCode).cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+
+    /**
+     * Returns a static Conflict instance and set the {@link #payload} thread local
+     * with error code, cause and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local

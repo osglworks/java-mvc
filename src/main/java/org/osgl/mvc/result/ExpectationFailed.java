@@ -7,11 +7,6 @@ import static org.osgl.http.H.Status.EXPECTATION_FAILED;
  */
 public class ExpectationFailed extends ErrorResult {
 
-    /**
-     * The static instance of ExpectationFailed result.
-     */
-    public static final ExpectationFailed INSTANCE = new ExpectationFailed();
-
     private static final ExpectationFailed _INSTANCE = new ExpectationFailed() {
         @Override
         public String getMessage() {
@@ -54,22 +49,12 @@ public class ExpectationFailed extends ErrorResult {
      * @return a static ExpectationFailed instance as described above
      */
     public static ExpectationFailed get() {
-        return _localizedErrorMsg() ? of(defaultMessage(EXPECTATION_FAILED)) : INSTANCE;
-    }
-
-    /**
-     * Returns a static ExpectationFailed instance and set the {@link #payload} thread local
-     * with default message.
-     *
-     * When calling the instance on {@link #getMessage()} method, it will return whatever
-     * stored in the {@link #payload} thread local
-     *
-     * @param errorCode the app defined error code
-     * @return a static ExpectationFailed instance as described above
-     */
-    public static ExpectationFailed of(int errorCode) {
-        touchPayload().errorCode(errorCode);
-        return _localizedErrorMsg() ? of(defaultMessage(EXPECTATION_FAILED)) : INSTANCE;
+        if (_localizedErrorMsg()) {
+            return of(defaultMessage(EXPECTATION_FAILED));
+        } else {
+            touchPayload();
+            return _INSTANCE;
+        }
     }
 
     /**
@@ -90,7 +75,26 @@ public class ExpectationFailed extends ErrorResult {
 
     /**
      * Returns a static ExpectationFailed instance and set the {@link #payload} thread local
-     * with message specified.
+     * with cause specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause the cause
+     * @return a static ExpectationFailed instance as described above
+     */
+    public static ExpectationFailed of(Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(cause, defaultMessage(EXPECTATION_FAILED));
+        } else {
+            touchPayload().cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static ExpectationFailed instance and set the {@link #payload} thread local
+     * with cause and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -107,22 +111,26 @@ public class ExpectationFailed extends ErrorResult {
 
     /**
      * Returns a static ExpectationFailed instance and set the {@link #payload} thread local
-     * with message specified.
+     * with user error code
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
      *
-     * @param cause the cause
+     * @param errorCode the app defined error code
      * @return a static ExpectationFailed instance as described above
      */
-    public static ExpectationFailed of(Throwable cause) {
-        touchPayload().cause(cause);
-        return _INSTANCE;
+    public static ExpectationFailed of(int errorCode) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, defaultMessage(EXPECTATION_FAILED));
+        } else {
+            touchPayload().errorCode(errorCode);
+            return _INSTANCE;
+        }
     }
 
     /**
      * Returns a static ExpectationFailed instance and set the {@link #payload} thread local
-     * with message specified.
+     * with error code and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
@@ -139,7 +147,27 @@ public class ExpectationFailed extends ErrorResult {
 
     /**
      * Returns a static ExpectationFailed instance and set the {@link #payload} thread local
-     * with message specified.
+     * with cause specified.
+     *
+     * When calling the instance on {@link #getMessage()} method, it will return whatever
+     * stored in the {@link #payload} thread local
+     *
+     * @param cause the cause
+     * @param errorCode the app defined error code
+     * @return a static ExpectationFailed instance as described above
+     */
+    public static ExpectationFailed of(int errorCode, Throwable cause) {
+        if (_localizedErrorMsg()) {
+            return of(errorCode, cause, defaultMessage(EXPECTATION_FAILED));
+        } else {
+            touchPayload().errorCode(errorCode).cause(cause);
+            return _INSTANCE;
+        }
+    }
+
+    /**
+     * Returns a static ExpectationFailed instance and set the {@link #payload} thread local
+     * with error code, cause and message specified.
      *
      * When calling the instance on {@link #getMessage()} method, it will return whatever
      * stored in the {@link #payload} thread local
