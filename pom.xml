@@ -15,6 +15,11 @@
   ~ under the License.
   -->
 <!-- history
+1.2.1
+- #13 Allow developer to set error code on `ErrorResult`
+- #12 Missing API in some error result to accept Throwable type parameter
+
+
 1.2.0
 - #11 Add corresponding Result classes for more 4xx and 5xx responses
 - #10 Add API to `Result` for header and cookie manipulation
