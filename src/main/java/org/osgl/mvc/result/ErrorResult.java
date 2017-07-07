@@ -161,6 +161,11 @@ public class ErrorResult extends Result {
         return store;
     }
 
+    public ErrorResult errorCode(int errorCode) {
+        this.errorCode = errorCode;
+        return this;
+    }
+
     public Integer errorCode() {
         return errorCode;
     }
