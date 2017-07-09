@@ -6,88 +6,82 @@ import org.osgl.http.Http;
 import org.osgl.logging.LogManager;
 import org.osgl.logging.Logger;
 import org.osgl.mvc.MvcConfig;
-import org.osgl.util.C;
 import org.osgl.util.E;
 import org.osgl.util.S;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static org.osgl.http.H.Status.*;
 
 /**
- * Encapsulate data to be applied into a {@link H.Response response}
+ * The base class of all MVC results in which the data can be applied to
+ * {@link H.Response}
  *
  * The `Result` is modeled as a {@link FastRuntimeException} sub class so that the
  * program can either `return` or `throw` the result back to control point.
  */
 public class Result extends FastRuntimeException {
 
-    public static final Logger LOGGER = LogManager.get(Result.class);
+    /**
+     * Singleton instance for an empty {@link H.Status#OK} result
+     */
+    public static final Result OK = of(H.Status.OK);
+
+    /**
+     * Singleton instance for an empty {@link H.Status#CREATED} result
+     */
+    public static final Result CREATED = of(H.Status.CREATED);
+
+    /**
+     * Singleton instance for an empty {@link H.Status#CREATED} result
+     */
+    public static final Result ACCEPTED = of(H.Status.ACCEPTED);
+
+    /**
+     * Singleton instance for an empty {@link H.Status#NO_CONTENT} result
+     */
+    public static final Result NO_CONTENT = of(H.Status.NO_CONTENT);
+
+    /**
+     * Singleton instance for an empty {@link H.Status#NOT_MODIFIED} result
+     */
+    public static final Result NOT_MODIFIED = of(H.Status.NOT_MODIFIED);
+
+    /**
+     * Singleton instance for an empty {@link H.Status#BAD_REQUEST} result
+     */
+    public static final Result BAD_REQUEST = of(H.Status.BAD_REQUEST);
+
+    /**
+     * Singleton instance for an empty {@link H.Status#UNAUTHORIZED} result
+     */
+    public static final Result UNAUTHORIZED = of(H.Status.UNAUTHORIZED);
+
+    /**
+     * Singleton instance for an empty {@link H.Status#FORBIDDEN} result
+     */
+    public static final Result FORBIDDEN = of(H.Status.FORBIDDEN);
+
+    /**
+     * Singleton instance for an empty {@link H.Status#NOT_FOUND} result
+     */
+    public static final Result NOT_FOUND = of(H.Status.NOT_FOUND);
+
+    /**
+     * Singleton instance for an empty {@link H.Status#CONFLICT} result
+     */
+    public static final Result CONFLICT = of(H.Status.CONFLICT);
+
+    private static final Logger LOGGER = LogManager.get(Result.class);
 
     /**
      * The response status
      */
-    private Http.Status status;
-
-    /**
-     * Log the time when this result is issued
-     */
-    private long timestamp = System.currentTimeMillis();
-
-    /**
-     * store content type in {@link H.Format}
-     *
-     * If {@link #contentTypeString} is set then this field will not effect
-     */
-    private H.Format contentTypeFormat;
-
-    /**
-     * store content type in string
-     */
-    private String contentTypeString;
-
-    /**
-     * the headers
-     */
-    private Map<String, H.Header> headers = new HashMap<>();
-
-    /**
-     * the cookies
-     */
-    private Map<String, H.Cookie> cookies = new HashMap<>();
-
-    /**
-     * the session variables
-     */
-    private Map<String, Object> sessionVars = new HashMap<>();
-
-    /**
-     * the flash variables
-     */
-    private Map<String, Object> flashVars = new HashMap<>();
-
-    /**
-     * Response that are passed to result upon construction.
-     * If response is presented headers and cookies are set
-     * directly to response
-     */
-    private transient H.Response response;
-
-    /**
-     * Session that are passed to result upon construction.
-     * If session is presented, then
-     */
-    private transient H.Session session;
-
-    private transient H.Flash flash;
+    protected Http.Status status;
 
     /**
      * Construct a Result with {@link H.Status#OK} status
      */
     public Result() {
-        this(OK);
+        this(H.Status.OK);
     }
 
     /**
@@ -115,49 +109,6 @@ public class Result extends FastRuntimeException {
     }
 
     /**
-     * Construct a result with {@link H.Context HTTP context} which will
-     * provides {@link H.Flash flash}, {@link H.Session session} and
-     * {@link H.Response response}
-     *
-     * The status will default to {@link H.Status#OK} status
-     *
-     * @param context the HTTP context
-     */
-    public Result(H.Context context) {
-        this(context, H.Status.OK);
-    }
-
-    /**
-     * Construct a Result with HTTP context and specified {@link H.Status status}
-     * @param context the HTTP context
-     * @param status the response status
-     */
-    protected Result(H.Context context, Http.Status status) {
-        this(context, status, MvcConfig.messageOf(status));
-    }
-
-    /**
-     * Construct a Result with specified {@link H.Status status} and message template and
-     * arguments.
-     *
-     * Note message template and arguments will be converted into message string via
-     * {@link S#fmt(String, Object...)} call
-     *
-     * @param context the HTTP context
-     * @param status the response status
-     * @param message the message template
-     * @param args the message arguments
-     */
-    protected Result(H.Context context, Http.Status status, String message, Object... args) {
-        super(message, args);
-        this.status = status;
-        this.flash = context.flash();
-        this.session = context.session();
-        this.response = context.resp();
-    }
-
-
-    /**
      * {@inheritDoc}
      *
      * @return localized message
@@ -173,7 +124,7 @@ public class Result extends FastRuntimeException {
      * @return String representation of this result
      */
     @Override
-    public final String toString() {
+    public String toString() {
         return "HTTP/1.1 " + statusCode() + " " + getLocalizedMessage();
     }
 
@@ -186,8 +137,7 @@ public class Result extends FastRuntimeException {
                 + statusCode()
                 + ", \"message\":\""
                 + getLocalizedMessage()
-                + "\", \"timestamp\":"
-                + timestamp() + "}";
+                + "\"}";
     }
 
     /**
@@ -252,26 +202,6 @@ public class Result extends FastRuntimeException {
     }
 
     /**
-     * Return the response passed to this result upon construction
-     * @return the response or `null` if no response passed into this result
-     */
-    public final H.Response<?> response() {
-        return response;
-    }
-
-    /**
-     * Return the session passed to this result upon construction
-     * @return the session or `null` if no session passed into this result
-     */
-    public final H.Session session() {
-        return session;
-    }
-
-    public final H.Flash flash() {
-        return flash;
-    }
-
-    /**
      * Returns the {@link H.Status status}
      * @return the status
      */
@@ -288,231 +218,11 @@ public class Result extends FastRuntimeException {
     }
 
     /**
-     * Overwrite the status
-     * @param status the new status
-     * @return this result after status overwritten
-     */
-    public Result overwriteStatus(H.Status status) {
-        this.status = status;
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param cause the cause
-     * @return this result
-     */
-    public Result initCause(Throwable cause) {
-        return this;
-    }
-
-    /**
      * Returns the cause of this result
      * @return the cause
      */
     public final Throwable cause() {
         return getCause();
-    }
-
-    /**
-     * Returns the timestamp when this result is issued
-     * @return the timestamp of this result
-     */
-    public final long timestamp() {
-        return timestamp;
-    }
-
-    /**
-     * Set a header to this result
-     * @param name the header name
-     * @param value the header value
-     * @return this result
-     */
-    public Result header(String name, String value) {
-        H.Response resp = response();
-        if (null != resp) {
-            resp.header(name, value);
-        } else {
-            this.headers.put(name, new H.Header(name, value));
-        }
-        return this;
-    }
-
-    /**
-     * Set a {@link H.Header header} to this result
-     * @param header the header
-     * @return this result after header set
-     */
-    public Result header(H.Header header) {
-        H.Response resp = response();
-        if (null != resp) {
-            List<String> values = header.values();
-            resp.addHeaderValues(header.name(), values.toArray(new String[values.size()]));
-        } else {
-            this.headers.put(header.name(), header);
-        }
-        return this;
-    }
-
-    /**
-     * Add header values to this result. If the header does not exist then
-     * create a header, otherwise add the supplied value into existing header
-     * @param name the header name
-     * @param values the values to be added
-     * @return this result
-     */
-    public Result addHeader(String name, String... values) {
-        H.Header header = this.headers.get(name);
-        if (null == header) {
-            header = new H.Header(name, values);
-        } else {
-            header = new H.Header(name, C.list(header.values()).append(C.listOf(values)));
-        }
-
-        H.Response resp = response();
-        if (null != resp) {
-            resp.header(header);
-        } else {
-            this.headers.put(name, header);
-        }
-        return this;
-    }
-
-    /**
-     * Set a cookie to this result
-     * @param cookie the cookie to be set
-     * @return this result
-     */
-    public Result cookie(H.Cookie cookie) {
-        H.Response resp = response();
-        if (null != resp) {
-            resp.addCookie(cookie);
-        } else {
-            this.cookies.put(cookie.name(), cookie);
-        }
-        return this;
-    }
-
-    /**
-     * Set session variable
-     * @param name the session variable name
-     * @param val the session variable value
-     * @return this result
-     */
-    public Result session(String name, Object val) {
-        return updateKV(name, val, session(), sessionVars);
-    }
-
-    /**
-     * Set flash variable
-     * @param name the flash variable name
-     * @param val the flash variable value
-     * @return this result
-     */
-    public Result flash(String name, Object val) {
-        return updateKV(name, val, flash(), flashVars);
-    }
-
-    private Result updateKV(String name, Object val, H.KV<?> kv, Map<String, Object> tmpStore) {
-        if (null != kv) {
-            if (null == val) {
-                kv.remove(name);
-            } else {
-                kv.put(name, val);
-            }
-        } else {
-            if (null == val) {
-                tmpStore.remove(name);
-            } else {
-                tmpStore.put(name, val);
-            }
-        }
-        return this;
-    }
-
-    /**
-     * Set a "Location" header to this result
-     * @param location the location URL
-     * @return this result
-     */
-    public Result location(String location) {
-        return this.header(H.Header.Names.LOCATION, location);
-    }
-
-    /**
-     * Set a "ETag" header to this result
-     * @param etag the etag value
-     * @return this result
-     */
-    public Result etag(String etag) {
-        return this.header(H.Header.Names.ETAG, etag);
-    }
-
-    /**
-     * Set content type with {@link H.Format media format}
-     * @param contentType the media format
-     * @return this result
-     */
-    public Result contentType(H.Format contentType) {
-        contentTypeFormat = contentType;
-        return this;
-    }
-
-    /**
-     * Set the "Content-Type" header to this result
-     * @param contentType the content type string
-     * @return this result
-     */
-    public Result contentType(String contentType) {
-        contentTypeString = contentType;
-        return this;
-    }
-
-    /**
-     * Apply headers in this result into response
-     * @param response the response into which the headers will be applied
-     */
-    protected final void applyHeaders(H.Response response) {
-        if (headers.isEmpty()) {
-            return;
-        }
-        for (H.Header header : headers.values()) {
-            String name = header.name();
-            for (String value : header.values()) {
-                response.addHeader(name, value);
-            }
-        }
-    }
-
-    /**
-     * Apply cookie in this result into response
-     * @param response the response into which the cookies will be applied
-     */
-    protected final void applyCookies(H.Response response) {
-        if (cookies.isEmpty()) {
-            return;
-        }
-        for (H.Cookie cookie : cookies.values()) {
-            response.addCookie(cookie);
-        }
-    }
-
-    protected final void applySessionVars(H.Session session) {
-        applyKVStore(session, sessionVars);
-    }
-
-    protected final void applyFlashVars(H.Flash flash) {
-        applyKVStore(flash, flashVars);
-    }
-
-    private void applyKVStore(H.KV<?> kv, Map<String, Object> tmpStore) {
-        if (tmpStore.isEmpty()) {
-            return;
-        }
-        for (Map.Entry<String, Object> entry : tmpStore.entrySet()) {
-            kv.put(entry.getKey(), entry.getValue());
-        }
     }
 
     /**
@@ -528,7 +238,7 @@ public class Result extends FastRuntimeException {
      * @param req the request
      * @param resp the response
      */
-    private final void applyBeforeCommitHandler(H.Request req, H.Response resp) {
+    protected final void applyBeforeCommitHandler(H.Request req, H.Response resp) {
         MvcConfig.applyBeforeCommitResultHandler(this, req, resp);
     }
 
@@ -537,7 +247,7 @@ public class Result extends FastRuntimeException {
      * @param req the request
      * @param resp the response
      */
-    private final void applyAfterCommitHandler(H.Request req, H.Response resp) {
+    protected final void applyAfterCommitHandler(H.Request req, H.Response resp) {
         MvcConfig.applyAfterCommitResultHandler(this, req, resp);
     }
 
@@ -560,32 +270,8 @@ public class Result extends FastRuntimeException {
     public void apply(H.Context context) {
         H.Response resp = context.resp();
         H.Request req = context.req();
-        H.Session session = context.session();
-        H.Flash flash = context.flash();
         try {
-            H.Session mySess = session();
-            E.illegalArgumentIf(null != mySess && mySess != session, "session object does not match result object");
-
-            H.Flash myFlash = flash();
-            E.illegalArgumentIf(null != myFlash && myFlash != flash, "flash object does not match result object");
-
-            H.Response myResp = response();
-            E.illegalArgumentIf(null != myResp && myResp != resp, "response object does not match result object");
-
-            if (null == mySess) {
-                applySessionVars(session);
-            }
-            if (null == myFlash) {
-                applyFlashVars(flash);
-            }
-            prepareStatus(context);
             applyStatus(resp);
-            applyContentType(resp);
-            prepareHeaderAndCookies(context);
-            if (null == myResp) {
-                applyCookies(resp);
-                applyHeaders(resp);
-            }
             applyBeforeCommitHandler(req, resp);
             applyBody(req, resp);
         } finally {
@@ -594,46 +280,19 @@ public class Result extends FastRuntimeException {
         }
     }
 
-    private void applyContentType(H.Response response) {
-        if (null != contentTypeString) {
-            response.contentType(contentTypeString);
-        } else if (null != contentTypeFormat) {
-            response.contentType(contentTypeFormat.contentType() + "; charset=" + response.characterEncoding());
-        }
-    }
-
-    /**
-     * Called before applying cookies and headers to response
-     *
-     * Sub class can use this to generate derived headers or cookies
-     *
-     * @param context the HTTP context
-     */
-    protected void prepareHeaderAndCookies(H.Context context) {
-    }
-
-    /**
-     * Called before applying status to response
-     *
-     * Sub class can use this to overwrite status
-     *
-     * @param context the HTTP context
-     */
-    protected void prepareStatus(H.Context context) {
-    }
 
     /**
      * Create a result of the status specified
      * @param status the response status
      * @return an new result with the status
      */
-    public static Result of(H.Status status) {
+    public static RichResult of(H.Status status) {
         if (status.isRedirect()) {
             LOGGER.warn("Constructing a general Redirect result, consider using specific factory methods for redirect instead");
         } else if (status.isError()) {
             LOGGER.warn("Constructing a general error result, consider using specific factory methods for error instead");
         }
-        return new Result(status);
+        return new RichResult(status);
     }
 
     /**
@@ -641,7 +300,7 @@ public class Result extends FastRuntimeException {
      * @param statusCode specify the response status
      * @return an new result with the status code
      */
-    public static Result ofStatus(int statusCode) {
+    public static RichResult ofStatus(int statusCode) {
         return of(H.Status.of(statusCode));
     }
 
@@ -663,16 +322,16 @@ public class Result extends FastRuntimeException {
      * Create a 200 OK result
      * @return the result as described
      */
-    public static Result ok() {
-        return of(OK);
+    public static RichResult ok() {
+        return of(H.Status.OK);
     }
 
     /**
      * Create a 201 Created result
      * @return the result as described
      */
-    public static Result created() {
-        return of(CREATED);
+    public static RichResult created() {
+        return of(H.Status.CREATED);
     }
 
     /**
@@ -682,24 +341,24 @@ public class Result extends FastRuntimeException {
      * @param location the URL point to the new resource that are created
      * @return the result as described
      */
-    public static Result created(String location) {
-        return of(CREATED).location(location);
+    public static RichResult created(String location) {
+        return of(H.Status.CREATED).location(location);
     }
 
     /**
      * Create a 202 Accepted result
      * @return the result created
      */
-    public static Result accepted() {
-        return of(ACCEPTED);
+    public static RichResult accepted() {
+        return of(H.Status.ACCEPTED);
     }
 
     /**
      * Create a 204 No Content result
      * @return the result created
      */
-    public static Result noContent() {
-        return of(NO_CONTENT);
+    public static RichResult noContent() {
+        return of(H.Status.NO_CONTENT);
     }
 
     private static RenderContent render(String content) {
@@ -786,8 +445,8 @@ public class Result extends FastRuntimeException {
      * Create a 304 Not Modified result
      * @return the result created
      */
-    public static Result notModified() {
-        return of(NOT_MODIFIED);
+    public static RichResult notModified() {
+        return of(H.Status.NOT_MODIFIED);
     }
 
     /**
@@ -818,7 +477,7 @@ public class Result extends FastRuntimeException {
      * @return the result
      */
     public static ErrorResult badRequest() {
-        return errorOf(BAD_REQUEST);
+        return errorOf(H.Status.BAD_REQUEST);
     }
 
     /**
@@ -826,7 +485,7 @@ public class Result extends FastRuntimeException {
      * @return the result
      */
     public static ErrorResult badRequest(String message, Object ... args) {
-        return errorOf(BAD_REQUEST, message, args);
+        return errorOf(H.Status.BAD_REQUEST, message, args);
     }
 
     /**
@@ -866,7 +525,7 @@ public class Result extends FastRuntimeException {
      * @return the result
      */
     public static ErrorResult forbidden() {
-        return errorOf(FORBIDDEN);
+        return errorOf(H.Status.FORBIDDEN);
     }
 
     /**
@@ -876,7 +535,7 @@ public class Result extends FastRuntimeException {
      * @return the result
      */
     public static ErrorResult forbidden(String message, Object ... args) {
-        return errorOf(FORBIDDEN, message, args);
+        return errorOf(H.Status.FORBIDDEN, message, args);
     }
 
     /**
@@ -884,7 +543,7 @@ public class Result extends FastRuntimeException {
      * @return the result
      */
     public static ErrorResult notFound() {
-        return errorOf(NOT_FOUND);
+        return errorOf(H.Status.NOT_FOUND);
     }
 
     /**
@@ -894,7 +553,7 @@ public class Result extends FastRuntimeException {
      * @return the result
      */
     public static ErrorResult notFound(String message, Object ... args) {
-        return errorOf(NOT_FOUND, message, args);
+        return errorOf(H.Status.NOT_FOUND, message, args);
     }
 
     /**
@@ -958,7 +617,7 @@ public class Result extends FastRuntimeException {
      * @return the result
      */
     public static ErrorResult conflict() {
-        return errorOf(CONFLICT);
+        return errorOf(H.Status.CONFLICT);
     }
 
     /**
@@ -968,7 +627,7 @@ public class Result extends FastRuntimeException {
      * @return the result
      */
     public static ErrorResult conflict(String message, Object ... args) {
-        return errorOf(CONFLICT, message, args);
+        return errorOf(H.Status.CONFLICT, message, args);
     }
 
     /**
@@ -1225,7 +884,6 @@ public class Result extends FastRuntimeException {
     }
 
 
-
     /**
      * Create a 507 Insufficient Storage result
      * @return the result
@@ -1254,4 +912,5 @@ public class Result extends FastRuntimeException {
     public static ErrorResult insufficientStorage(Throwable cause, String message, Object ... args) {
         return errorOf(INSUFFICIENT_STORAGE, message, args).initCause(cause);
     }
+
 }

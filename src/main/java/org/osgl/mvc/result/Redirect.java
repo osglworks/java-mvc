@@ -4,7 +4,7 @@ import org.osgl.http.H;
 import org.osgl.util.E;
 
 /**
- * Encapsulate {@link Result} with status code of
+ * Encapsulate {@link RichResult} with status code of
  *
  * * 301 Moved Permanently
  * * 302 Found
@@ -12,7 +12,7 @@ import org.osgl.util.E;
  * * 307 Temporary Redirect
  * * 308 Permanent Redirect
  */
-public class Redirect extends Result {
+public class Redirect extends RichResult {
 
     /**
      * Construct a `Redirect` with status code and the URL the user agent shall be redirected

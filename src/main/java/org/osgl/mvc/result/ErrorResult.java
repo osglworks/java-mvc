@@ -8,7 +8,7 @@ import org.osgl.util.KVStore;
 /**
  * Base class for Error results, i.e result with status code between 400 and 600 (excluded)
  */
-public class ErrorResult extends Result {
+public class ErrorResult extends RichResult {
 
     /**
      * Stores the app defined error code

@@ -3,7 +3,7 @@ package org.osgl.mvc.result;
 import org.osgl.http.H;
 import org.osgl.http.Http;
 
-public class RenderContent extends Result {
+public class RenderContent extends RichResult {
 
     private String content;
 

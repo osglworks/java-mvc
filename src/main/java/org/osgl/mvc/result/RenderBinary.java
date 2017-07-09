@@ -12,7 +12,7 @@ import java.io.OutputStream;
 
 import static org.osgl.http.H.Header.Names.CONTENT_LENGTH;
 
-public class RenderBinary extends Result {
+public class RenderBinary extends RichResult {
     private enum Disposition {
         INLINE, ATTACHMENT;
 
