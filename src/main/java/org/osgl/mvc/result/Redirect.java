@@ -1,155 +1,35 @@
 package org.osgl.mvc.result;
 
-import org.osgl.$;
 import org.osgl.http.H;
-import org.osgl.http.Http;
-import org.osgl.util.S;
+import org.osgl.util.E;
 
-public class Redirect extends RedirectBase {
-
-    private static Redirect _INSTANCE = new Redirect() {
-        @Override
-        protected String url() {
-            return payload().message;
-        }
-
-        @Override
-        public long timestamp() {
-            return payload().timestamp;
-        }
-    };
-
-    private Redirect() {
-        super(Http.Status.FOUND);
-    }
-
-    public Redirect(String url) {
-        super(Http.Status.FOUND, url);
-    }
-
-    public Redirect(String url, Object... args) {
-        this(S.fmt(url, args));
-    }
-
-    @Override
-    protected void _applyStatus(H.Request request, H.Response response) {
-        if (request.isAjax()) {
-            response.status(H.Status.FOUND_AJAX);
-        } else {
-            applyStatus(response);
-        }
-    }
-
-    public static Redirect of(String url) {
-        touchPayload().message(url);
-        return _INSTANCE;
-    }
-
-    public static Redirect of(String url, Object... args) {
-        touchPayload().message(url, args);
-        return _INSTANCE;
-    }
-
-    public static MovedPermanently movedPermanently(String url) {
-        return MovedPermanently.of(url);
-    }
-
-    public static MovedPermanently movedPermanently(String url, Object... args) {
-        return MovedPermanently.of(url, args);
-    }
-
-    public static Found found(String url) {
-        return Found.of(url);
-    }
-
-    public static Found found(String url, Object... args) {
-        return Found.of(url, args);
-    }
-
-    public static SeeOther seeOther(String url) {
-        return SeeOther.of(url);
-    }
-
-    public static SeeOther seeOther(String url, Object... args) {
-        return SeeOther.of(url, args);
-    }
-
-    public static TemporaryRedirect temporaryRedirect(String url) {
-        return TemporaryRedirect.of(url);
-    }
-
-    public static TemporaryRedirect temporaryRedirect(String url, Object ... args) {
-        return TemporaryRedirect.of(url, args);
-    }
-
-    public static PermanentRedirect permanentRedirect(String url) {
-        return PermanentRedirect.of(url);
-    }
-
-    public static PermanentRedirect permanentRedirect(String url, Object... args) {
-        return PermanentRedirect.of(url, args);
-    }
+/**
+ * Encapsulate {@link Result} with status code of
+ *
+ * * 301 Moved Permanently
+ * * 302 Found
+ * * 303 See Other
+ * * 307 Temporary Redirect
+ * * 308 Permanent Redirect
+ */
+public class Redirect extends Result {
 
     /**
-     * This method is deprecated
+     * Construct a `Redirect` with status code and the URL the user agent shall be redirected
+     * @param status the redirect status, must be one of 301, 302, 303, 307 and 308
+     * @param url the URL to be redirected
      */
-    @Deprecated
-    public static Redirect moved(String url) {
-        touchPayload().message(url);
-        return _INSTANCE;
+    public Redirect(H.Status status, String url) {
+        super(validateStatusCode(status));
+        location(url);
+        // TODO set default message
+        // See requirement defined
+        // at http://www.restpatterns.org/HTTP_Status_Codes/301_-_Moved_Permanently
     }
 
-    /**
-     * This method is deprecated
-     */
-    @Deprecated
-    public static Redirect moved(String url, Object... args) {
-        touchPayload().message(url, args);
-        return _INSTANCE;
-    }
-
-    public enum F {
-        ;
-        public static $.Function<String, Redirect> REDIRECT = new $.Transformer<String, Redirect>() {
-            @Override
-            public Redirect transform(String s) {
-                return of(s);
-            }
-        };
-
-        public static $.Function<String, MovedPermanently> MOVED_PERMANENTLY = new $.Transformer<String, MovedPermanently>() {
-            @Override
-            public MovedPermanently transform(String s) {
-                return movedPermanently(s);
-            }
-        };
-
-        public static $.Function<String, Found> FOUND = new $.Transformer<String, Found>() {
-            @Override
-            public Found transform(String s) {
-                return found(s);
-            }
-        };
-
-        public static $.Function<String, SeeOther> SEE_OTHER = new $.Transformer<String, SeeOther>() {
-            @Override
-            public SeeOther transform(String s) {
-                return seeOther(s);
-            }
-        };
-
-        public static $.Function<String, TemporaryRedirect> TEMPORARY_REDIRECT = new $.Transformer<String, TemporaryRedirect>() {
-            @Override
-            public TemporaryRedirect transform(String s) {
-                return temporaryRedirect(s);
-            }
-        };
-
-        public static $.Function<String, PermanentRedirect> PERMANENT_REDIRECT = new $.Transformer<String, PermanentRedirect>() {
-            @Override
-            public PermanentRedirect transform(String s) {
-                return permanentRedirect(s);
-            }
-        };
+    private static H.Status validateStatusCode(H.Status status) {
+        int statusCode = status.code();
+        E.illegalArgumentIf(statusCode < 300 || statusCode > 399, "Invalid redirect status code: " + statusCode);
+        return status;
     }
 }

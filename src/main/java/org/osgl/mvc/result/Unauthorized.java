@@ -2,7 +2,6 @@ package org.osgl.mvc.result;
 
 import org.osgl.$;
 import org.osgl.http.H;
-import org.osgl.http.Http;
 import org.osgl.util.Codec;
 import org.osgl.util.E;
 import org.osgl.util.S;
@@ -11,38 +10,25 @@ import org.osgl.util.S;
  * HTTP 401 Unauthorized,
  *
  * Note digest type is not supported yet
+ *
+ * TODO: support more authenticate schemes:
+ * see http://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml
  */
 public class Unauthorized extends ErrorResult {
 
-    private static final String PAYLOAD_KEY = "401";
-
-    public static final Unauthorized INSTANCE = new Unauthorized();
-
-    private static final Unauthorized _INSTANCE = new Unauthorized() {
-        @Override
-        protected String realm() {
-            $.T2<String, Type> data = payload().getValue(PAYLOAD_KEY);
-            return null == data ? null : data._1;
-        }
-
-        @Override
-        protected Type type() {
-            $.T2<String, Type> data = payload().getValue(PAYLOAD_KEY);
-            return null == data ? null : data._2;
-        }
-
-        @Override
-        public long timestamp() {
-            return payload().timestamp;
-        }
-    };
-
+    /**
+     * Defines three types of `Unauthorized` result:
+     *
+     * * BASIC
+     * * DIGEST
+     * * FORM
+     */
     enum Type {
         BASIC () {
             @Override
             String header(Unauthorized data) {
                 StringBuilder sb = S.builder("Basic realm=\"")
-                        .append(Codec.encodeBase64(data.realm())).append("\"");
+                        .append(Codec.encodeBase64(data.realm)).append("\"");
                 return sb.toString();
             }
         },
@@ -50,7 +36,7 @@ public class Unauthorized extends ErrorResult {
             @Override
             String header(Unauthorized data) {
                 StringBuilder sb = S.builder("Digest realm=\"")
-                        .append(data.realm()).append("\",\nqop=\"auth,auth-int\",\nnonce=\"")
+                        .append(data.realm).append("\",\nqop=\"auth,auth-int\",\nnonce=\"")
                         .append(S.random(34)).append("\",\nopaque=\"")
                         .append(S.random(32)).append("\"");
                 return sb.toString();
@@ -70,73 +56,186 @@ public class Unauthorized extends ErrorResult {
     private Type type;
 
     public Unauthorized() {
-        this(null);
+        super(H.Status.UNAUTHORIZED);
+        this.type = Type.FORM;
     }
 
-    public Unauthorized(String realm) {
-        super(Http.Status.UNAUTHORIZED);
-        this.realm = realm;
-        this.type = S.blank(realm) ? Type.FORM : Type.BASIC;
+    /**
+     * {@inheritDoc}
+     * @param errorCode the error code to be set
+     * @return this result
+     * @throws IllegalStateException
+     */
+    @Override
+    public Unauthorized initErrorCode(int errorCode) throws IllegalStateException {
+        super.initErrorCode(errorCode);
+        return this;
     }
 
-    public Unauthorized(String realm, boolean digest) {
-        super(Http.Status.UNAUTHORIZED);
+    /**
+     * {@inheritDoc}
+     * @param attachment the object to be attached
+     * @return this result
+     */
+    @Override
+    public Unauthorized attach(Object attachment) {
+        super.attach(attachment);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @param cause the cause
+     * @return this error result
+     */
+    @Override
+    public Unauthorized initCause(Throwable cause) {
+        super.initCause(cause);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param status the new status
+     * @return this error result
+     */
+    @Override
+    public Unauthorized overwriteStatus(H.Status status) {
+        super.overwriteStatus(status);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @param name the header name
+     * @param value the header value
+     * @return this error result
+     */
+    @Override
+    public Unauthorized header(String name, String value) {
+        super.header(name, value);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param header the header
+     * @return this error result
+     */
+    @Override
+    public Unauthorized header(H.Header header) {
+        super.header(header);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param name the header name
+     * @param values the values to be added
+     * @return this error result
+     */
+    @Override
+    public Unauthorized addHeader(String name, String... values) {
+        super.addHeader(name, values);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @param cookie the cookie to be set
+     * @return this error result
+     */
+    @Override
+    public Unauthorized cookie(H.Cookie cookie) {
+        super.cookie(cookie);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @param name the session variable name
+     * @param val the session variable value
+     * @return this error result
+     */
+    @Override
+    public Unauthorized session(String name, Object val) {
+        super.session(name, val);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @param name the flash variable name
+     * @param val the flash variable value
+     * @return this error result
+     */
+    @Override
+    public Unauthorized flash(String name, Object val) {
+        super.flash(name, val);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @param location the location URL
+     * @return this result
+     */
+    @Override
+    public Unauthorized location(String location) {
+        super.location(location);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @param contentType the content type string
+     * @return this result
+     */
+    @Override
+    public Unauthorized contentType(String contentType) {
+        super.contentType(contentType);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @param contentType the media format
+     * @return this result
+     */
+    @Override
+    public Unauthorized contentType(H.Format contentType) {
+        super.contentType(contentType);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @param etag the etag value
+     * @return this result
+     */
+    @Override
+    public Unauthorized etag(String etag) {
+        super.etag(etag);
+        return this;
+    }
+    
+
+    public Unauthorized type(Type type) {
+        E.unsupportedIf($.notNull(type) == Type.DIGEST, "Digest authentication is currently not supported");
+        this.type = type;
+        return this;
+    }
+
+    public Unauthorized realm(String realm) {
         this.realm = realm;
-        this.type = digest ? Type.DIGEST : Type.BASIC;
-        if (digest) {
-            throw E.unsupport("Digest access authentication is currently not supported");
-        }
+        return this;
     }
 
     @Override
-    public void apply(H.Request req, H.Response resp) {
-        try {
-            applyStatus(resp);
-            applyCookies(resp);
-            applyHeaders(resp);
-            resp.header(H.Header.Names.WWW_AUTHENTICATE, type().header(this));
-            applyBeforeCommitHandler(req, resp);
-            applyMessage(req, resp);
-        } finally {
-            try {
-                resp.commit();
-                applyAfterCommitHandler(req, resp);
-            } finally {
-                clearThreadLocals();
-            }
-        }
+    protected void prepareHeaderAndCookies(H.Context context) {
+        this.header(H.Header.Names.WWW_AUTHENTICATE, this.type.header(this));
     }
-
-    protected Type type() {
-        return type;
-    }
-
-    protected String realm() {
-        return realm;
-    }
-
-
-    /**
-     * Returns the {@link #INSTANCE static Unauthorized instance}
-     * @return the static Unauthorized instance
-     */
-    public static Unauthorized get() {
-        return INSTANCE;
-    }
-
-    /**
-     * Returns a static Unauthorized instance and set the {@link #payload} thread local
-     * with realm and type
-     *
-     * When calling the instance on {@link #realm()} and {@link #type()} method, it will return whatever
-     * stored in the {@link #payload} thread local
-     *
-     * @param realm the authentication realm
-     * @return a static Unauthorized instance as described above
-     */
-    public static Unauthorized of(String realm) {
-        touchPayload().putValue(PAYLOAD_KEY, $.T2(realm, S.blank(realm) ? Type.FORM : Type.BASIC));
-        return _INSTANCE;
-    }
-
 }
