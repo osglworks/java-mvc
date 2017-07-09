@@ -231,6 +231,7 @@ public class Unauthorized extends ErrorResult {
 
     public Unauthorized realm(String realm) {
         this.realm = realm;
+        this.type = S.blank(realm) ? Type.FORM : Type.BASIC;
         return this;
     }
 
