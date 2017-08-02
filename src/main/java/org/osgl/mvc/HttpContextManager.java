@@ -56,7 +56,7 @@ public class HttpContextManager {
         H.Flash flash = H.Flash.current();
         serialize(flash);
 
-        C.list(H.Cookie.all()).forEach(H.Cookie.F.ADD_TO_RESPONSE.curry(resp));
+        C.list(H.Cookie.all()).forEach($.visitor(H.Cookie.F.ADD_TO_RESPONSE.curry(resp)));
     }
 
     /**

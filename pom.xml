@@ -15,10 +15,12 @@
   ~ under the License.
   -->
 <!-- history
+1.3.0
+* update to http-1.2/osgl-tool-1.5
+
 1.2.1
 - #13 Allow developer to set error code on `ErrorResult`
 - #12 Missing API in some error result to accept Throwable type parameter
-
 
 1.2.0
 - #11 Add corresponding Result classes for more 4xx and 5xx responses
@@ -138,7 +140,7 @@
   <groupId>org.osgl</groupId>
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>1.2.1-SNAPSHOT</version>
+  <version>1.3.0-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
   <description>Utilities for MVC</description>
@@ -161,8 +163,8 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <maven.test.skip>false</maven.test.skip>
-    <osgl-http.version>1.1.3</osgl-http.version>
-    <osgl-storage.version>1.2.0</osgl-storage.version>
+    <osgl-http.version>1.2.0-SNAPSHOT</osgl-http.version>
+    <osgl-storage.version>1.4.0-SNAPSHOT</osgl-storage.version>
     <servlet.version>2.5</servlet.version>
   </properties>
 
