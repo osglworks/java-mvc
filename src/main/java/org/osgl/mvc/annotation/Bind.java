@@ -31,7 +31,7 @@ import java.lang.annotation.Target;
  * The {@code Bind} annotation is used to specify a
  * binding from a group of HTTP parameters to an action
  * handler method parameter, controller field or
- * an annotation
+ * another annotation
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE})
