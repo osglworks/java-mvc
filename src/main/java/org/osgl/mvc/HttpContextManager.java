@@ -20,12 +20,12 @@ package org.osgl.mvc;
  * #L%
  */
 
+import static org.osgl.mvc.MvcConfig.*;
+
 import org.osgl.$;
 import org.osgl.http.H;
 import org.osgl.http.HttpConfig;
 import org.osgl.util.C;
-
-import static org.osgl.mvc.MvcConfig.*;
 
 /**
  * The {@code HttpContextManager} help to set up http context,
@@ -34,7 +34,7 @@ import static org.osgl.mvc.MvcConfig.*;
  */
 public class HttpContextManager {
 
-    public static interface Listener {
+    public interface Listener {
         void onSessionResolved(H.Session session);
         void onCleanUp();
     }
@@ -76,7 +76,7 @@ public class HttpContextManager {
         H.Flash flash = H.Flash.current();
         serialize(flash);
 
-        C.list(H.Cookie.all()).forEach(H.Cookie.F.ADD_TO_RESPONSE.curry(resp));
+        C.list(H.Cookie.all()).forEach($.visitor(H.Cookie.F.ADD_TO_RESPONSE.curry(resp)));
     }
 
     /**
@@ -111,7 +111,7 @@ public class HttpContextManager {
         H.Cookie.set(cookie);
     }
 
-    private static enum F {
+    private enum F {
         ;
         public static $.Visitor<Listener> onSessionResolved(final H.Session session) {
             return new $.Visitor<Listener>() {
