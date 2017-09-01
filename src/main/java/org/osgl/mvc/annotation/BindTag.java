@@ -1,10 +1,10 @@
-package org.osgl.mvc.result;
+package org.osgl.mvc.annotation;
 
 /*-
  * #%L
- * OSGL MVC
+ * OSGL Genie
  * %%
- * Copyright (C) 2014 - 2017 OSGL (Open Source General Library)
+ * Copyright (C) 2017 OSGL (Open Source General Library)
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,27 +20,22 @@ package org.osgl.mvc.result;
  * #L%
  */
 
-import org.osgl.http.Http;
+import org.osgl.mvc.util.Binder;
 
-public final class Ok extends Result {
+import java.lang.annotation.*;
 
-    public static Ok INSTANCE = new Ok();
-
-    private Ok() {
-        super(Http.Status.OK, "200 Ok");
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return obj == this || obj instanceof Ok;
-    }
-
-    @Override
-    public String toString() {
-        return "HTTP/1.1 200 OK";
-    }
-
-    public static Ok get() {
-        return INSTANCE;
-    }
+/**
+ * Used to specify a certain annotation is an `Bind tag`
+ */
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.ANNOTATION_TYPE)
+public @interface BindTag {
+    /**
+     * Specify the {@link Binder} implementations
+     *
+     * **Note** each binder implementation must have different
+     * {@link Binder#targetType()}
+     */
+    Class<? extends Binder>[] value();
 }

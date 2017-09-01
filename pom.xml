@@ -14,123 +14,6 @@
   ~ License for the specific language governing permissions and limitations
   ~ under the License.
   -->
-<!-- history
-1.2.1
-- #13 Allow developer to set error code on `ErrorResult`
-- #12 Missing API in some error result to accept Throwable type parameter
-
-
-1.2.0
-- #11 Add corresponding Result classes for more 4xx and 5xx responses
-- #10 Add API to `Result` for header and cookie manipulation
-- #9 Support different semantic for new redirection responses
-- update osgl-http to 1.1.3
-
-1.1.1
-- #7 Add WsAction
-- Catch up to osgl-http 1.0.5
-
-1.0.7
-- Catch up to osgl-http 1.0.4
-
-1.0.6
-- #6 Localized error message not translated
-
-1.0.5
-- update osgl-http dependency to 1.0.3
-
-1.0.4
-- #5 ensure response is always commited
-
-1.0.3
-- take out version range. See https://issues.apache.org/jira/browse/MNG-3092
-- Allow `@With` to be used on method
-
-1.0.2
-- #4 IE does not support application/json content
-
-1.0.1
-- Fix #3 Make it possible to output charset encoding for JSON result
-
-1.0.0
-- baseline from 0.9
-
-0.9.0-SNAPSHOT
-- add PatchAction annotation
-- allow RenderContent sub class to pass H.Status parameter into constructor
-- Deprecate NoResult, add NoContent to replace it
-
-0.8.0-SNAPSHOT
-- update to tool 0.10.0
-- update to http 0.5.0
-
-0.7.0-SNAPSHOT
-- update osgl-http to 0.4.0-SNAPSHOT
-
-0.6.1-SNAPSHOT
-- update osgl-http to 0.3.4-SNAPSHOT
-
-0.6.0-SNAPSHOT
-- Bind annotation now accept an array of Binder implementations
-- Add ActionUtil annotation
-- Support for localized Error Result message
-- Improve result throw/catch flow performance by introducing general static result mechanism
-
-0.5.1-SNAPSHOT
-- Update osgl-http from 0.3.0-SNAPSHOT to 0.3.1-SNAPSHOT
-
-0.5.0-SNAPSHOT
-- Bind interface change: accept bean as session cached data
-- Add SessionFree annotation
-
-0.4.2-SNAPSHOT
-- Add Created and Accepted result
-- Add ResponseStatus annotation
-
-0.4.1-SNAPSHOT
-- Add MethodNotAllowed and NotImplemented Result type
-
-0.4.0-SNAPSHOT
-- update osgl-tool to 0.8
-
-0.3.3-SNAPSHOT
-- update osgl-tool to 0.7.1-SNAPSHOT
-
-0.3.2-SNAPSHOT
-- Fix Unauthorized result issue
-- Add public access method to RenderContent for testing purpose
-- Allow @Action annotation to be used without value specified, in which case
-  it is used as a marker of method subject to bytecode enhancement by the
-  underline framework
-
-0.3.1-SNAPSHOT
-- fix RenderText constructor treat arg as arg array issue
-
-0.3.0-SNAPSHOT
-- Binder now expose parameter from a ParameterValueProvider interface instead of H.Request
-- Update Action annotations signature to allow an action method be mapped to multiple paths at the same time
-
-0.2.4-SNAPSHOT
-- Update ogl-http version
-- ErrorResult constructor now is public
-- add INSTANCE to BadRequest
-
-0.2.3-SNAPSHOT
-- Update osgl-tool and osgl-http version
-
-0.2.2-SNAPSHOT
-- Add pass accept parameter to RenderText
-
-0.2.1-SNAPSHOT
-- Add default message to Error Results
-
-0.2-SNAPSHOT
-- upgrade to osgl-tool 0.4-SNAPSHOT
-- Annotations now moved to annotatons package
-
-0.1-SNAPSHOT
-- base verion when history log started
--->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
@@ -138,11 +21,17 @@
   <groupId>org.osgl</groupId>
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>1.2.1-SNAPSHOT</version>
+  <version>1.3.0-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
-  <description>Utilities for MVC</description>
-  <url>http://osgl-mvc.osgl.org/</url>
+  <description>an library provides MVC utilities including Result classes, action annotations etc</description>
+  <url>http://mvc.osgl.org/</url>
+  <inceptionYear>2014</inceptionYear>
+
+  <organization>
+    <name>OSGL (Open Source General Library)</name>
+    <url>http://osgl.org</url>
+  </organization>
 
   <parent>
     <groupId>org.sonatype.oss</groupId>
@@ -150,21 +39,25 @@
     <version>7</version>
   </parent>
 
-  <scm>
-    <connection>scm:git:git://github.com/osglworks/java-mvc.git</connection>
-    <developerConnection>scm:git:git@github.com:osglworks/java-mvc.git</developerConnection>
-    <url>git://github.com/osglworks/java-mvc.git</url>
-  </scm>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-    <maven.test.skip>false</maven.test.skip>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+    <scm.url>git://github.com/osglworks/java-mvc.git</scm.url>
+    <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
+    <buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
+    <servlet.version>2.5</servlet.version>
+    <osgl-ut.version>1.0.0-BETA-3</osgl-ut.version>
     <osgl-http.version>1.1.3</osgl-http.version>
     <osgl-storage.version>1.2.0</osgl-storage.version>
-    <servlet.version>2.5</servlet.version>
   </properties>
+
+  <scm>
+    <connection>scm:git:${scm.url}</connection>
+    <developerConnection>scm:git:${scm.url}</developerConnection>
+    <url>${scm.url}</url>
+  </scm>
 
   <licenses>
     <license>
@@ -182,35 +75,101 @@
       </resource>
     </resources>
 
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.3</version>
-          <configuration>
-            <source>1.7</source>
-            <target>1.7</target>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>2.1.2</version>
-          <configuration>
-            <includePom>true</includePom>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>${cobertura-maven-plugin.version}</version>
+        <configuration>
+          <formats>
+            <format>html</format>
+            <format>xml</format>
+          </formats>
+          <check />
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.17</version>
+        <dependencies>
+          <dependency>
+            <groupId>com.puppycrawl.tools</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>8.1</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <failOnViolation>true</failOnViolation>
+          <configLocation>checkstyle.xml</configLocation>
+          <encoding>UTF-8</encoding>
+          <consoleOutput>true</consoleOutput>
+          <failsOnError>true</failsOnError>
+        </configuration>
+        <executions>
+          <execution>
+            <id>checkstyle</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>1.13</version>
+        <configuration>
+          <licenseName>apache_v2</licenseName>
+          <verbose>false</verbose>
+        </configuration>
+        <executions>
+          <execution>
+            <id>first</id>
+            <goals>
+              <goal>update-file-header</goal>
+            </goals>
+            <phase>process-sources</phase>
+            <configuration>
+              <roots>
+                <root>src/main/java</root>
+                <root>src/test/java</root>
+              </roots>
+              <excludes>
+                <exclude>**/README</exclude>
+                <exclude>src/test/resources/**</exclude>
+                <exclude>src/main/resources/**</exclude>
+              </excludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+        <version>${buildnumber-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>create</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <shortRevisionLength>4</shortRevisionLength>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 
   <dependencies>
 
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.10</version>
+      <groupId>org.osgl</groupId>
+      <artifactId>osgl-ut</artifactId>
+      <version>${osgl-ut.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -224,48 +183,15 @@
       <groupId>org.osgl</groupId>
       <artifactId>osgl-storage</artifactId>
       <version>${osgl-storage.version}</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>${servlet.version}</version>
-      <scope>provided</scope>
     </dependency>
 
   </dependencies>
 
   <profiles>
     <profile>
-      <id>dist</id>
+      <id>release</id>
       <build>
         <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <version>2.2</version>
-            <configuration>
-              <descriptors>
-                <descriptor>${basedir}/assembly-dist.xml</descriptor>
-              </descriptors>
-              <tarLongFileMode>gnu</tarLongFileMode>
-            </configuration>
-            <executions>
-              <execution>
-                <id>make-assembly</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>single</goal>
-                </goals>
-                <configuration>
-                  <descriptors>
-                    <descriptor>${basedir}/assembly-dist.xml</descriptor>
-                  </descriptors>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
@@ -273,6 +199,17 @@
             <configuration>
               <stylesheetfile>src/etc/javadoc.css</stylesheetfile>
               <quiet />
+              <additionalparam>-Xdoclint:none</additionalparam>
+              <doclet>ch.raffael.doclets.pegdown.PegdownDoclet</doclet>
+              <docletArtifact>
+                <groupId>ch.raffael.pegdown-doclet</groupId>
+                <artifactId>pegdown-doclet</artifactId>
+                <version>1.3</version>
+              </docletArtifact>
+              <useStandardDocletOptions>true</useStandardDocletOptions>
+              <links>
+                <link>http://junit.org/junit4/javadoc/latest/</link>
+              </links>
             </configuration>
             <executions>
               <execution>
@@ -281,12 +218,19 @@
                 <goals>
                   <goal>javadoc</goal>
                 </goals>
+                <configuration>
+                  <failOnError>false</failOnError>
+                </configuration>
               </execution>
               <execution>
                 <id>attach-javadocs</id>
                 <goals>
                   <goal>jar</goal>
                 </goals>
+                <configuration> <!-- add this to disable checking -->
+                  <failOnError>false</failOnError>
+                  <additionalparam>-Xdoclint:none</additionalparam>
+                </configuration>
               </execution>
             </executions>
           </plugin>
@@ -297,17 +241,10 @@
               <execution>
                 <id>attach-sources</id>
                 <goals>
-                  <goal>jar</goal>
+                  <goal>jar-no-fork</goal>
                 </goals>
               </execution>
             </executions>
-          </plugin>
-          <plugin>
-            <groupId>com.mycila.maven-license-plugin</groupId>
-            <artifactId>maven-license-plugin</artifactId>
-            <configuration>
-              <header>src/etc/header.txt</header>
-            </configuration>
           </plugin>
         </plugins>
       </build>
