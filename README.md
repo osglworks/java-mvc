@@ -1,10 +1,10 @@
 # OSGL MVC
 
 [![APL v2](https://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html) 
-[![Maven Central](https://img.shields.io/maven-central/v/org.osgl/genie.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22genie%22)
-[![Build Status](https://travis-ci.org/osglworks/java-di.svg?branch=master)](https://travis-ci.org/osglworks/java-di)
-[![codecov](https://codecov.io/gh/osglworks/java-di/branch/master/graph/badge.svg)](https://codecov.io/gh/osglworks/java-unit)
-[![Javadocs](http://www.javadoc.io/badge/org.osgl/genie.svg?color=red)](http://www.javadoc.io/doc/org.osgl/osgl-ut)
+[![Maven Central](https://img.shields.io/maven-central/v/org.osgl/osgl-mvc.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%osgl-mvc%22)
+[![Build Status](https://travis-ci.org/osglworks/java-mvc.svg?branch=master)](https://travis-ci.org/osglworks/java-mvc)
+[![codecov](https://codecov.io/gh/osglworks/java-mvc/branch/master/graph/badge.svg)](https://codecov.io/gh/osglworks/java-mvc)
+[![Javadocs](http://www.javadoc.io/badge/org.osgl/osgl-mvc.svg?color=red)](http://www.javadoc.io/doc/org.osgl/osgl-mvc)
 
 OSGL MVC is a library provides MVC (Model/View/Controller) framework facilities:
 
