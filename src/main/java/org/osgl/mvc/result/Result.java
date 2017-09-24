@@ -56,7 +56,8 @@ public class Result extends FastRuntimeException {
         }
 
         public Payload touch() {
-            this.timestamp = timestamp;
+            this.timestamp = $.ms();
+            this.outputEncoding(MvcConfig.renderJsonOutputCharset());
             return this;
         }
 

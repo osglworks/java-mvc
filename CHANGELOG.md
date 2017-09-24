@@ -1,6 +1,7 @@
 # OSGL MVC CHANGELOG
 
 1.3.0
+- It shall use `MvcConfig.jsonMediaTypeProvider()` for RenderJson singleton #19
 - Introduce quality control into the project #18
 - Add tag annotation to allow developer creating their own `@Bind` annotation #17 
 - Allow developer to set error code on `ErrorResult` #13 
