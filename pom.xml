@@ -21,7 +21,7 @@
   <groupId>org.osgl</groupId>
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>1.3.0</version>
+  <version>1.3.0-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
   <description>an library provides MVC utilities including Result classes, action annotations etc</description>
@@ -44,7 +44,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
-    <scm.url>git://github.com/osglworks/java-mvc.git</scm.url>
+    <scm.url>git@github.com:osglworks/java-mvc.git</scm.url>
     <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
     <buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
     <servlet.version>2.5</servlet.version>
