@@ -1,4 +1,6 @@
 # OSGL MVC CHANGELOG
+1.4.0
+- update to osgl-tool-1.5
 
 1.3.0
 - It shall use `MvcConfig.jsonMediaTypeProvider()` for RenderJson singleton #19
