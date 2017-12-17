@@ -86,6 +86,7 @@ public class MvcConfig extends HttpConfig {
             PROXY_AUTHENTICATION_REQUIRED, "Proxy Authentication Required",
             REQUEST_TIMEOUT, "Request Timeout",
             CONFLICT, "Conflict",
+            TOO_MANY_REQUESTS, "Too Many Requests",
             NOT_IMPLEMENTED, "Not Implemented"
     );
 
