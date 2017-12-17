@@ -20,6 +20,8 @@ package org.osgl.mvc;
  * #L%
  */
 
+import static org.osgl.http.H.Status.*;
+
 import org.osgl.$;
 import org.osgl.Osgl;
 import org.osgl.exception.NotAppliedException;
@@ -31,8 +33,6 @@ import org.osgl.util.E;
 import org.osgl.util.S;
 
 import java.util.Map;
-
-import static org.osgl.http.H.Status.*;
 
 public class MvcConfig extends HttpConfig {
 
@@ -48,8 +48,9 @@ public class MvcConfig extends HttpConfig {
     public static final String MSG_ID_METHOD_NOT_ALLOWED = "osgl.result.method_not_allowed";
     public static final String MSG_ID_NOT_ACCEPTABLE = "osgl.result.not_acceptable";
     public static final String MSG_ID_PROXY_AUTHENTICATION_REQUIRED = "osgl.result.proxy_authentication_required";
-    public static final String MSG_ID_REQUREST_TIMEOUT = "osgl.result.requrest_timeout";
+    public static final String MSG_ID_REQUREST_TIMEOUT = "osgl.result.request_timeout";
     public static final String MSG_ID_CONFLICT = "osgl.result.conflict";
+    public static final String MSG_ID_TOO_MANY_REQUESTS = "osgl.result.too_many_requests";
     public static final String MSG_ID_UNKNOWN_STATUS = "osgl.result.unknown_status";
 
     public static final String MSG_ID_SERVER_ERROR = "osgl.result.server_error";
@@ -67,6 +68,7 @@ public class MvcConfig extends HttpConfig {
             NOT_ACCEPTABLE, MSG_ID_NOT_ACCEPTABLE,
             PROXY_AUTHENTICATION_REQUIRED, MSG_ID_PROXY_AUTHENTICATION_REQUIRED,
             REQUEST_TIMEOUT, MSG_ID_REQUREST_TIMEOUT,
+            TOO_MANY_REQUESTS, MSG_ID_TOO_MANY_REQUESTS,
             CONFLICT, MSG_ID_CONFLICT,
             NOT_IMPLEMENTED, MSG_ID_NOT_IMPLEMENTED
     );
