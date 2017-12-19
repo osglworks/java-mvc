@@ -21,7 +21,7 @@
   <groupId>org.osgl</groupId>
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>1.4.0</version>
+  <version>1.4.1-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
   <description>an library provides MVC utilities including Result classes, action annotations etc</description>
