@@ -20,8 +20,10 @@ package org.osgl.mvc.result;
  * #L%
  */
 
+import org.osgl.$;
 import org.osgl.http.H;
 import org.osgl.http.Http;
+import org.osgl.util.Output;
 import org.osgl.util.S;
 
 public class RenderHtml extends RenderContent {
@@ -30,6 +32,11 @@ public class RenderHtml extends RenderContent {
         @Override
         public String content() {
             return payload().message;
+        }
+
+        @Override
+        public $.Visitor<Output> contentWriter() {
+            return payload().contentWriter;
         }
 
         @Override
@@ -62,6 +69,11 @@ public class RenderHtml extends RenderContent {
 
     public RenderHtml(H.Status status, String html, Object ... args) {
         super(status, S.fmt(html, args), H.Format.HTML);
+    }
+
+    public static RenderHtml of($.Visitor<Output> contentWriter) {
+        touchPayload().contentWriter(contentWriter);
+        return _INSTANCE;
     }
 
     public static RenderHtml of(String html) {

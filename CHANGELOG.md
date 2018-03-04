@@ -1,4 +1,11 @@
 # OSGL MVC CHANGELOG
+
+1.5.0 4/Mar/2018
+- update to osgl-tool-1.7.0
+- update to osgl-http-1.4.0
+- Allow stream based output to response #21
+- Allow developer to attach any payload to Error response #20
+
 1.4.0
 - update to osgl-tool-1.5
 

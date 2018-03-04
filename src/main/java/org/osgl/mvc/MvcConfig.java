@@ -22,6 +22,7 @@ package org.osgl.mvc;
 
 import static org.osgl.http.H.Status.*;
 
+import com.alibaba.fastjson.JSON;
 import org.osgl.$;
 import org.osgl.Osgl;
 import org.osgl.exception.NotAppliedException;
@@ -30,8 +31,10 @@ import org.osgl.http.HttpConfig;
 import org.osgl.mvc.result.Result;
 import org.osgl.util.C;
 import org.osgl.util.E;
+import org.osgl.util.Output;
 import org.osgl.util.S;
 
+import java.io.IOException;
 import java.util.Map;
 
 public class MvcConfig extends HttpConfig {
@@ -104,7 +107,21 @@ public class MvcConfig extends HttpConfig {
     static String flashCookieName = DEF_COOKIE_PREFIX + "_FLASH";
     static int sessionExpire = -1;
     static String secret;
-    static $.Function<Object, String> jsonSerializer;
+    static $.Func2<Output, Object, ?> jsonSerializer = new $.Func2<Output, Object, Void> () {
+        @Override
+        public Void apply(Output sink, Object o) throws NotAppliedException, Osgl.Break {
+                if (o instanceof CharSequence) {
+                    sink.append((CharSequence) o);
+                } else {
+                    try {
+                        JSON.writeJSONString(sink.asOutputStream(), o);
+                    } catch (IOException e) {
+                        throw E.ioException(e);
+                    }
+                }
+            return null;
+        }
+    };
     static $.Func3<Result, H.Request<?>, H.Response<?>, ?> beforeCommitResultHandler = DUMB_COMMIT_RESULT_LISTENER;
     static $.Func3<Result, H.Request<?>, H.Response<?>, ?> afterCommitResultHandler = DUMB_COMMIT_RESULT_LISTENER;
     static $.Function<String, String> messageTranlater = $.F.identity();
@@ -162,7 +179,7 @@ public class MvcConfig extends HttpConfig {
         return jsonMediaTypeProvider;
     }
 
-    public static void jsonSerializer($.Function<Object, String> serializer) {
+    public static void jsonSerializer($.Func2<Output, Object, ?> serializer) {
         MvcConfig.jsonSerializer = $.notNull(serializer);
     }
 
@@ -190,8 +207,13 @@ public class MvcConfig extends HttpConfig {
         return messageTranlater;
     }
 
-    public static $.Function<Object, String> jsonSerializer() {
-        return jsonSerializer;
+    public static $.Visitor<Output> jsonSerializer(final Object v) {
+        return new $.Visitor<Output>() {
+            @Override
+            public void visit(Output sink) throws Osgl.Break {
+                jsonSerializer.apply(sink, v);
+            }
+        };
     }
 
     private static ErrorPageRenderer errorPageRenderer = new ErrorPageRenderer();

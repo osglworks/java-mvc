@@ -20,20 +20,20 @@ package org.osgl.mvc.result;
  * #L%
  */
 
+import static org.osgl.http.H.Header.Names.CONTENT_DISPOSITION;
+import static org.osgl.http.H.Header.Names.CONTENT_LENGTH;
+
 import org.osgl.$;
 import org.osgl.http.H;
 import org.osgl.storage.impl.SObject;
 import org.osgl.util.E;
+import org.osgl.util.Output;
 import org.osgl.util.S;
 
 import java.io.File;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
-
-import static org.osgl.http.H.Header.Names.CONTENT_DISPOSITION;
-import static org.osgl.http.H.Header.Names.CONTENT_LENGTH;
 
 public class RenderBinary extends Result {
         private enum Disposition {
@@ -57,7 +57,7 @@ public class RenderBinary extends Result {
         private String name;
         private SObject binary;
         private String contentType;
-        private $.Function<OutputStream, ?> outputStreamVisitor;
+        private $.Visitor<Output> contentWriter;
 
 
         /**
@@ -142,8 +142,8 @@ public class RenderBinary extends Result {
             this.disposition = Disposition.of(inline);
         }
 
-        public RenderBinary($.Function<OutputStream, ?> outputStreamVisitor) {
-            this.outputStreamVisitor = $.notNull(outputStreamVisitor);
+        public RenderBinary($.Visitor<Output> contentWriter) {
+            this.contentWriter = $.notNull(contentWriter);
         }
 
         @Override
@@ -177,7 +177,7 @@ public class RenderBinary extends Result {
                 if (null != binary) {
                     resp.writeBinary(binary);
                 } else {
-                    outputStreamVisitor.apply(resp.outputStream());
+                    contentWriter.apply(resp.output());
                 }
             } catch (Exception e) {
                 throw E.unexpected(e);

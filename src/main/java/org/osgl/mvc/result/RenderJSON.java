@@ -20,9 +20,11 @@ package org.osgl.mvc.result;
  * #L%
  */
 
+import org.osgl.$;
 import org.osgl.http.H;
 import org.osgl.http.Http;
 import org.osgl.mvc.MvcConfig;
+import org.osgl.util.Output;
 import org.osgl.util.S;
 
 public class RenderJSON extends RenderContent {
@@ -31,6 +33,11 @@ public class RenderJSON extends RenderContent {
         @Override
         public String content() {
             return payload().message;
+        }
+
+        @Override
+        public $.Visitor<Output> contentWriter() {
+            return payload().contentWriter;
         }
 
         @Override
@@ -67,8 +74,12 @@ public class RenderJSON extends RenderContent {
         super(S.fmt(jsonFormat, args), MvcConfig.jsonMediaTypeProvider().apply(), MvcConfig.renderJsonOutputCharset());
     }
 
+    public RenderJSON($.Visitor<Output> contentWriter) {
+        super(contentWriter, H.Format.JSON);
+    }
+
     public RenderJSON(Object v) {
-        this(MvcConfig.jsonSerializer().apply(v));
+        this(MvcConfig.jsonSerializer(v));
     }
 
     public RenderJSON(H.Status status, String jsonStr) {
@@ -79,8 +90,12 @@ public class RenderJSON extends RenderContent {
         super(status, S.fmt(jsonFormat, args), MvcConfig.jsonMediaTypeProvider().apply(), MvcConfig.renderJsonOutputCharset());
     }
 
+    public RenderJSON(H.Status status, $.Visitor<Output> contentWriter) {
+        super(status, contentWriter, H.Format.JSON);
+    }
+
     public RenderJSON(H.Status status, Object v) {
-        this(status, MvcConfig.jsonSerializer().apply(v));
+        this(status, MvcConfig.jsonSerializer(v));
     }
 
     public static RenderJSON of(String jsonStr) {
@@ -93,9 +108,19 @@ public class RenderJSON extends RenderContent {
         return _INSTANCE;
     }
 
+    public static RenderJSON of($.Visitor<Output> contentWriter) {
+        touchPayload().contentWriter(contentWriter);
+        return _INSTANCE;
+    }
+
     public static RenderJSON of(Object v) {
-        String s = v instanceof String ? (String) v : MvcConfig.jsonSerializer().apply(v);
-        touchPayload().message(s);
+        if (v instanceof String) {
+            touchPayload().message((String) v);
+        } else if (v instanceof $.Visitor) {
+            touchPayload().contentWriter(($.Visitor) v);
+        } else {
+            touchPayload().contentWriter(MvcConfig.jsonSerializer(v));
+        }
         return _INSTANCE;
     }
 
@@ -110,8 +135,18 @@ public class RenderJSON extends RenderContent {
     }
 
     public static RenderJSON of(H.Status status, Object v) {
-        String s = v instanceof String ? (String) v : MvcConfig.jsonSerializer().apply(v);
-        touchPayload().message(s).status(status);
+        if (v instanceof String) {
+            touchPayload().message((String) v).status(status);
+            return _INSTANCE;
+        } else if (v instanceof $.Visitor) {
+            return of(status, ($.Visitor) v);
+        } else {
+            return of(status, MvcConfig.jsonSerializer(v));
+        }
+    }
+
+    public static RenderJSON of(H.Status status, $.Visitor<Output> contentWriter) {
+        touchPayload().contentWriter(contentWriter).status(status);
         return _INSTANCE;
     }
 }

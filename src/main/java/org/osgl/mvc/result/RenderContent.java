@@ -20,13 +20,16 @@ package org.osgl.mvc.result;
  * #L%
  */
 
+import org.osgl.$;
 import org.osgl.http.H;
 import org.osgl.util.E;
+import org.osgl.util.Output;
 import org.osgl.util.S;
 
 public abstract class RenderContent extends Result {
 
     private String content;
+    private $.Visitor<Output> contentWriter;
     private H.Format format;
     private boolean outputEncoding;
 
@@ -52,6 +55,17 @@ public abstract class RenderContent extends Result {
     }
 
     /**
+     * Create a RenderContent object with content writer, format and
+     * the outputEncoding set to {@code true}
+     *
+     * @param contentWriter the content writer
+     * @param format the content type
+     */
+    protected RenderContent($.Visitor<Output> contentWriter, H.Format format) {
+        this(contentWriter, format, true);
+    }
+
+    /**
      * Create a RenderContent object with content, format and
      * the outputEncoding set to {@code true}
      *
@@ -61,6 +75,18 @@ public abstract class RenderContent extends Result {
      */
     protected RenderContent(H.Status status, String content, H.Format format) {
         this(status, content, format, true);
+    }
+
+    /**
+     * Create a RenderContent object with content writer, format and
+     * the outputEncoding set to {@code true}
+     *
+     * @param status the response status
+     * @param contentWriter the content writer
+     * @param format the content type
+     */
+    protected RenderContent(H.Status status, $.Visitor<Output> contentWriter, H.Format format) {
+        this(status, contentWriter, format, true);
     }
 
     /**
@@ -79,6 +105,24 @@ public abstract class RenderContent extends Result {
      */
     protected RenderContent(String content, H.Format format, boolean outputEncoding) {
         this(H.Status.OK, content, format, outputEncoding);
+    }
+
+    /**
+     * Create a RenderContent object with content writer, format and outputEncoding
+     * specified.
+     *
+     * <p>
+     * If outputEncoding is set to {@code true} then when applying the
+     * Result, it will set content type to "content-type; charset=encoding"
+     * style
+     * </p>
+     *
+     * @param contentWriter the content writer
+     * @param format the content type
+     * @param outputEncoding output encoding
+     */
+    protected RenderContent($.Visitor<Output> contentWriter, H.Format format, boolean outputEncoding) {
+        this(H.Status.OK, contentWriter, format, outputEncoding);
     }
 
     /**
@@ -101,6 +145,30 @@ public abstract class RenderContent extends Result {
         E.NPE(format);
 
         this.content = content;
+        this.format = format;
+        this.outputEncoding = outputEncoding;
+    }
+
+    /**
+     * Create a RenderContent object with content writer, format and outputEncoding
+     * specified.
+     *
+     * <p>
+     * If outputEncoding is set to {@code true} then when applying the
+     * Result, it will set content type to "content-type; charset=encoding"
+     * style
+     * </p>
+     *
+     * @param status HTTP response status
+     * @param contentWriter the content writer
+     * @param format the content type
+     * @param outputEncoding output encoding
+     */
+    protected RenderContent(H.Status status, $.Visitor<Output> contentWriter, H.Format format, boolean outputEncoding) {
+        super(status);
+        E.NPE(format);
+
+        this.contentWriter = $.notNull(contentWriter);
         this.format = format;
         this.outputEncoding = outputEncoding;
     }
@@ -132,6 +200,10 @@ public abstract class RenderContent extends Result {
         return content;
     }
 
+    public $.Visitor<Output> contentWriter() {
+        return contentWriter;
+    }
+
     public void apply(H.Request req, H.Response resp) {
         try {
             applyStatus(resp);
@@ -139,7 +211,12 @@ public abstract class RenderContent extends Result {
             applyCookies(resp);
             applyHeaders(resp);
             applyBeforeCommitHandler(req, resp);
-            resp.writeContent(content());
+            $.Visitor<Output> contentWriter = contentWriter();
+            if (null != contentWriter) {
+                contentWriter.visit(resp.output());
+            } else {
+                resp.writeContent(content());
+            }
         } finally {
             try {
                 resp.commit();
