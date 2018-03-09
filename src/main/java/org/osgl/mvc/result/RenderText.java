@@ -43,6 +43,22 @@ public class RenderText extends RenderContent {
         }
 
         @Override
+        public RenderContent setOutputEncoding(boolean outputEncoding) {
+            payload().outputEncoding(true);
+            return this;
+        }
+
+        @Override
+        public H.Format format() {
+            return payload().format;
+        }
+
+        @Override
+        public boolean isOutputEncoding() {
+            return payload().outputEncoding();
+        }
+
+        @Override
         public Http.Status status() {
             Http.Status status = payload().status;
             return null == status ? super.status() : status;
@@ -68,24 +84,24 @@ public class RenderText extends RenderContent {
 
     private RenderText() {
         super(H.Format.TXT);
-        setOutputEncoding(false);
+        setOutputEncoding(true);
     }
 
     public RenderText(String text, Object... args) {
-        super(S.fmt(text, args), H.Format.TXT, false);
+        super(S.fmt(text, args), H.Format.TXT, true);
     }
 
     public RenderText(H.Format fmt, String text, Object... args) {
-        super(S.fmt(text, args), fmt, false);
+        super(S.fmt(text, args), fmt, true);
     }
 
 
     public RenderText(H.Status status, String text, Object... args) {
-        super(status, S.fmt(text, args), H.Format.TXT, false);
+        super(status, S.fmt(text, args), H.Format.TXT, true);
     }
 
     public RenderText(H.Status status, H.Format fmt, String text, Object... args) {
-        super(status, S.fmt(text, args), fmt, false);
+        super(status, S.fmt(text, args), fmt, true);
     }
 
     public static RenderText of($.Visitor<Output> contentWriter) {

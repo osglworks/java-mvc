@@ -1,5 +1,8 @@
 # OSGL MVC CHANGELOG
 
+1.5.1 9/Mar/2018
+- Make `RenderText` output encoding (charset) by default #22
+
 1.5.0 4/Mar/2018
 - update to osgl-tool-1.7.0
 - update to osgl-http-1.4.0

@@ -184,12 +184,13 @@ public abstract class RenderContent extends Result {
         resp.initContentType(s);
     }
 
-    protected boolean isOutputEncoding() {
+    public boolean isOutputEncoding() {
         return outputEncoding;
     }
 
-    public void setOutputEncoding(boolean outputEncoding) {
+    public RenderContent setOutputEncoding(boolean outputEncoding) {
         this.outputEncoding = outputEncoding;
+        return this;
     }
 
     public H.Format format() {

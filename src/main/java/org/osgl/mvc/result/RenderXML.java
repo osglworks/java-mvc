@@ -40,6 +40,22 @@ public class RenderXML extends RenderContent {
         }
 
         @Override
+        public boolean isOutputEncoding() {
+            return payload().outputEncoding();
+        }
+
+        @Override
+        public RenderContent setOutputEncoding(boolean outputEncoding) {
+            payload().outputEncoding(outputEncoding);
+            return this;
+        }
+
+        @Override
+        public H.Format format() {
+            return payload().format;
+        }
+
+        @Override
         public Http.Status status() {
             Http.Status status = payload().status;
             return null == status ? super.status() : status;

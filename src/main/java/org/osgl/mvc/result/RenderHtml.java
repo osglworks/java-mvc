@@ -49,6 +49,22 @@ public class RenderHtml extends RenderContent {
         public long timestamp() {
             return payload().timestamp;
         }
+
+        @Override
+        public boolean isOutputEncoding() {
+            return payload().outputEncoding();
+        }
+
+        @Override
+        public RenderContent setOutputEncoding(boolean outputEncoding) {
+            payload().outputEncoding(outputEncoding);
+            return this;
+        }
+
+        @Override
+        public H.Format format() {
+            return payload().format;
+        }
     };
 
     private RenderHtml() {

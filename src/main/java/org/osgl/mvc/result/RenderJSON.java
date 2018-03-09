@@ -52,14 +52,21 @@ public class RenderJSON extends RenderContent {
         }
 
         @Override
-        protected boolean isOutputEncoding() {
+        public boolean isOutputEncoding() {
             return payload().outputEncoding();
         }
 
         @Override
-        public void setOutputEncoding(boolean outputEncoding) {
+        public RenderContent setOutputEncoding(boolean outputEncoding) {
             payload().outputEncoding(outputEncoding);
+            return this;
         }
+
+        @Override
+        public H.Format format() {
+            return payload().format;
+        }
+
     };
 
     private RenderJSON() {
