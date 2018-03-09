@@ -64,7 +64,7 @@ public class RenderJSON extends RenderContent {
 
         @Override
         public H.Format format() {
-            return payload().format;
+            return H.Format.JSON;
         }
 
     };

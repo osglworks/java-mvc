@@ -52,7 +52,7 @@ public class RenderXML extends RenderContent {
 
         @Override
         public H.Format format() {
-            return payload().format;
+            return H.Format.XML;
         }
 
         @Override

@@ -63,7 +63,7 @@ public class RenderHtml extends RenderContent {
 
         @Override
         public H.Format format() {
-            return payload().format;
+            return H.Format.HTML;
         }
     };
 

@@ -50,7 +50,7 @@ public class RenderText extends RenderContent {
 
         @Override
         public H.Format format() {
-            return payload().format;
+            return H.Format.TXT;
         }
 
         @Override
@@ -78,7 +78,7 @@ public class RenderText extends RenderContent {
 
         @Override
         public H.Format format() {
-            return payload().format;
+            return H.Format.TXT;
         }
     };
 
@@ -105,37 +105,37 @@ public class RenderText extends RenderContent {
     }
 
     public static RenderText of($.Visitor<Output> contentWriter) {
-        touchPayload().contentWriter(contentWriter);
+        touchPayload().contentWriter(contentWriter).outputEncoding(true);
         return _INSTANCE;
     }
 
     public static RenderText of(String text) {
-        touchPayload().message(text);
+        touchPayload().message(text).outputEncoding(true);
         return _INSTANCE;
     }
 
     public static RenderText of(String text, Object... args) {
-        touchPayload().message(text, args);
+        touchPayload().message(text, args).outputEncoding(true);
         return _INSTANCE;
     }
 
     public static RenderText of(H.Format fmt, String text, Object... args) {
-        touchPayload().message(text, args).format(fmt);
+        touchPayload().message(text, args).format(fmt).outputEncoding(true);
         return _INSTANCE2;
     }
 
     public static RenderText of(H.Status status, String text) {
-        touchPayload().message(text).status(status);
+        touchPayload().message(text).status(status).outputEncoding(true);
         return _INSTANCE;
     }
 
     public static RenderText of(H.Status status, String text, Object... args) {
-        touchPayload().message(text, args).status(status);
+        touchPayload().message(text, args).status(status).outputEncoding(true);
         return _INSTANCE;
     }
 
     public static RenderText of(H.Status status, H.Format fmt, String text, Object... args) {
-        touchPayload().message(text, args).format(fmt).status(status);
+        touchPayload().message(text, args).format(fmt).status(status).outputEncoding(true);
         return _INSTANCE2;
     }
 }
