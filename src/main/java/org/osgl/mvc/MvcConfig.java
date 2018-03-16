@@ -53,6 +53,7 @@ public class MvcConfig extends HttpConfig {
     public static final String MSG_ID_PROXY_AUTHENTICATION_REQUIRED = "osgl.result.proxy_authentication_required";
     public static final String MSG_ID_REQUREST_TIMEOUT = "osgl.result.request_timeout";
     public static final String MSG_ID_CONFLICT = "osgl.result.conflict";
+    public static final String MSG_ID_GONE = "osgl.result.gone";
     public static final String MSG_ID_TOO_MANY_REQUESTS = "osgl.result.too_many_requests";
     public static final String MSG_ID_UNKNOWN_STATUS = "osgl.result.unknown_status";
 
@@ -71,16 +72,18 @@ public class MvcConfig extends HttpConfig {
             NOT_ACCEPTABLE, MSG_ID_NOT_ACCEPTABLE,
             PROXY_AUTHENTICATION_REQUIRED, MSG_ID_PROXY_AUTHENTICATION_REQUIRED,
             REQUEST_TIMEOUT, MSG_ID_REQUREST_TIMEOUT,
-            TOO_MANY_REQUESTS, MSG_ID_TOO_MANY_REQUESTS,
             CONFLICT, MSG_ID_CONFLICT,
+            GONE, MSG_ID_GONE,
+            TOO_MANY_REQUESTS, MSG_ID_TOO_MANY_REQUESTS,
             NOT_IMPLEMENTED, MSG_ID_NOT_IMPLEMENTED
     );
 
     // Stores English error message that are not defined in separate ErrorResult implementation, e.g. NotFound
     private static final Map<H.Status, String> enMessageMap = C.map(
-            CREATED, "Created",
             ACCEPTED, "Accepted",
+            CREATED, "Created",
             BAD_REQUEST, "Bad Request",
+            UNAUTHORIZED, "Unauthorized",
             PAYMENT_REQUIRED, "Payment Required",
             FORBIDDEN, "Forbidden",
             NOT_FOUND, "Not Found",
@@ -89,6 +92,7 @@ public class MvcConfig extends HttpConfig {
             PROXY_AUTHENTICATION_REQUIRED, "Proxy Authentication Required",
             REQUEST_TIMEOUT, "Request Timeout",
             CONFLICT, "Conflict",
+            GONE, "Gone",
             TOO_MANY_REQUESTS, "Too Many Requests",
             NOT_IMPLEMENTED, "Not Implemented"
     );
