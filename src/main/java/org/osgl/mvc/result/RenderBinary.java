@@ -139,6 +139,7 @@ public class RenderBinary extends Result {
         public RenderBinary(File file, String name, boolean inline) {
             this.binary = SObject.of(name, $.notNull(file));
             this.name = name;
+            this.length = file.length();
             this.disposition = Disposition.of(inline);
         }
 

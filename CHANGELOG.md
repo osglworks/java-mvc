@@ -1,5 +1,8 @@
 # OSGL MVC CHANGELOG
 
+1.5.2 17/Mar/2018
+- RenderBinary: it shall set the length for File source #23
+
 1.5.1 10/Mar/2018
 - Make `RenderText` output encoding (charset) by default #22
 
