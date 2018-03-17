@@ -31,7 +31,8 @@ public class RenderHtml extends RenderContent {
     private static RenderHtml _INSTANCE = new RenderHtml() {
         @Override
         public String content() {
-            return payload().message;
+            Payload payload = payload();
+            return null == payload.stringContentProducer ? payload.message : payload.stringContentProducer.apply();
         }
 
         @Override
@@ -92,6 +93,11 @@ public class RenderHtml extends RenderContent {
         return _INSTANCE;
     }
 
+    public static RenderHtml of($.Func0<String> contentProducer) {
+        touchPayload().stringContentProducer(contentProducer);
+        return _INSTANCE;
+    }
+
     public static RenderHtml of(String html) {
         touchPayload().message(html);
         return _INSTANCE;
@@ -112,4 +118,14 @@ public class RenderHtml extends RenderContent {
         return _INSTANCE;
     }
 
+
+    public static RenderHtml of(H.Status status, $.Visitor<Output> contentWriter) {
+        touchPayload().contentWriter(contentWriter).status(status);
+        return _INSTANCE;
+    }
+
+    public static RenderHtml of(H.Status status, $.Func0<String> contentProducer) {
+        touchPayload().stringContentProducer(contentProducer).status(status);
+        return _INSTANCE;
+    }
 }

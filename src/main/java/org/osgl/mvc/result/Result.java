@@ -38,6 +38,7 @@ public class Result extends FastRuntimeException {
     protected static class Payload extends KVStore {
         public String message;
         public $.Visitor<Output> contentWriter;
+        public $.Func0<String> stringContentProducer;
         public Integer errorCode;
         public Throwable cause;
         public H.Format format;
@@ -59,6 +60,11 @@ public class Result extends FastRuntimeException {
 
         public Payload contentWriter($.Visitor<Output> contentWriter) {
             this.contentWriter = contentWriter;
+            return this;
+        }
+
+        public Payload stringContentProducer($.Func0<String> producer) {
+            this.stringContentProducer = producer;
             return this;
         }
 

@@ -34,28 +34,13 @@ public class RenderText extends RenderContent {
     private static RenderText _INSTANCE = new RenderText() {
         @Override
         public String content() {
-            return payload().message;
+            Payload payload = payload();
+            return null == payload.stringContentProducer ? payload.message : payload.stringContentProducer.apply();
         }
 
         @Override
         public $.Visitor<Output> contentWriter() {
             return payload().contentWriter;
-        }
-
-        @Override
-        public RenderContent setOutputEncoding(boolean outputEncoding) {
-            payload().outputEncoding(true);
-            return this;
-        }
-
-        @Override
-        public H.Format format() {
-            return H.Format.TXT;
-        }
-
-        @Override
-        public boolean isOutputEncoding() {
-            return payload().outputEncoding();
         }
 
         @Override
@@ -67,6 +52,22 @@ public class RenderText extends RenderContent {
         @Override
         public long timestamp() {
             return payload().timestamp;
+        }
+
+        @Override
+        public boolean isOutputEncoding() {
+            return payload().outputEncoding();
+        }
+
+        @Override
+        public RenderContent setOutputEncoding(boolean outputEncoding) {
+            payload().outputEncoding(outputEncoding);
+            return this;
+        }
+
+        @Override
+        public H.Format format() {
+            return H.Format.TXT;
         }
     };
 
@@ -109,6 +110,11 @@ public class RenderText extends RenderContent {
         return _INSTANCE;
     }
 
+    public static RenderText of($.Func0<String> contentProducer) {
+        touchPayload().stringContentProducer(contentProducer);
+        return _INSTANCE;
+    }
+
     public static RenderText of(String text) {
         touchPayload().message(text).outputEncoding(true);
         return _INSTANCE;
@@ -137,5 +143,15 @@ public class RenderText extends RenderContent {
     public static RenderText of(H.Status status, H.Format fmt, String text, Object... args) {
         touchPayload().message(text, args).format(fmt).status(status).outputEncoding(true);
         return _INSTANCE2;
+    }
+
+    public static RenderText of(H.Status status, $.Visitor<Output> contentWriter) {
+        touchPayload().contentWriter(contentWriter).status(status);
+        return _INSTANCE;
+    }
+
+    public static RenderText of(H.Status status, $.Func0<String> contentProducer) {
+        touchPayload().stringContentProducer(contentProducer).status(status);
+        return _INSTANCE;
     }
 }

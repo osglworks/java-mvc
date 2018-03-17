@@ -30,6 +30,7 @@ public abstract class RenderContent extends Result {
 
     private String content;
     private $.Visitor<Output> contentWriter;
+    private $.Func0<String> stringContentProducer;
     private H.Format format;
     private boolean outputEncoding;
 
@@ -87,6 +88,18 @@ public abstract class RenderContent extends Result {
      */
     protected RenderContent(H.Status status, $.Visitor<Output> contentWriter, H.Format format) {
         this(status, contentWriter, format, true);
+    }
+
+    /**
+     * Create a RenderContent object with content writer, format and
+     * the outputEncoding set to {@code true}
+     *
+     * @param status the response status
+     * @param contentProducer the content message producer
+     * @param format the content type
+     */
+    protected RenderContent(H.Status status, $.Func0<String> contentProducer, H.Format format) {
+        this(status, contentProducer, format, true);
     }
 
     /**
@@ -173,6 +186,30 @@ public abstract class RenderContent extends Result {
         this.outputEncoding = outputEncoding;
     }
 
+    /**
+     * Create a RenderContent object with content writer, format and outputEncoding
+     * specified.
+     *
+     * <p>
+     * If outputEncoding is set to {@code true} then when applying the
+     * Result, it will set content type to "content-type; charset=encoding"
+     * style
+     * </p>
+     *
+     * @param status HTTP response status
+     * @param producer the content producer
+     * @param format the content type
+     * @param outputEncoding output encoding
+     */
+    protected RenderContent(H.Status status, $.Func0<String> producer, H.Format format, boolean outputEncoding) {
+        super(status);
+        E.NPE(format);
+
+        this.stringContentProducer = $.notNull(producer);
+        this.format = format;
+        this.outputEncoding = outputEncoding;
+    }
+
     protected void setContentType(H.Response resp) {
         String s = format().contentType();
         if (isOutputEncoding()) {
@@ -198,7 +235,7 @@ public abstract class RenderContent extends Result {
     }
 
     public String content() {
-        return content;
+        return null == stringContentProducer ? content : stringContentProducer.apply();
     }
 
     public $.Visitor<Output> contentWriter() {

@@ -1,6 +1,7 @@
 # OSGL MVC CHANGELOG
 
 1.5.2 17/Mar/2018
+- Allow it uses string content producer for JSON/XML/HTML/TXT rendering #25
 - Missing default error message for some error results #24
 - RenderBinary: it shall set the length for File source #23
 

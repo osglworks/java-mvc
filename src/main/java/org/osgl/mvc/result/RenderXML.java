@@ -31,12 +31,24 @@ public class RenderXML extends RenderContent {
     private static RenderXML _INSTANCE = new RenderXML() {
         @Override
         public String content() {
-            return payload().message;
+            Payload payload = payload();
+            return null == payload.stringContentProducer ? payload.message : payload.stringContentProducer.apply();
         }
 
         @Override
         public $.Visitor<Output> contentWriter() {
             return payload().contentWriter;
+        }
+
+        @Override
+        public Http.Status status() {
+            Http.Status status = payload().status;
+            return null == status ? super.status() : status;
+        }
+
+        @Override
+        public long timestamp() {
+            return payload().timestamp;
         }
 
         @Override
@@ -53,12 +65,6 @@ public class RenderXML extends RenderContent {
         @Override
         public H.Format format() {
             return H.Format.XML;
-        }
-
-        @Override
-        public Http.Status status() {
-            Http.Status status = payload().status;
-            return null == status ? super.status() : status;
         }
     };
 
@@ -84,6 +90,11 @@ public class RenderXML extends RenderContent {
 
     public static RenderXML of($.Visitor<Output> contentWriter) {
         touchPayload().contentWriter(contentWriter);
+        return _INSTANCE;
+    }
+
+    public static RenderXML of($.Func0<String> producer) {
+        touchPayload().stringContentProducer(producer);
         return _INSTANCE;
     }
 

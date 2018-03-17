@@ -32,7 +32,8 @@ public class RenderJSON extends RenderContent {
     private static RenderJSON _INSTANCE = new RenderJSON() {
         @Override
         public String content() {
-            return payload().message;
+            Payload payload = payload();
+            return null == payload.stringContentProducer ? payload.message : payload.stringContentProducer.apply();
         }
 
         @Override
@@ -120,11 +121,18 @@ public class RenderJSON extends RenderContent {
         return _INSTANCE;
     }
 
+    public static RenderJSON of($.Func0<String> producer) {
+        touchPayload().stringContentProducer(producer);
+        return _INSTANCE;
+    }
+
     public static RenderJSON of(Object v) {
         if (v instanceof String) {
             touchPayload().message((String) v);
         } else if (v instanceof $.Visitor) {
             touchPayload().contentWriter(($.Visitor) v);
+        } else if (v instanceof $.Func0) {
+            touchPayload().stringContentProducer(($.Func0<String>) v);
         } else {
             touchPayload().contentWriter(MvcConfig.jsonSerializer(v));
         }
@@ -142,18 +150,17 @@ public class RenderJSON extends RenderContent {
     }
 
     public static RenderJSON of(H.Status status, Object v) {
-        if (v instanceof String) {
-            touchPayload().message((String) v).status(status);
-            return _INSTANCE;
-        } else if (v instanceof $.Visitor) {
-            return of(status, ($.Visitor) v);
-        } else {
-            return of(status, MvcConfig.jsonSerializer(v));
-        }
+        touchPayload().status(status);
+        return of(v);
     }
 
     public static RenderJSON of(H.Status status, $.Visitor<Output> contentWriter) {
         touchPayload().contentWriter(contentWriter).status(status);
+        return _INSTANCE;
+    }
+
+    public static RenderJSON of(H.Status status, $.Func0<String> contentProducer) {
+        touchPayload().stringContentProducer(contentProducer).status(status);
         return _INSTANCE;
     }
 }
