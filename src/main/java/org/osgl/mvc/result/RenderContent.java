@@ -21,7 +21,9 @@ package org.osgl.mvc.result;
  */
 
 import org.osgl.$;
+import org.osgl.OsglConfig;
 import org.osgl.http.H;
+import org.osgl.mvc.MvcConfig;
 import org.osgl.util.E;
 import org.osgl.util.Output;
 import org.osgl.util.S;
@@ -235,7 +237,10 @@ public abstract class RenderContent extends Result {
     }
 
     public String content() {
-        return null == stringContentProducer ? content : stringContentProducer.apply();
+        if (null == content) {
+            content = stringContentProducer.apply();
+        }
+        return content;
     }
 
     public $.Visitor<Output> contentWriter() {
@@ -251,9 +256,15 @@ public abstract class RenderContent extends Result {
             applyBeforeCommitHandler(req, resp);
             $.Visitor<Output> contentWriter = contentWriter();
             if (null != contentWriter) {
+                Output output = resp.output();
                 contentWriter.visit(resp.output());
+                output.flush();
             } else {
-                resp.writeContent(content());
+                String content = content();
+                if (content.length() > OsglConfig.getStringBufferRententionLimit()) {
+                    MvcConfig.triggerAlarm(MvcConfig.ALARM_BIG_CONTENT_ENCOUNTERED);
+                }
+                resp.writeContent(content);
             }
         } finally {
             try {

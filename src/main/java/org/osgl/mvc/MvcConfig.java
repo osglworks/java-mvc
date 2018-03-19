@@ -35,9 +35,12 @@ import org.osgl.util.Output;
 import org.osgl.util.S;
 
 import java.io.IOException;
+import java.util.IdentityHashMap;
 import java.util.Map;
 
 public class MvcConfig extends HttpConfig {
+
+    public static final String ALARM_BIG_CONTENT_ENCOUNTERED = "ALARM_BIG_CONTENT_ENCOUNTERED";
 
     public static final String MSG_ID_CREATED = "osgl.result.created";
     public static final String MSG_ID_ACCEPTED = "osgl.result.accepted";
@@ -60,7 +63,7 @@ public class MvcConfig extends HttpConfig {
     public static final String MSG_ID_SERVER_ERROR = "osgl.result.server_error";
     public static final String MSG_ID_NOT_IMPLEMENTED = "osgl.result.not_implemented";
 
-    private static final Map<H.Status, String> messageMap = C.map(
+    private static final Map<H.Status, String> messageMap = C.Map(
             ACCEPTED, MSG_ID_ACCEPTED,
             CREATED, MSG_ID_CREATED,
             BAD_REQUEST, MSG_ID_BAD_REQUEST,
@@ -79,7 +82,7 @@ public class MvcConfig extends HttpConfig {
     );
 
     // Stores English error message that are not defined in separate ErrorResult implementation, e.g. NotFound
-    private static final Map<H.Status, String> enMessageMap = C.map(
+    private static final Map<H.Status, String> enMessageMap = C.Map(
             ACCEPTED, "Accepted",
             CREATED, "Created",
             BAD_REQUEST, "Bad Request",
@@ -136,6 +139,7 @@ public class MvcConfig extends HttpConfig {
             return H.Format.JSON;
         }
     };
+    static Map<String, $.Func0> alarmListeners = new IdentityHashMap<>();
     /*
      * By default we don't output encoding. See http://www.ietf.org/rfc/rfc7159.txt
      */
@@ -197,6 +201,17 @@ public class MvcConfig extends HttpConfig {
 
     public static void afterCommitResultHandler($.Func3<Result, H.Request<?>, H.Response<?>, ?> afterCommitResultHandler) {
         MvcConfig.afterCommitResultHandler = $.notNull(afterCommitResultHandler);
+    }
+
+    public static void registerAlarmListener(String alarmType, $.Func0 listener) {
+        alarmListeners.put(alarmType, listener);
+    }
+
+    public static void triggerAlarm(String alarmType) {
+        $.Func0 listener = alarmListeners.get(alarmType);
+        if (null != listener) {
+            listener.apply();
+        }
     }
 
     public static void applyAfterCommitResultHandler(Result result, H.Request<?> req, H.Response<?> resp) {
