@@ -41,9 +41,9 @@
   <properties>
     <scm.url>git@github.com:osglworks/java-mvc.git</scm.url>
     <servlet.version>2.5</servlet.version>
-    <osgl-http.version>1.5.0</osgl-http.version>
-    <osgl-tool.version>1.8.0</osgl-tool.version>
-    <osgl-storage.version>1.5.1</osgl-storage.version>
+    <osgl-http.version>1.5.1</osgl-http.version>
+    <osgl-tool.version>1.8.1</osgl-tool.version>
+    <osgl-storage.version>1.5.2</osgl-storage.version>
   </properties>
 
   <scm>

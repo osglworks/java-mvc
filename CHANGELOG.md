@@ -2,8 +2,8 @@
 
 1.5.3
 - move BufferedOuput to osgl-tool
-- update to osgl-tool-1.8
-- update to osgl-http-1.5.0
+- update to osgl-tool-1.8.1
+- update to osgl-http-1.5.1
 
 1.5.2 17/Mar/2018
 - Implement an alarm mechanism #27
