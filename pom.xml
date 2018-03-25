@@ -20,7 +20,7 @@
 
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>1.5.3</version>
+  <version>1.5.4-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
   <description>an library provides MVC utilities including Result classes, action annotations etc</description>
