@@ -1,5 +1,10 @@
 # OSGL MVC CHANGELOG
 
+1.5.3
+- move BufferedOuput to osgl-tool
+- update to osgl-tool-1.8
+- update to osgl-http-1.5.0
+
 1.5.2 17/Mar/2018
 - Implement an alarm mechanism #27
 - Add `BufferedOutput` to improve direct output response model performance #26
