@@ -24,8 +24,9 @@ import org.osgl.$;
 import org.osgl.http.H;
 import org.osgl.http.Http;
 import org.osgl.mvc.MvcConfig;
-import org.osgl.util.Output;
 import org.osgl.util.S;
+
+import java.io.Writer;
 
 public class RenderJSON extends RenderContent {
 
@@ -37,7 +38,7 @@ public class RenderJSON extends RenderContent {
         }
 
         @Override
-        public $.Visitor<Output> contentWriter() {
+        public $.Visitor<Writer> contentWriter() {
             return payload().contentWriter;
         }
 
@@ -82,7 +83,7 @@ public class RenderJSON extends RenderContent {
         super(S.fmt(jsonFormat, args), MvcConfig.jsonMediaTypeProvider().apply(), MvcConfig.renderJsonOutputCharset());
     }
 
-    public RenderJSON($.Visitor<Output> contentWriter) {
+    public RenderJSON($.Visitor<Writer> contentWriter) {
         super(contentWriter, H.Format.JSON);
     }
 
@@ -98,7 +99,7 @@ public class RenderJSON extends RenderContent {
         super(status, S.fmt(jsonFormat, args), MvcConfig.jsonMediaTypeProvider().apply(), MvcConfig.renderJsonOutputCharset());
     }
 
-    public RenderJSON(H.Status status, $.Visitor<Output> contentWriter) {
+    public RenderJSON(H.Status status, $.Visitor<Writer> contentWriter) {
         super(status, contentWriter, H.Format.JSON);
     }
 
@@ -116,7 +117,7 @@ public class RenderJSON extends RenderContent {
         return _INSTANCE;
     }
 
-    public static RenderJSON of($.Visitor<Output> contentWriter) {
+    public static RenderJSON of($.Visitor<Writer> contentWriter) {
         touchPayload().contentWriter(contentWriter);
         return _INSTANCE;
     }
@@ -154,7 +155,7 @@ public class RenderJSON extends RenderContent {
         return of(v);
     }
 
-    public static RenderJSON of(H.Status status, $.Visitor<Output> contentWriter) {
+    public static RenderJSON of(H.Status status, $.Visitor<Writer> contentWriter) {
         touchPayload().contentWriter(contentWriter).status(status);
         return _INSTANCE;
     }

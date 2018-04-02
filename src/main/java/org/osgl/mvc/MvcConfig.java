@@ -31,10 +31,10 @@ import org.osgl.http.HttpConfig;
 import org.osgl.mvc.result.Result;
 import org.osgl.util.C;
 import org.osgl.util.E;
-import org.osgl.util.Output;
+import org.osgl.util.IO;
 import org.osgl.util.S;
 
-import java.io.IOException;
+import java.io.Writer;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
@@ -114,17 +114,13 @@ public class MvcConfig extends HttpConfig {
     static String flashCookieName = DEF_COOKIE_PREFIX + "_FLASH";
     static int sessionExpire = -1;
     static String secret;
-    static $.Func2<Output, Object, ?> jsonSerializer = new $.Func2<Output, Object, Void> () {
+    static $.Func2<Writer, Object, ?> jsonSerializer = new $.Func2<Writer, Object, Void> () {
         @Override
-        public Void apply(Output sink, Object o) throws NotAppliedException, Osgl.Break {
+        public Void apply(Writer sink, Object o) throws NotAppliedException, $.Break {
                 if (o instanceof CharSequence) {
-                    sink.append((CharSequence) o);
+                    IO.write(((CharSequence) o).toString(), sink);
                 } else {
-                    try {
-                        JSON.writeJSONString(sink.asOutputStream(), o);
-                    } catch (IOException e) {
-                        throw E.ioException(e);
-                    }
+                    JSON.writeJSONString(sink, o);
                 }
             return null;
         }
@@ -180,19 +176,19 @@ public class MvcConfig extends HttpConfig {
     }
 
     public static void jsonMediaTypeProvider($.Func0<H.Format> provider) {
-        jsonMediaTypeProvider = $.notNull(provider);
+        jsonMediaTypeProvider = $.requireNotNull(provider);
     }
 
     public static $.Func0<H.Format> jsonMediaTypeProvider() {
         return jsonMediaTypeProvider;
     }
 
-    public static void jsonSerializer($.Func2<Output, Object, ?> serializer) {
-        MvcConfig.jsonSerializer = $.notNull(serializer);
+    public static void jsonSerializer($.Func2<Writer, Object, ?> serializer) {
+        MvcConfig.jsonSerializer = $.requireNotNull(serializer);
     }
 
     public static void beforeCommitResultHandler($.Func3<Result, H.Request<?>, H.Response<?>, ?> beforeCommitResultHandler) {
-        MvcConfig.beforeCommitResultHandler = $.notNull(beforeCommitResultHandler);
+        MvcConfig.beforeCommitResultHandler = $.requireNotNull(beforeCommitResultHandler);
     }
 
     public static void applyBeforeCommitResultHandler(Result result, H.Request req, H.Response resp) {
@@ -200,7 +196,7 @@ public class MvcConfig extends HttpConfig {
     }
 
     public static void afterCommitResultHandler($.Func3<Result, H.Request<?>, H.Response<?>, ?> afterCommitResultHandler) {
-        MvcConfig.afterCommitResultHandler = $.notNull(afterCommitResultHandler);
+        MvcConfig.afterCommitResultHandler = $.requireNotNull(afterCommitResultHandler);
     }
 
     public static void registerAlarmListener(String alarmType, $.Func0 listener) {
@@ -219,17 +215,17 @@ public class MvcConfig extends HttpConfig {
     }
 
     public static void messageTranslater($.Function<String, String> translater) {
-        MvcConfig.messageTranlater = $.notNull(translater);
+        MvcConfig.messageTranlater = $.requireNotNull(translater);
     }
 
     public static $.Function<String, String> messageTranslater() {
         return messageTranlater;
     }
 
-    public static $.Visitor<Output> jsonSerializer(final Object v) {
-        return new $.Visitor<Output>() {
+    public static $.Visitor<Writer> jsonSerializer(final Object v) {
+        return new $.Visitor<Writer>() {
             @Override
-            public void visit(Output sink) throws Osgl.Break {
+            public void visit(Writer sink) throws $.Break {
                 jsonSerializer.apply(sink, v);
             }
         };

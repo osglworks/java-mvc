@@ -1,5 +1,11 @@
 # OSGL MVC CHANGELOG
 
+1.6.0
+- Refactor output mechanism - separating binary and char output #28
+- `RenderBinary` - add methods to set attachment name and content type #30
+- Add constructor to `RenderBinary` to accept `byte[]` parameter #29
+- update osgl-tool to 1.9.0
+
 1.5.3
 - move BufferedOuput to osgl-tool
 - update to osgl-tool-1.8.1

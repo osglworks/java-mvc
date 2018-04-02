@@ -23,8 +23,9 @@ package org.osgl.mvc.result;
 import org.osgl.$;
 import org.osgl.http.H;
 import org.osgl.http.Http;
-import org.osgl.util.Output;
 import org.osgl.util.S;
+
+import java.io.Writer;
 
 public class RenderXML extends RenderContent {
 
@@ -36,7 +37,7 @@ public class RenderXML extends RenderContent {
         }
 
         @Override
-        public $.Visitor<Output> contentWriter() {
+        public $.Visitor<Writer> contentWriter() {
             return payload().contentWriter;
         }
 
@@ -88,7 +89,7 @@ public class RenderXML extends RenderContent {
         super(status, xmlStr, H.Format.XML);
     }
 
-    public static RenderXML of($.Visitor<Output> contentWriter) {
+    public static RenderXML of($.Visitor<Writer> contentWriter) {
         touchPayload().contentWriter(contentWriter);
         return _INSTANCE;
     }

@@ -23,8 +23,9 @@ package org.osgl.mvc.result;
 import org.osgl.$;
 import org.osgl.http.H;
 import org.osgl.http.Http;
-import org.osgl.util.Output;
 import org.osgl.util.S;
+
+import java.io.Writer;
 
 /**
  * Render a text message
@@ -39,7 +40,7 @@ public class RenderText extends RenderContent {
         }
 
         @Override
-        public $.Visitor<Output> contentWriter() {
+        public $.Visitor<Writer> contentWriter() {
             return payload().contentWriter;
         }
 
@@ -105,7 +106,7 @@ public class RenderText extends RenderContent {
         super(status, S.fmt(text, args), fmt, true);
     }
 
-    public static RenderText of($.Visitor<Output> contentWriter) {
+    public static RenderText of($.Visitor<Writer> contentWriter) {
         touchPayload().contentWriter(contentWriter).outputEncoding(true);
         return _INSTANCE;
     }
@@ -145,7 +146,7 @@ public class RenderText extends RenderContent {
         return _INSTANCE2;
     }
 
-    public static RenderText of(H.Status status, $.Visitor<Output> contentWriter) {
+    public static RenderText of(H.Status status, $.Visitor<Writer> contentWriter) {
         touchPayload().contentWriter(contentWriter).status(status);
         return _INSTANCE;
     }

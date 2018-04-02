@@ -28,10 +28,12 @@ import org.osgl.util.E;
 import org.osgl.util.Output;
 import org.osgl.util.S;
 
+import java.io.Writer;
+
 public abstract class RenderContent extends Result {
 
     private String content;
-    private $.Visitor<Output> contentWriter;
+    private $.Visitor<Writer> contentWriter;
     private $.Func0<String> stringContentProducer;
     private H.Format format;
     private boolean outputEncoding;
@@ -64,7 +66,7 @@ public abstract class RenderContent extends Result {
      * @param contentWriter the content writer
      * @param format the content type
      */
-    protected RenderContent($.Visitor<Output> contentWriter, H.Format format) {
+    protected RenderContent($.Visitor<Writer> contentWriter, H.Format format) {
         this(contentWriter, format, true);
     }
 
@@ -88,7 +90,7 @@ public abstract class RenderContent extends Result {
      * @param contentWriter the content writer
      * @param format the content type
      */
-    protected RenderContent(H.Status status, $.Visitor<Output> contentWriter, H.Format format) {
+    protected RenderContent(H.Status status, $.Visitor<Writer> contentWriter, H.Format format) {
         this(status, contentWriter, format, true);
     }
 
@@ -136,7 +138,7 @@ public abstract class RenderContent extends Result {
      * @param format the content type
      * @param outputEncoding output encoding
      */
-    protected RenderContent($.Visitor<Output> contentWriter, H.Format format, boolean outputEncoding) {
+    protected RenderContent($.Visitor<Writer> contentWriter, H.Format format, boolean outputEncoding) {
         this(H.Status.OK, contentWriter, format, outputEncoding);
     }
 
@@ -179,11 +181,11 @@ public abstract class RenderContent extends Result {
      * @param format the content type
      * @param outputEncoding output encoding
      */
-    protected RenderContent(H.Status status, $.Visitor<Output> contentWriter, H.Format format, boolean outputEncoding) {
+    protected RenderContent(H.Status status, $.Visitor<Writer> contentWriter, H.Format format, boolean outputEncoding) {
         super(status);
         E.NPE(format);
 
-        this.contentWriter = $.notNull(contentWriter);
+        this.contentWriter = $.requireNotNull(contentWriter);
         this.format = format;
         this.outputEncoding = outputEncoding;
     }
@@ -207,7 +209,7 @@ public abstract class RenderContent extends Result {
         super(status);
         E.NPE(format);
 
-        this.stringContentProducer = $.notNull(producer);
+        this.stringContentProducer = $.requireNotNull(producer);
         this.format = format;
         this.outputEncoding = outputEncoding;
     }
@@ -243,7 +245,7 @@ public abstract class RenderContent extends Result {
         return content;
     }
 
-    public $.Visitor<Output> contentWriter() {
+    public $.Visitor<Writer> contentWriter() {
         return contentWriter;
     }
 
@@ -254,14 +256,14 @@ public abstract class RenderContent extends Result {
             applyCookies(resp);
             applyHeaders(resp);
             applyBeforeCommitHandler(req, resp);
-            $.Visitor<Output> contentWriter = contentWriter();
+            $.Visitor<Writer> contentWriter = contentWriter();
             if (null != contentWriter) {
                 Output output = resp.output();
-                contentWriter.visit(resp.output());
+                contentWriter.visit($.convert(output).to(Writer.class));
                 output.flush();
             } else {
                 String content = content();
-                if (content.length() > OsglConfig.getStringBufferRententionLimit()) {
+                if (content.length() > OsglConfig.getThreadLocalCharBufferLimit()) {
                     MvcConfig.triggerAlarm(MvcConfig.ALARM_BIG_CONTENT_ENCOUNTERED);
                 }
                 resp.writeContent(content);

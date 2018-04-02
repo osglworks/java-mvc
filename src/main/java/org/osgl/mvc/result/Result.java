@@ -27,9 +27,9 @@ import org.osgl.http.Http;
 import org.osgl.mvc.MvcConfig;
 import org.osgl.util.C;
 import org.osgl.util.KVStore;
-import org.osgl.util.Output;
 import org.osgl.util.S;
 
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +37,7 @@ public class Result extends FastRuntimeException {
 
     protected static class Payload extends KVStore {
         public String message;
-        public $.Visitor<Output> contentWriter;
+        public $.Visitor<Writer> contentWriter;
         public $.Func0<String> stringContentProducer;
         public Integer errorCode;
         public Throwable cause;
@@ -58,7 +58,7 @@ public class Result extends FastRuntimeException {
             return this;
         }
 
-        public Payload contentWriter($.Visitor<Output> contentWriter) {
+        public Payload contentWriter($.Visitor<Writer> contentWriter) {
             this.contentWriter = contentWriter;
             return this;
         }
