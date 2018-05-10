@@ -26,7 +26,9 @@ import org.osgl.http.Http;
 import org.osgl.mvc.MvcConfig;
 import org.osgl.util.S;
 
+import java.io.StringWriter;
 import java.io.Writer;
+import java.util.List;
 
 public class RenderJSON extends RenderContent {
 
@@ -34,7 +36,16 @@ public class RenderJSON extends RenderContent {
         @Override
         public String content() {
             Payload payload = payload();
-            return null == payload.stringContentProducer ? payload.message : payload.stringContentProducer.apply();
+            if (null != payload.stringContentProducer) {
+                Object result = payload.stringContentProducer.apply();
+                if (result instanceof String) {
+                    return (String) result;
+                }
+                StringWriter sw = new StringWriter();
+                MvcConfig.jsonSerializer(result).visit(sw);
+                return sw.toString();
+            }
+            return payload.message;
         }
 
         @Override
@@ -132,6 +143,8 @@ public class RenderJSON extends RenderContent {
             touchPayload().message((String) v);
         } else if (v instanceof $.Visitor) {
             touchPayload().contentWriter(($.Visitor) v);
+        } else if (v instanceof List) {
+            touchPayload().contentWriter(MvcConfig.jsonSerializer(v));
         } else if (v instanceof $.Func0) {
             touchPayload().stringContentProducer(($.Func0<String>) v);
         } else {
