@@ -1,11 +1,11 @@
 # OSGL MVC CHANGELOG
 
-1.6.1
-- `RenderJSON.of(Object)` logic error #31
-
-1.7.1
+1.7.0
 - update osgl-tool to 1.12.0
 - update osgl-http to 1.6.1
+
+1.6.1
+- `RenderJSON.of(Object)` logic error #31
 
 1.6.0
 - Refactor output mechanism - separating binary and char output #28
