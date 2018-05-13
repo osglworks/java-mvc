@@ -75,8 +75,6 @@ public class HttpContextManager {
 
         H.Flash flash = H.Flash.current();
         serialize(flash);
-
-        C.list(H.Cookie.all()).forEach($.visitor(H.Cookie.F.ADD_TO_RESPONSE.curry(resp)));
     }
 
     /**
@@ -108,7 +106,8 @@ public class HttpContextManager {
 
     private static void saveCookie(H.Cookie cookie) {
         cookie.path(HttpConfig.contextPath()).secure(HttpConfig.isCookieSecure());
-        H.Cookie.set(cookie);
+        H.Response resp = H.Response.current();
+        resp.addCookie(cookie);
     }
 
     private enum F {
