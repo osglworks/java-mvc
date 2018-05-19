@@ -1,5 +1,10 @@
 # OSGL MVC CHANGELOG
 
+1.7.1 19/May/2018
+- update osgl-tool to 1.13.1
+- update osgl-http to 1.7.0
+- update osgl-storage to 1.6.0
+
 1.7.0
 - update osgl-tool to 1.12.0
 - update osgl-http to 1.6.1
