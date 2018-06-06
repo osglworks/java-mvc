@@ -195,6 +195,7 @@ public class Result extends FastRuntimeException {
         } else {
             header = new H.Header(name, C.list(header.values()).append(C.listOf(values)));
         }
+        this.headers.put(name, header);
         return this;
     }
 
