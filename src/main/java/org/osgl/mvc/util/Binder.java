@@ -45,7 +45,7 @@ public abstract class Binder<T> extends $.F3<T, String, ParamValueProvider, T> {
     }
 
     public Binder(Class<T> targetType) {
-        this.targetType = $.notNull(targetType);
+        this.targetType = $.requireNotNull(targetType);
     }
 
     public Class<T> targetType() {
@@ -498,7 +498,7 @@ public abstract class Binder<T> extends $.F3<T, String, ParamValueProvider, T> {
     }
 
     public static Map<Class, Binder> predefined() {
-        return C.map(predefined);
+        return C.Map(predefined);
     }
 
     public static <T> Binder<T> predefined(Class<T> type) {

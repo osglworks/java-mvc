@@ -20,7 +20,7 @@
 
   <artifactId>osgl-mvc</artifactId>
   <packaging>jar</packaging>
-  <version>1.7.3-SNAPSHOT</version>
+  <version>1.8.0-SNAPSHOT</version>
 
   <name>OSGL MVC</name>
   <description>an library provides MVC utilities including Result classes, action annotations etc</description>
@@ -41,9 +41,9 @@
   <properties>
     <scm.url>git@github.com:osglworks/java-mvc.git</scm.url>
     <servlet.version>2.5</servlet.version>
-    <osgl-http.version>1.7.0</osgl-http.version>
-    <osgl-tool.version>1.13.1</osgl-tool.version>
-    <osgl-storage.version>1.6.0</osgl-storage.version>
+    <osgl-http.version>1.8.0</osgl-http.version>
+    <osgl-tool.version>1.15.1</osgl-tool.version>
+    <osgl-storage.version>1.7.0</osgl-storage.version>
   </properties>
 
   <scm>

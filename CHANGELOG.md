@@ -1,5 +1,8 @@
 # OSGL MVC CHANGELOG
 
+1.8.0 14/Jun/2018
+* update osgl-tool to 1.15.1
+
 1.7.2 7/Jun/2018
 * `Result.addHeader` function not working as expected #33
 
