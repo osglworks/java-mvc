@@ -31,6 +31,6 @@ import java.lang.annotation.Target;
  * request for resource that does not require session participation
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.TYPE})
 public @interface SessionFree {
 }
