@@ -24,9 +24,7 @@ import org.osgl.$;
 import org.osgl.OsglConfig;
 import org.osgl.http.H;
 import org.osgl.mvc.MvcConfig;
-import org.osgl.util.E;
-import org.osgl.util.Output;
-import org.osgl.util.S;
+import org.osgl.util.*;
 
 import java.io.Writer;
 
@@ -258,9 +256,9 @@ public abstract class RenderContent extends Result {
             applyBeforeCommitHandler(req, resp);
             $.Visitor<Writer> contentWriter = contentWriter();
             if (null != contentWriter) {
-                Output output = resp.output();
-                contentWriter.visit($.convert(output).to(Writer.class));
-                output.flush();
+                Writer writer = resp.writer();
+                contentWriter.visit(writer);
+                IO.flush(writer);
             } else {
                 String content = content();
                 if (content.length() > OsglConfig.getThreadLocalCharBufferLimit()) {

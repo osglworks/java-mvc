@@ -72,6 +72,7 @@ public class RenderText extends RenderContent {
         }
     };
 
+    // TODO why do I get this out !!!
     private static RenderText _INSTANCE2 = new RenderText() {
         @Override
         public String content() {
@@ -128,7 +129,7 @@ public class RenderText extends RenderContent {
 
     public static RenderText of(H.Format fmt, String text, Object... args) {
         touchPayload().message(text, args).format(fmt).outputEncoding(true);
-        return _INSTANCE2;
+        return _INSTANCE;
     }
 
     public static RenderText of(H.Status status, String text) {
@@ -143,7 +144,7 @@ public class RenderText extends RenderContent {
 
     public static RenderText of(H.Status status, H.Format fmt, String text, Object... args) {
         touchPayload().message(text, args).format(fmt).status(status).outputEncoding(true);
-        return _INSTANCE2;
+        return _INSTANCE;
     }
 
     public static RenderText of(H.Status status, $.Visitor<Writer> contentWriter) {
