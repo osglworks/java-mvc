@@ -20,12 +20,11 @@ package org.osgl.mvc.result;
  * #L%
  */
 
+import static org.osgl.http.H.Status.UNAUTHORIZED;
+
 import org.osgl.$;
 import org.osgl.http.H;
-import org.osgl.http.Http;
-import org.osgl.util.Codec;
-import org.osgl.util.E;
-import org.osgl.util.S;
+import org.osgl.util.*;
 
 /**
  * HTTP 401 Unauthorized,
@@ -43,6 +42,15 @@ public class Unauthorized extends ErrorResult {
         protected String realm() {
             $.T2<String, Type> data = payload().getValue(PAYLOAD_KEY);
             return null == data ? null : data._1;
+        }
+
+        public String getMessage() {
+            return payload().message;
+        }
+
+        @Override
+        public Integer errorCode() {
+            return payload().errorCode;
         }
 
         @Override
@@ -93,14 +101,24 @@ public class Unauthorized extends ErrorResult {
         this(null);
     }
 
+    public Unauthorized(int errorCode) {
+        super(UNAUTHORIZED, errorCode);
+        this.type = Type.FORM;
+    }
+
+    public Unauthorized(int errorCode, String message) {
+        super(UNAUTHORIZED, errorCode, message);
+        this.type = Type.FORM;
+    }
+
     public Unauthorized(String realm) {
-        super(Http.Status.UNAUTHORIZED);
+        super(UNAUTHORIZED);
         this.realm = realm;
         this.type = S.blank(realm) ? Type.FORM : Type.BASIC;
     }
 
     public Unauthorized(String realm, boolean digest) {
-        super(Http.Status.UNAUTHORIZED);
+        super(UNAUTHORIZED);
         this.realm = realm;
         this.type = digest ? Type.DIGEST : Type.BASIC;
         if (digest) {
@@ -156,6 +174,31 @@ public class Unauthorized extends ErrorResult {
      */
     public static Unauthorized of(String realm) {
         touchPayload().putValue(PAYLOAD_KEY, $.T2(realm, S.blank(realm) ? Type.FORM : Type.BASIC));
+        return _INSTANCE;
+    }
+
+    /**
+     * Returns a static Unauthorized instance and set the {@link #payload} thread local with
+     * error code.
+     *
+     * @param errorCode the error code
+     * @return a static Unauthorized instance as described above
+     */
+    public static Unauthorized of(int errorCode) {
+        touchPayload().errorCode = errorCode;
+        return _INSTANCE;
+    }
+
+    /**
+     * Returns a static Unauthorized instance and set the {@link #payload} thread local with
+     * error code and message.
+     *
+     * @param errorCode the error code
+     * @param message the error message
+     * @return a static Unauthorized instance as described above
+     */
+    public static Unauthorized of(int errorCode, String message) {
+        touchPayload().errorCode(errorCode).message(message);
         return _INSTANCE;
     }
 
