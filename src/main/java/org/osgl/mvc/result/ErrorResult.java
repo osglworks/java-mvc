@@ -214,8 +214,8 @@ public class ErrorResult extends Result {
     }
 
     public static ErrorResult of(H.Status status, String message, Object... args) {
-        touchPayload().message(S.fmt(message, args));
-        return of(status);
+        touchPayload().status(status).message(S.fmt(message, args));
+        return _INSTANCE;
     }
 
     public static ErrorResult of(H.Status status, int errorCode) {
