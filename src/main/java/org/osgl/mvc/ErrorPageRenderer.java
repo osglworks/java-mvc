@@ -42,7 +42,7 @@ public class ErrorPageRenderer extends $.F3<H.Request, H.Response, ErrorResult, 
         if (request.isAjax() && fmt == H.Format.HTML) {
             fmt = H.Format.TXT;
         }
-        MvcConfig.applyBeforeCommitResultHandler(error, request, response);
+        // See GH35 MvcConfig.applyBeforeCommitResultHandler(error, request, response);
         String s = renderTemplate(error, fmt);
         if (null != s) {
             response.writeContent(s);
