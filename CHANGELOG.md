@@ -1,6 +1,7 @@
 # OSGL MVC CHANGELOG
 
 1.8.1
+* `ResponseContentType` shall be declared as `@Inherited` #36
 * `MvcConfig.applyBeforeCommitHandler` called twice when error response generated #35
 * Make `SessionFree` annotation be able to mark on a class #34
 

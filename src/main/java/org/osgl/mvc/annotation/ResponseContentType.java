@@ -30,6 +30,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Documented
+@Inherited
 public @interface ResponseContentType {
     /**
      * Specify the content type string, e.g. "application/json"
