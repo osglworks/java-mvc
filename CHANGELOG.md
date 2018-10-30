@@ -1,6 +1,7 @@
 # OSGL MVC CHANGELOG
 
-1.8.1
+1.9.0 30/Oct/2018
+* update to osgl-tool-1.18.0
 * `ResponseContentType` shall be declared as `@Inherited` #36
 * `MvcConfig.applyBeforeCommitHandler` called twice when error response generated #35
 * Make `SessionFree` annotation be able to mark on a class #34
