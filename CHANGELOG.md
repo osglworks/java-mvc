@@ -1,5 +1,8 @@
 # OSGL MVC CHANGELOG
 
+1.9.1
+* Result rendering - result committed even `applyBeforeCommitHandler` raised exception #37
+
 1.9.0 30/Oct/2018
 * update to osgl-tool-1.18.0
 * `ResponseContentType` shall be declared as `@Inherited` #36

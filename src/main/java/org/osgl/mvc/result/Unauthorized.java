@@ -128,12 +128,12 @@ public class Unauthorized extends ErrorResult {
 
     @Override
     public void apply(H.Request req, H.Response resp) {
+        applyBeforeCommitHandler(req, resp);
         try {
             applyStatus(resp);
             applyCookies(resp);
             applyHeaders(resp);
             resp.header(H.Header.Names.WWW_AUTHENTICATE, type().header(this));
-            applyBeforeCommitHandler(req, resp);
             applyMessage(req, resp);
         } finally {
             try {

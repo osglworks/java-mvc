@@ -216,6 +216,7 @@ public class RenderBinary extends Result {
 
     @Override
     public void apply(H.Request req, H.Response resp) {
+        applyBeforeCommitHandler(req, resp);
         boolean hasName = S.notBlank(name);
         try {
             applyCookies(resp);
@@ -247,7 +248,6 @@ public class RenderBinary extends Result {
                 }
             }
             applyStatus(resp);
-            applyBeforeCommitHandler(req, resp);
             if (null != binary) {
                 resp.writeBinary(binary);
             } else {

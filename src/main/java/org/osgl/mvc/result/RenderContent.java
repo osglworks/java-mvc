@@ -248,12 +248,12 @@ public abstract class RenderContent extends Result {
     }
 
     public void apply(H.Request req, H.Response resp) {
+        applyBeforeCommitHandler(req, resp);
         try {
             applyStatus(resp);
             setContentType(resp);
             applyCookies(resp);
             applyHeaders(resp);
-            applyBeforeCommitHandler(req, resp);
             $.Visitor<Writer> contentWriter = contentWriter();
             if (null != contentWriter) {
                 Writer writer = resp.writer();

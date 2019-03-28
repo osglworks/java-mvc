@@ -245,11 +245,11 @@ public class Result extends FastRuntimeException {
     }
 
     public void apply(H.Request req, H.Response resp) {
+        applyBeforeCommitHandler(req, resp);
         try {
             applyStatus(resp);
             applyCookies(resp);
             applyHeaders(resp);
-            applyBeforeCommitHandler(req, resp);
             applyMessage(req, resp);
         } finally {
             try {

@@ -35,11 +35,11 @@ public class NoContent extends Result {
 
     @Override
     public void apply(H.Request req, H.Response resp) {
+        applyBeforeCommitHandler(req, resp);
         try {
             applyStatus(resp);
             applyCookies(resp);
             applyHeaders(resp);
-            applyBeforeCommitHandler(req, resp);
             resp.commit();
             applyAfterCommitHandler(req, resp);
         } finally {

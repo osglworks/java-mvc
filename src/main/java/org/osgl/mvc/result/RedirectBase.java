@@ -46,13 +46,13 @@ public abstract class RedirectBase extends Result {
 
     @Override
     public final void apply(H.Request req, H.Response resp) {
+        applyBeforeCommitHandler(req, resp);
         try {
             _applyStatus(req, resp);
             applyCookies(resp);
             applyHeaders(resp);
             String url = fullUrl(req);
             resp.header("Location", url);
-            applyBeforeCommitHandler(req, resp);
             resp.commit();
             applyAfterCommitHandler(req, resp);
         } finally {
