@@ -1,6 +1,7 @@
 # OSGL MVC CHANGELOG
 
-1.9.1
+1.10.0 19/Apr/2019
+* update to osgl-tool-1.19.2
 * Result rendering - result committed even `applyBeforeCommitHandler` raised exception #37
 
 1.9.0 30/Oct/2018
