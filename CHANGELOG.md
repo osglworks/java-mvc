@@ -1,5 +1,10 @@
 # OSGL MVC CHANGELOG
 
+1.11.0
+* Support rendering in YAML #38
+* update osgl-http to 1.11.0
+* update osgl-tool to 1.21.0
+
 1.10.0 19/Apr/2019
 * update to osgl-tool-1.19.2
 * Result rendering - result committed even `applyBeforeCommitHandler` raised exception #37

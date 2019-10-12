@@ -24,15 +24,20 @@ import org.osgl.$;
 import org.osgl.http.H;
 import org.osgl.http.Http;
 import org.osgl.mvc.MvcConfig;
+import org.osgl.util.C;
 import org.osgl.util.S;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.nodes.Tag;
 
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
+import java.util.Map;
 
-public class RenderJSON extends RenderContent {
+public class RenderYAML extends RenderContent {
 
-    private static RenderJSON _INSTANCE = new RenderJSON() {
+    private static RenderYAML _INSTANCE = new RenderYAML() {
         @Override
         public String content() {
             Payload payload = payload();
@@ -42,7 +47,7 @@ public class RenderJSON extends RenderContent {
                     return (String) result;
                 }
                 StringWriter sw = new StringWriter();
-                MvcConfig.jsonSerializer(result).visit(sw);
+                MvcConfig.yamlSerializer(result).visit(sw);
                 return sw.toString();
             }
             return payload.message;
@@ -77,106 +82,107 @@ public class RenderJSON extends RenderContent {
 
         @Override
         public H.Format format() {
-            return H.Format.JSON;
+            return H.Format.YAML;
         }
 
     };
 
-    private RenderJSON() {
-        super(MvcConfig.jsonMediaTypeProvider().apply());
+    private RenderYAML() {
+        super(H.Format.YAML);
         setOutputEncoding(MvcConfig.renderJsonOutputCharset());
     }
 
-    public RenderJSON(String jsonStr) {
-        super(jsonStr, MvcConfig.jsonMediaTypeProvider().apply(), MvcConfig.renderJsonOutputCharset());
+    public RenderYAML(String yamlStr) {
+        super(yamlStr, H.Format.YAML, MvcConfig.renderJsonOutputCharset());
     }
-    public RenderJSON(String jsonFormat, Object ... args) {
-        super(S.fmt(jsonFormat, args), MvcConfig.jsonMediaTypeProvider().apply(), MvcConfig.renderJsonOutputCharset());
-    }
-
-    public RenderJSON($.Visitor<Writer> contentWriter) {
-        super(contentWriter, H.Format.JSON);
+    public RenderYAML(String yamlFormat, Object ... args) {
+        super(S.fmt(yamlFormat, args), H.Format.YAML, MvcConfig.renderJsonOutputCharset());
     }
 
-    public RenderJSON(Object v) {
-        this(MvcConfig.jsonSerializer(v));
+    public RenderYAML($.Visitor<Writer> contentWriter) {
+        super(contentWriter, H.Format.YAML);
     }
 
-    public RenderJSON(H.Status status, String jsonStr) {
-
-        super(status, jsonStr, MvcConfig.jsonMediaTypeProvider().apply(), MvcConfig.renderJsonOutputCharset());
+    public RenderYAML(Object v) {
+        this(MvcConfig.yamlSerializer(v));
     }
 
-    public RenderJSON(H.Status status, String jsonFormat, Object ... args) {
-        super(status, S.fmt(jsonFormat, args), MvcConfig.jsonMediaTypeProvider().apply(), MvcConfig.renderJsonOutputCharset());
+    public RenderYAML(H.Status status, String yamlStr) {
+
+        super(status, yamlStr, H.Format.YAML, MvcConfig.renderJsonOutputCharset());
     }
 
-    public RenderJSON(H.Status status, $.Visitor<Writer> contentWriter) {
-        super(status, contentWriter, H.Format.JSON);
+    public RenderYAML(H.Status status, String yamlFormat, Object ... args) {
+        super(status, S.fmt(yamlFormat, args), H.Format.YAML, MvcConfig.renderJsonOutputCharset());
     }
 
-    public RenderJSON(H.Status status, Object v) {
-        this(status, MvcConfig.jsonSerializer(v));
+    public RenderYAML(H.Status status, $.Visitor<Writer> contentWriter) {
+        super(status, contentWriter, H.Format.YAML);
     }
 
-    public static RenderJSON of(String jsonStr) {
-        touchPayload().message(jsonStr);
+    public RenderYAML(H.Status status, Object v) {
+        this(status, MvcConfig.yamlSerializer(v));
+    }
+
+    public static RenderYAML of(String yamlStr) {
+        touchPayload().message(yamlStr);
         return _INSTANCE;
     }
 
-    public static RenderJSON of(String jsonFormt, Object... args) {
-        touchPayload().message(jsonFormt, args);
+    public static RenderYAML of(String yamlFormt, Object... args) {
+        touchPayload().message(yamlFormt, args);
         return _INSTANCE;
     }
 
-    public static RenderJSON of($.Visitor<Writer> contentWriter) {
+    public static RenderYAML of($.Visitor<Writer> contentWriter) {
         touchPayload().contentWriter(contentWriter);
         return _INSTANCE;
     }
 
-    public static RenderJSON of($.Func0<String> producer) {
+    public static RenderYAML of($.Func0<String> producer) {
         touchPayload().stringContentProducer(producer);
         return _INSTANCE;
     }
 
-    public static RenderJSON of(Object v) {
+    public static RenderYAML of(Object v) {
         if (v instanceof String) {
             touchPayload().message((String) v);
         } else if (v instanceof $.Visitor) {
             touchPayload().contentWriter(($.Visitor) v);
         } else if (v instanceof List) {
-            touchPayload().contentWriter(MvcConfig.jsonSerializer(v));
+            touchPayload().contentWriter(MvcConfig.yamlSerializer(v));
         } else if (v instanceof $.Func0) {
             touchPayload().stringContentProducer(($.Func0<String>) v);
         } else {
-            touchPayload().contentWriter(MvcConfig.jsonSerializer(v));
+            touchPayload().contentWriter(MvcConfig.yamlSerializer(v));
         }
         return _INSTANCE;
     }
 
-    public static RenderJSON of(H.Status status, String jsonStr) {
-        touchPayload().message(jsonStr).status(status);
+    public static RenderYAML of(H.Status status, String yamlStr) {
+        touchPayload().message(yamlStr).status(status);
         return _INSTANCE;
     }
 
-    public static RenderJSON of(H.Status status, String jsonFormt, Object... args) {
-        touchPayload().message(jsonFormt, args).status(status);
+    public static RenderYAML of(H.Status status, String yamlFormt, Object... args) {
+        touchPayload().message(yamlFormt, args).status(status);
         return _INSTANCE;
     }
 
-    public static RenderJSON of(H.Status status, Object v) {
+    public static RenderYAML of(H.Status status, Object v) {
         touchPayload().status(status);
         return of(v);
     }
 
-    public static RenderJSON of(H.Status status, $.Visitor<Writer> contentWriter) {
+    public static RenderYAML of(H.Status status, $.Visitor<Writer> contentWriter) {
         touchPayload().contentWriter(contentWriter).status(status);
         return _INSTANCE;
     }
 
-    public static RenderJSON of(H.Status status, $.Func0<String> contentProducer) {
+    public static RenderYAML of(H.Status status, $.Func0<String> contentProducer) {
         touchPayload().stringContentProducer(contentProducer).status(status);
         return _INSTANCE;
     }
+
 }
 

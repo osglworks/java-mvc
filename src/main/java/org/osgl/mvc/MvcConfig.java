@@ -24,18 +24,21 @@ import static org.osgl.http.H.Status.*;
 
 import com.alibaba.fastjson.JSON;
 import org.osgl.$;
+import org.osgl.Lang;
 import org.osgl.Osgl;
 import org.osgl.exception.NotAppliedException;
 import org.osgl.http.H;
 import org.osgl.http.HttpConfig;
 import org.osgl.mvc.result.Result;
-import org.osgl.util.C;
-import org.osgl.util.E;
-import org.osgl.util.IO;
-import org.osgl.util.S;
+import org.osgl.util.*;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.Writer;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MvcConfig extends HttpConfig {
@@ -125,6 +128,38 @@ public class MvcConfig extends HttpConfig {
             return null;
         }
     };
+    private static final DumperOptions yamlDumpOptions = new DumperOptions();
+    static {
+        yamlDumpOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        yamlDumpOptions.setPrettyFlow(true);
+    }
+    private static final ThreadLocal<Yaml> yamlHolder = new ThreadLocal<Yaml>() {
+        @Override
+        protected Yaml initialValue() {
+            return new Yaml(yamlDumpOptions);
+        }
+    };
+    static $.Func2<Writer, Object, ?> yamlSerializer = new $.Func2<Writer, Object, Void> () {
+        @Override
+        public Void apply(Writer sink, Object o) throws NotAppliedException, $.Break {
+            if (null == o) {
+                return null;
+            }
+            if (o instanceof CharSequence) {
+                IO.write(((CharSequence) o).toString(), sink);
+            } else {
+                Yaml yaml = yamlHolder.get();
+                if (o instanceof Map) {
+                    IO.write(yaml.dumpAsMap(o), sink);
+                } else if (o.getClass().isArray()) {
+                    yaml.dump(new ArrayObjectIterator(o), sink);
+                } else {
+                    yaml.dump(o, sink);
+                }
+            }
+            return null;
+        }
+    };
     static $.Func3<Result, H.Request<?>, H.Response<?>, ?> beforeCommitResultHandler = DUMB_COMMIT_RESULT_LISTENER;
     static $.Func3<Result, H.Request<?>, H.Response<?>, ?> afterCommitResultHandler = DUMB_COMMIT_RESULT_LISTENER;
     static $.Function<String, String> messageTranlater = $.F.identity();
@@ -187,6 +222,10 @@ public class MvcConfig extends HttpConfig {
         MvcConfig.jsonSerializer = $.requireNotNull(serializer);
     }
 
+    public static void yamlSerializer($.Func2<Writer, Object, ?> serializer) {
+        MvcConfig.yamlSerializer = $.requireNotNull(serializer);
+    }
+
     public static void beforeCommitResultHandler($.Func3<Result, H.Request<?>, H.Response<?>, ?> beforeCommitResultHandler) {
         MvcConfig.beforeCommitResultHandler = $.requireNotNull(beforeCommitResultHandler);
     }
@@ -227,6 +266,15 @@ public class MvcConfig extends HttpConfig {
             @Override
             public void visit(Writer sink) throws $.Break {
                 jsonSerializer.apply(sink, v);
+            }
+        };
+    }
+
+    public static $.Visitor<Writer> yamlSerializer(final Object v) {
+        return new $.Visitor<Writer>() {
+            @Override
+            public void visit(Writer sink) throws Lang.Break {
+                yamlSerializer.apply(sink, v);
             }
         };
     }
