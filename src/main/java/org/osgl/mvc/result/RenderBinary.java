@@ -168,7 +168,7 @@ public class RenderBinary extends Result {
      *         readable file to send back
      */
     public RenderBinary(File file) {
-        this(file, file.getName(), true);
+        this(file, file.getName(), false);
     }
 
     /**
