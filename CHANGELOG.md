@@ -1,6 +1,6 @@
 # OSGL MVC CHANGELOG
 
-1.11.0
+1.11.0 03/Nov/2019
 * Support rendering in YAML #38
 * update osgl-http to 1.11.0
 * update osgl-tool to 1.21.0

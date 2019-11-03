@@ -9,9 +9,9 @@ package org.osgl.mvc;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,12 +20,9 @@ package org.osgl.mvc;
  * #L%
  */
 
-import static org.osgl.http.H.Status.*;
-
 import com.alibaba.fastjson.JSON;
 import org.osgl.$;
 import org.osgl.Lang;
-import org.osgl.Osgl;
 import org.osgl.exception.NotAppliedException;
 import org.osgl.http.H;
 import org.osgl.http.HttpConfig;
@@ -35,11 +32,10 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.Writer;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.IdentityHashMap;
-import java.util.List;
 import java.util.Map;
+
+import static org.osgl.http.H.Status.*;
 
 public class MvcConfig extends HttpConfig {
 
@@ -108,7 +104,7 @@ public class MvcConfig extends HttpConfig {
     private static final $.Func3<Result, H.Request<?>, H.Response<?>, Void> DUMB_COMMIT_RESULT_LISTENER =
             new $.F3<Result, H.Request<?>, H.Response<?>, Void>() {
                 @Override
-                public Void apply(Result result, H.Request request, H.Response response) throws NotAppliedException, Osgl.Break {
+                public Void apply(Result result, H.Request request, H.Response response) throws NotAppliedException, Lang.Break {
                     return null;
                 }
             };
@@ -117,29 +113,31 @@ public class MvcConfig extends HttpConfig {
     static String flashCookieName = DEF_COOKIE_PREFIX + "_FLASH";
     static int sessionExpire = -1;
     static String secret;
-    static $.Func2<Writer, Object, ?> jsonSerializer = new $.Func2<Writer, Object, Void> () {
+    static $.Func2<Writer, Object, ?> jsonSerializer = new $.Func2<Writer, Object, Void>() {
         @Override
         public Void apply(Writer sink, Object o) throws NotAppliedException, $.Break {
-                if (o instanceof CharSequence) {
-                    IO.write(((CharSequence) o).toString(), sink);
-                } else {
-                    JSON.writeJSONString(sink, o);
-                }
+            if (o instanceof CharSequence) {
+                IO.write(((CharSequence) o).toString(), sink);
+            } else {
+                JSON.writeJSONString(sink, o);
+            }
             return null;
         }
     };
     private static final DumperOptions yamlDumpOptions = new DumperOptions();
+
     static {
         yamlDumpOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         yamlDumpOptions.setPrettyFlow(true);
     }
+
     private static final ThreadLocal<Yaml> yamlHolder = new ThreadLocal<Yaml>() {
         @Override
         protected Yaml initialValue() {
             return new Yaml(yamlDumpOptions);
         }
     };
-    static $.Func2<Writer, Object, ?> yamlSerializer = new $.Func2<Writer, Object, Void> () {
+    static $.Func2<Writer, Object, ?> yamlSerializer = new $.Func2<Writer, Object, Void>() {
         @Override
         public Void apply(Writer sink, Object o) throws NotAppliedException, $.Break {
             if (null == o) {
@@ -166,7 +164,7 @@ public class MvcConfig extends HttpConfig {
     // We need this indirect to handle IE's nasty issue with application/json
     static $.Func0<H.Format> jsonMediaTypeProvider = new $.Func0<H.Format>() {
         @Override
-        public H.Format apply() throws NotAppliedException, Osgl.Break {
+        public H.Format apply() throws NotAppliedException, Lang.Break {
             return H.Format.JSON;
         }
     };

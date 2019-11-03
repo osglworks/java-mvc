@@ -24,7 +24,9 @@ import org.osgl.$;
 import org.osgl.OsglConfig;
 import org.osgl.http.H;
 import org.osgl.mvc.MvcConfig;
-import org.osgl.util.*;
+import org.osgl.util.E;
+import org.osgl.util.IO;
+import org.osgl.util.S;
 
 import java.io.Writer;
 

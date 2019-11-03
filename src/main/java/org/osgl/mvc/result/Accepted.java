@@ -46,7 +46,7 @@ public class Accepted extends Result {
 
     public Accepted(String statusCheckUrl) {
         super(Http.Status.ACCEPTED);
-        this.location = $.notNull(statusCheckUrl);
+        this.location = $.requireNotNull(statusCheckUrl);
     }
 
     @Override

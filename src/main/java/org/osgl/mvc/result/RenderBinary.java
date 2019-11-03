@@ -20,9 +20,6 @@ package org.osgl.mvc.result;
  * #L%
  */
 
-import static org.osgl.http.H.Header.Names.CONTENT_DISPOSITION;
-import static org.osgl.http.H.Header.Names.CONTENT_LENGTH;
-
 import org.osgl.$;
 import org.osgl.http.H;
 import org.osgl.storage.impl.SObject;
@@ -34,6 +31,9 @@ import java.io.File;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
+
+import static org.osgl.http.H.Header.Names.CONTENT_DISPOSITION;
+import static org.osgl.http.H.Header.Names.CONTENT_LENGTH;
 
 public class RenderBinary extends Result {
     private enum Disposition {

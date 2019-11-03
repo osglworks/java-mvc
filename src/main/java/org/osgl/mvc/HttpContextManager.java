@@ -20,12 +20,12 @@ package org.osgl.mvc;
  * #L%
  */
 
-import static org.osgl.mvc.MvcConfig.*;
-
 import org.osgl.$;
 import org.osgl.http.H;
 import org.osgl.http.HttpConfig;
 import org.osgl.util.C;
+
+import static org.osgl.mvc.MvcConfig.*;
 
 /**
  * The {@code HttpContextManager} help to set up http context,

@@ -63,7 +63,7 @@ public class Created extends Result {
 
     public Created(String resourceGetUrl) {
         super(Http.Status.CREATED, "201 Created");
-        this.location = $.notNull(resourceGetUrl);
+        this.location = $.requireNotNull(resourceGetUrl);
     }
 
     public Created etag(String etag) {

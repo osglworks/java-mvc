@@ -41,9 +41,8 @@
   <properties>
     <scm.url>git@github.com:osglworks/java-mvc.git</scm.url>
     <servlet.version>2.5</servlet.version>
-    <osgl-http.version>1.11.0-SNAPSHOT</osgl-http.version>
-    <osgl-tool.version>1.21.0-SNAPSHOT</osgl-tool.version>
-    <osgl-storage.version>1.9.0</osgl-storage.version>
+    <osgl-http.version>1.11.0</osgl-http.version>
+    <osgl-tool.version>1.21.0</osgl-tool.version>
     <snakeyaml.version>1.25</snakeyaml.version>
   </properties>
 
@@ -71,13 +70,6 @@
       <groupId>org.osgl</groupId>
       <artifactId>osgl-http</artifactId>
       <version>${osgl-http.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.osgl</groupId>
-      <artifactId>osgl-storage</artifactId>
-      <version>${osgl-storage.version}</version>
-      <scope>provided</scope>
     </dependency>
 
   </dependencies>
