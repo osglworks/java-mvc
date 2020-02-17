@@ -216,29 +216,29 @@ public class RenderBinary extends Result {
 
     @Override
     public void apply(H.Request req, H.Response resp) {
-        applyBeforeCommitHandler(req, resp);
         boolean hasName = S.notBlank(name);
+        if (null != contentType) {
+            resp.contentType(contentType);
+        } else {
+            boolean set = false;
+            if (hasName) {
+                String ext = S.afterLast(name, ".");
+                if (S.notBlank(ext)) {
+                    H.Format format = H.Format.of(ext);
+                    if (null != format) {
+                        resp.initContentType(format.contentType());
+                        set = true;
+                    }
+                }
+            }
+            if (!set) {
+                resp.initContentType("application/octet-stream");
+            }
+        }
+        applyBeforeCommitHandler(req, resp);
         try {
             applyCookies(resp);
             applyHeaders(resp);
-            if (null != contentType) {
-                resp.contentType(contentType);
-            } else {
-                boolean set = false;
-                if (hasName) {
-                    String ext = S.afterLast(name, ".");
-                    if (S.notBlank(ext)) {
-                        H.Format format = H.Format.of(ext);
-                        if (null != format) {
-                            resp.initContentType(format.contentType());
-                            set = true;
-                        }
-                    }
-                }
-                if (!set) {
-                    resp.initContentType("application/octet-stream");
-                }
-            }
             if (!resp.containsHeader(CONTENT_DISPOSITION)) {
                 resp.contentDisposition(name, disposition.isInline());
             }

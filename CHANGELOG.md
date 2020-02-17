@@ -1,5 +1,8 @@
 # OSGL MVC CHANGELOG
 
+1.13.1
+* When applying result, contentType must be set before calling `applyBeforeCommitHandler` #39
+
 1.13.0 02/Jan/2020
 * Update to osgl-1.23.0
 * update osgl-http to 1.13.0
