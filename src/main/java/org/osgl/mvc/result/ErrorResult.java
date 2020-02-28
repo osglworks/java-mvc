@@ -85,7 +85,8 @@ public class ErrorResult extends Result {
     private Object attachment;
 
     public ErrorResult(Http.Status status) {
-        super(status, MvcConfig.errorMessage(status));
+        super(status);
+        setMessage(MvcConfig.errorMessage(status, getClass()));
     }
 
     public ErrorResult(Http.Status status, String message) {
@@ -97,7 +98,8 @@ public class ErrorResult extends Result {
     }
 
     public ErrorResult(Http.Status status, Throwable cause) {
-        super(status, cause, MvcConfig.errorMessage(status));
+        super(status, cause);
+        setMessage(MvcConfig.errorMessage(status, getClass()));
     }
 
     public ErrorResult(Http.Status status, Throwable cause, String message, Object... args) {
@@ -105,8 +107,9 @@ public class ErrorResult extends Result {
     }
 
     public ErrorResult(Http.Status status, Integer errorCode) {
-        super(status, MvcConfig.errorMessage(status));
+        super(status);
         this.errorCode = errorCode;
+        setMessage(MvcConfig.errorMessage(status, getClass()));
     }
 
     public ErrorResult(Http.Status status, Integer errorCode, String message) {
@@ -120,8 +123,9 @@ public class ErrorResult extends Result {
     }
 
     public ErrorResult(Http.Status status, Integer errorCode, Throwable cause) {
-        super(status, cause, MvcConfig.errorMessage(status));
+        super(status, cause);
         this.errorCode = errorCode;
+        setMessage(MvcConfig.errorMessage(status, getClass()));
     }
 
     public ErrorResult(Http.Status status, Integer errorCode, Throwable cause, String message, Object... args) {

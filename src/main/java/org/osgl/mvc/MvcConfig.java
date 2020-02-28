@@ -31,9 +31,10 @@ import org.osgl.util.*;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
+import java.io.File;
 import java.io.Writer;
-import java.util.IdentityHashMap;
-import java.util.Map;
+import java.lang.reflect.Modifier;
+import java.util.*;
 
 import static org.osgl.http.H.Status.*;
 
@@ -60,46 +61,15 @@ public class MvcConfig extends HttpConfig {
     public static final String MSG_ID_UNKNOWN_STATUS = "osgl.result.unknown_status";
 
     public static final String MSG_ID_SERVER_ERROR = "osgl.result.server_error";
+    public static final String MSG_ID_INTERNAL_SERVER_ERROR = "osgl.result.internal_server_error";
+    public static final String MSG_ID_SERVICE_UNAVAILABLE = "osgl.result.service_unavailable";
     public static final String MSG_ID_NOT_IMPLEMENTED = "osgl.result.not_implemented";
 
-    private static final Map<H.Status, String> messageMap = C.Map(
-            ACCEPTED, MSG_ID_ACCEPTED,
-            CREATED, MSG_ID_CREATED,
-            BAD_REQUEST, MSG_ID_BAD_REQUEST,
-            UNAUTHORIZED, MSG_ID_UNAUTHORIZED,
-            PAYMENT_REQUIRED, MSG_ID_PAYMENT_REQUIRED,
-            FORBIDDEN, MSG_ID_FORBIDDEN,
-            NOT_FOUND, MSG_ID_NOT_FOUND,
-            METHOD_NOT_ALLOWED, MSG_ID_METHOD_NOT_ALLOWED,
-            NOT_ACCEPTABLE, MSG_ID_NOT_ACCEPTABLE,
-            PROXY_AUTHENTICATION_REQUIRED, MSG_ID_PROXY_AUTHENTICATION_REQUIRED,
-            REQUEST_TIMEOUT, MSG_ID_REQUREST_TIMEOUT,
-            CONFLICT, MSG_ID_CONFLICT,
-            GONE, MSG_ID_GONE,
-            TOO_MANY_REQUESTS, MSG_ID_TOO_MANY_REQUESTS,
-            NOT_IMPLEMENTED, MSG_ID_NOT_IMPLEMENTED
-    );
-
-    // Stores English error message that are not defined in separate ErrorResult implementation, e.g. NotFound
-    private static final Map<H.Status, String> enMessageMap = C.Map(
-            ACCEPTED, "Accepted",
-            CREATED, "Created",
-            BAD_REQUEST, "Bad Request",
-            UNAUTHORIZED, "Unauthorized",
-            PAYMENT_REQUIRED, "Payment Required",
-            FORBIDDEN, "Forbidden",
-            NOT_FOUND, "Not Found",
-            METHOD_NOT_ALLOWED, "Method Not Allowed",
-            NOT_ACCEPTABLE, "Not Acceptable",
-            PROXY_AUTHENTICATION_REQUIRED, "Proxy Authentication Required",
-            REQUEST_TIMEOUT, "Request Timeout",
-            CONFLICT, "Conflict",
-            GONE, "Gone",
-            TOO_MANY_REQUESTS, "Too Many Requests",
-            NOT_IMPLEMENTED, "Not Implemented"
-    );
+    private static Map<String, String> messageMap;
 
     public static final String DEF_COOKIE_PREFIX = "OSGL";
+
+    private static final ResourceBundle mvcEnResourceBound = ResourceBundle.getBundle("org.osgl.mvc.MvcConfig", Locale.ENGLISH);
 
     private static final $.Func3<Result, H.Request<?>, H.Response<?>, Void> DUMB_COMMIT_RESULT_LISTENER =
             new $.F3<Result, H.Request<?>, H.Response<?>, Void>() {
@@ -160,7 +130,16 @@ public class MvcConfig extends HttpConfig {
     };
     static $.Func3<Result, H.Request<?>, H.Response<?>, ?> beforeCommitResultHandler = DUMB_COMMIT_RESULT_LISTENER;
     static $.Func3<Result, H.Request<?>, H.Response<?>, ?> afterCommitResultHandler = DUMB_COMMIT_RESULT_LISTENER;
-    static $.Function<String, String> messageTranlater = $.F.identity();
+    static $.Function<String, String> messageTranlater = new $.Transformer<String, String>() {
+        @Override
+        public String transform(String s) {
+            ResourceBundle bundle = ResourceBundle.getBundle(MvcConfig.class.getName(), Locale.getDefault());
+            if (bundle.containsKey(s)) {
+                return bundle.getString(s);
+            }
+            return s;
+        }
+    };
     // We need this indirect to handle IE's nasty issue with application/json
     static $.Func0<H.Format> jsonMediaTypeProvider = new $.Func0<H.Format>() {
         @Override
@@ -298,6 +277,16 @@ public class MvcConfig extends HttpConfig {
         return localizedErrorMsg;
     }
 
+    private static String defMsg(int code) {
+        if (code < 400) {
+            return "";
+        } else if (code < 500) {
+            return "Client Error";
+        } else {
+            return "Server Error";
+        }
+    }
+
     /**
      * Returns default error message id from http status
      *
@@ -305,24 +294,29 @@ public class MvcConfig extends HttpConfig {
      * @return the corresponding error message id
      */
     public static String errorMessage(H.Status status) {
+        int code = status.code();
+        String key = "code." + code;
+        String messageKey = messageMap().get(key);
+        if (null == messageKey) {
+            return defMsg(code);
+        }
         boolean i18n = MvcConfig.localizedErrorMsg();
-        String msg = i18n ? messageMap.get(status) : enMessageMap.get(status);
-
-        if (null == msg) {
-            if (status.isClientError()) {
-                msg = i18n ? MSG_ID_CLIENT_ERROR : "Client Error";
-            } else if (status.isServerError()) {
-                msg = i18n ? MSG_ID_SERVER_ERROR : "Server Error";
-            } else {
-                msg = "Unknown status";
-            }
-        }
-
         if (i18n) {
-            msg = messageTranlater.apply(msg);
+            return mvcEnResourceBound.containsKey(messageKey) ? mvcEnResourceBound.getString(messageKey) : defMsg(code);
+        } else {
+            String ret = messageTranslater().apply(messageKey);
+            if (S.blank(ret) || S.eq(ret, messageKey)) {
+                return defMsg(code);
+            }
+            return ret;
         }
+    }
 
-        return msg;
+    public static String errorMessage(H.Status status, Class<? extends Result> resultType) {
+        boolean i18n = MvcConfig.localizedErrorMsg();
+        String resultTypeString = Keyword.of(resultType.getSimpleName()).snakeCase();
+        String key = S.concat("osgl.result.", resultTypeString);
+        return i18n ? messageTranslater().apply(key) : mvcEnResourceBound.containsKey(key) ? mvcEnResourceBound.getString(key) : resultType.getSimpleName();
     }
 
     /**
@@ -333,5 +327,43 @@ public class MvcConfig extends HttpConfig {
      */
     public static String errorMessage(int code) {
         return errorMessage(H.Status.of(code));
+    }
+
+    private static Map<String, String> messageMap() {
+        if (null == messageMap) {
+            messageMap = new HashMap<>();
+            Properties p = IO.loadProperties(MvcConfig.class.getClassLoader().getResource("status_code_lookup.properties"));
+            messageMap.putAll((Map) p);
+        }
+        return messageMap;
+    }
+
+    private static void dumpStatusMessageLookup() throws Exception {
+        File file = new File("target/classes/org/osgl/mvc/result");
+        String[] sa = file.list();
+        for (String s : sa) {
+            if (s.contains("$")) {
+                continue;
+            }
+            String cn = s.substring(0, s.length() - 6);
+            String key = "osgl.result." + Keyword.of(cn).snakeCase();
+            cn = "org.osgl.mvc.result." + cn;
+            try {
+                Class<?> c = $.classForName(cn);
+                if (Modifier.isAbstract(c.getModifiers())) {
+                    continue;
+                }
+                Result r = (Result) $.newInstance(c);
+                int statusCode = r.statusCode();
+                System.out.println(S.fmt("code." + statusCode + "=" + key));
+            } catch (Exception e) {
+                continue;
+            }
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        System.out.println(errorMessage(401));
+        //dumpStatusMessageLookup();
     }
 }

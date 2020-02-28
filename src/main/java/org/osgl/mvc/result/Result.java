@@ -135,6 +135,8 @@ public class Result extends FastRuntimeException {
 
     private Http.Status status;
 
+    protected String message;
+
     private long timestamp = $.ms();
 
     private Map<String, H.Header> headers = new HashMap<>();
@@ -147,13 +149,13 @@ public class Result extends FastRuntimeException {
     }
 
     protected Result(Http.Status status, String message) {
-        super(message);
         this.status = status;
+        this.message = message;
     }
 
     protected Result(Http.Status status, String message, Object... args) {
-        super(message, args);
         this.status = status;
+        this.message = S.fmt(message, args);
     }
 
     protected Result(Http.Status status, Throwable cause) {
@@ -162,8 +164,18 @@ public class Result extends FastRuntimeException {
     }
 
     protected Result(Http.Status status, Throwable cause, String message, Object... args) {
-        super(cause, message, args);
+        super(cause);
         this.status = status;
+        this.message = S.fmt(message, args);
+    }
+
+    protected final void setMessage(String message, Object... args) {
+        this.message = S.fmt(message, args);
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 
     public Http.Status status() {
