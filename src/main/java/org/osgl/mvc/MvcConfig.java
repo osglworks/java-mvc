@@ -294,29 +294,7 @@ public class MvcConfig extends HttpConfig {
      * @return the corresponding error message id
      */
     public static String errorMessage(H.Status status) {
-        int code = status.code();
-        String key = "code." + code;
-        String messageKey = messageMap().get(key);
-        if (null == messageKey) {
-            return defMsg(code);
-        }
-        boolean i18n = MvcConfig.localizedErrorMsg();
-        if (i18n) {
-            return mvcEnResourceBound.containsKey(messageKey) ? mvcEnResourceBound.getString(messageKey) : defMsg(code);
-        } else {
-            String ret = messageTranslater().apply(messageKey);
-            if (S.blank(ret) || S.eq(ret, messageKey)) {
-                return defMsg(code);
-            }
-            return ret;
-        }
-    }
-
-    public static String errorMessage(H.Status status, Class<? extends Result> resultType) {
-        boolean i18n = MvcConfig.localizedErrorMsg();
-        String resultTypeString = Keyword.of(resultType.getSimpleName()).snakeCase();
-        String key = S.concat("osgl.result.", resultTypeString);
-        return i18n ? messageTranslater().apply(key) : mvcEnResourceBound.containsKey(key) ? mvcEnResourceBound.getString(key) : resultType.getSimpleName();
+        return errorMessage(status.code());
     }
 
     /**
@@ -326,7 +304,21 @@ public class MvcConfig extends HttpConfig {
      * @return the corresponding error message id
      */
     public static String errorMessage(int code) {
-        return errorMessage(H.Status.of(code));
+        String key = "code." + code;
+        String messageKey = messageMap().get(key);
+        if (null == messageKey) {
+            return defMsg(code);
+        }
+        boolean i18n = MvcConfig.localizedErrorMsg();
+        if (i18n) {
+            String ret = messageTranslater().apply(messageKey);
+            if (S.blank(ret) || S.eq(ret, messageKey)) {
+                return defMsg(code);
+            }
+            return ret;
+        } else {
+            return mvcEnResourceBound.containsKey(messageKey) ? mvcEnResourceBound.getString(messageKey) : defMsg(code);
+        }
     }
 
     private static Map<String, String> messageMap() {
