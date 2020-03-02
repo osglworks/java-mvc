@@ -1,6 +1,6 @@
 # OSGL MVC CHANGELOG
 
-1.13.1
+1.13.1 02/Mar/2020
 * Add default error message for response 503 #40
 * When applying result, contentType must be set before calling `applyBeforeCommitHandler` #39
 
