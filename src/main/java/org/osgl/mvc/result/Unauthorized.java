@@ -58,7 +58,8 @@ public class Unauthorized extends ErrorResult {
         @Override
         protected Type type() {
             $.T2<String, Type> data = payload().getValue(PAYLOAD_KEY);
-            return null == data ? null : data._2;
+            Type type = null == data ? null : data._2;
+            return null == type ? Type.FORM : type;
         }
 
         @Override
@@ -165,11 +166,11 @@ public class Unauthorized extends ErrorResult {
     }
 
     /**
-     * Returns a static Unauthorized instance and set the {@link #payload} thread local
+     * Returns a static Unauthorized instance and set the {@link #payload()} thread local
      * with realm and type
      *
      * When calling the instance on {@link #realm()} and {@link #type()} method, it will return whatever
-     * stored in the {@link #payload} thread local
+     * stored in the {@link #payload()} thread local
      *
      * @param realm the authentication realm
      * @return a static Unauthorized instance as described above
@@ -180,7 +181,7 @@ public class Unauthorized extends ErrorResult {
     }
 
     /**
-     * Returns a static Unauthorized instance and set the {@link #payload} thread local with
+     * Returns a static Unauthorized instance and set the {@link #payload()} thread local with
      * error code.
      *
      * @param errorCode the error code
@@ -192,7 +193,7 @@ public class Unauthorized extends ErrorResult {
     }
 
     /**
-     * Returns a static Unauthorized instance and set the {@link #payload} thread local with
+     * Returns a static Unauthorized instance and set the {@link #payload()} thread local with
      * error code and message.
      *
      * @param errorCode the error code
@@ -203,5 +204,4 @@ public class Unauthorized extends ErrorResult {
         touchPayload().errorCode(errorCode).message(message);
         return _INSTANCE;
     }
-
 }
