@@ -1,6 +1,7 @@
 # OSGL MVC CHANGELOG
 
-1.13.2
+1.13.2 27/Jun/2020
+* update to osgl-1.25.0
 * `Unauthorized` issue when running Act app is PROD mode #41
 
 1.13.1 02/Mar/2020
