@@ -1,5 +1,8 @@
 # OSGL MVC CHANGELOG
 
+1.13.3 21/Mar/2021
+* @ResponseContentType annotation limit #43
+
 1.13.2 27/Jun/2020
 * update to osgl-1.25.0
 * `Unauthorized` issue when running Act app is PROD mode #41

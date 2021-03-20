@@ -41,7 +41,7 @@
   <properties>
     <scm.url>git@github.com:osglworks/java-mvc.git</scm.url>
     <servlet.version>2.5</servlet.version>
-    <osgl-http.version>1.13.2</osgl-http.version>
+    <osgl-http.version>1.13.4</osgl-http.version>
     <osgl-tool.version>1.25.0</osgl-tool.version>
     <snakeyaml.version>1.25</snakeyaml.version>
   </properties>
